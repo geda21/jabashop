@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Jaba Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0A0F0C;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: #EFF3EC;
+        }
+        .nav-blur {
+            background: rgba(10, 15, 12, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .btn-primary {
+            background: #22c55e;
+            color: #0A0F0C;
+            font-weight: 700;
+            border-radius: 9999px;
+            padding: 0.6rem 1.2rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: scale(0.98);
+        }
+        .btn-outline {
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            background: transparent;
+            color: #EFF3EC;
+            font-weight: 500;
+            border-radius: 9999px;
+            padding: 0.55rem 1.2rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .btn-outline:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+        .admin-card {
+            background: rgba(18, 24, 20, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .admin-card:hover {
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+        .input-glass {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 0.75rem;
+            padding: 0.6rem 1rem;
+            color: white;
+            width: 100%;
+            font-size: 0.8rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .input-glass:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .status-pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .status-approved { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .status-rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+        .filter-btn {
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #9ca3af;
+        }
+        .filter-btn.active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.4s ease forwards;
+        }
+        .spinner {
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(34, 197, 94, 0.2);
+            border-top-color: #22c55e;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .upload-area {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.05);
+        }
+        .preview-img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-blur fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white">Jaba<span class="text-emerald-400">Shop</span></h1>
+                    <p class="text-[8px] text-emerald-400/70">Admin Panel</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="logout()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:text-rose-400 transition">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 pt-24 pb-16">
+        <div class="mb-8 animate-fade-up">
+            <h1 class="text-3xl font-bold text-white">Admin Dashboard</h1>
+            <p class="text-gray-400 mt-1">Manage books, approve payments, and control content</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Left Column: Book Management -->
+            <div class="lg:col-span-1">
+                <div class="admin-card p-6 sticky top-24">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                            <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-white">Add / Edit Book</h2>
+                            <p class="text-xs text-gray-500">Upload new digital products</p>
+                        </div>
+                    </div>
+
+                    <form id="book-form" class="space-y-4" enctype="multipart/form-data">
+                        <input type="hidden" id="edit-id">
+                        
+                        <div>
+                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Title</label>
+                            <input type="text" id="title" class="input-glass" placeholder="Course title" required>
+                        </div>
+                        
+                        <div>
+                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Price (ETB)</label>
+                            <input type="number" id="price" class="input-glass" placeholder="499" required>
+                        </div>
+                        
+                        <div>
+                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Category</label>
+                            <select id="category" class="input-glass">
+                                <option value="Video Editing">🎬 Video Editing</option>
+                                <option value="Online Business">💼 Online Business</option>
+                                <option value="Computer Basics">💻 Computer Basics</option>
+                                <option value="Technology">⚙️ Technology</option>
+                                <option value="AI">🤖 AI & Machine Learning</option>
+                                <option value="Graphic Design">🎨 Graphic Design</option>
+                                <option value="Web Development">🌐 Web Development</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Description</label>
+                            <textarea id="description" class="input-glass h-24 resize-none" placeholder="Course description..."></textarea>
+                        </div>
+                        
+                        <!-- Cover Image Upload -->
+                        <div>
+                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Cover Image</label>
+                            <div class="upload-area border-2 border-dashed border-white/10 rounded-xl p-4 text-center" onclick="document.getElementById('cover-file').click()">
+                                <i data-lucide="image" class="w-8 h-8 text-gray-500 mx-auto mb-2"></i>
+                                <p class="text-xs text-gray-400">Click to upload cover image</p>
+                                <p class="text-[10px] text-gray-600">PNG, JPG, JPEG (Max 5MB)</p>
+                                <input type="file" id="cover-file" accept="image/*" class="hidden">
+                            </div>
+                            <div id="cover-preview" class="hidden mt-2">
+                                <div class="flex items-center gap-2 bg-emerald-500/10 rounded-lg p-2">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                                    <span id="cover-filename" class="text-xs text-emerald-400"></span>
+                                </div>
+                            </div>
+                            <div id="current-cover" class="hidden mt-2">
+                                <div class="flex items-center gap-2 bg-blue-500/10 rounded-lg p-2">
+                                    <i data-lucide="image" class="w-4 h-4 text-blue-400"></i>
+                                    <span id="current-cover-name" class="text-xs text-blue-400"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- PDF File Upload -->
+                        <div>
+                            <label class="text-xs font-semibold text-gray-400 mb-1 block">PDF File</label>
+                            <div class="upload-area border-2 border-dashed border-white/10 rounded-xl p-4 text-center" onclick="document.getElementById('pdf-file').click()">
+                                <i data-lucide="file-text" class="w-8 h-8 text-gray-500 mx-auto mb-2"></i>
+                                <p class="text-xs text-gray-400">Click to upload PDF file</p>
+                                <p class="text-[10px] text-gray-600">PDF only (Max 20MB)</p>
+                                <input type="file" id="pdf-file" accept="application/pdf" class="hidden">
+                            </div>
+                            <div id="pdf-preview" class="hidden mt-2">
+                                <div class="flex items-center gap-2 bg-emerald-500/10 rounded-lg p-2">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                                    <span id="pdf-filename" class="text-xs text-emerald-400"></span>
+                                </div>
+                            </div>
+                            <div id="current-pdf" class="hidden mt-2">
+                                <div class="flex items-center gap-2 bg-blue-500/10 rounded-lg p-2">
+                                    <i data-lucide="file-text" class="w-4 h-4 text-blue-400"></i>
+                                    <span id="current-pdf-name" class="text-xs text-blue-400"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Preview PDF Upload (Optional) -->
+                        <div>
+                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Preview PDF (Optional)</label>
+                            <div class="upload-area border-2 border-dashed border-white/10 rounded-xl p-4 text-center" onclick="document.getElementById('preview-file').click()">
+                                <i data-lucide="eye" class="w-8 h-8 text-gray-500 mx-auto mb-2"></i>
+                                <p class="text-xs text-gray-400">Click to upload preview PDF</p>
+                                <p class="text-[10px] text-gray-600">Optional - for free preview</p>
+                                <input type="file" id="preview-file" accept="application/pdf" class="hidden">
+                            </div>
+                            <div id="preview-preview" class="hidden mt-2">
+                                <div class="flex items-center gap-2 bg-emerald-500/10 rounded-lg p-2">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                                    <span id="preview-filename" class="text-xs text-emerald-400"></span>
+                                </div>
+                            </div>
+                            <div id="current-preview" class="hidden mt-2">
+                                <div class="flex items-center gap-2 bg-blue-500/10 rounded-lg p-2">
+                                    <i data-lucide="eye" class="w-4 h-4 text-blue-400"></i>
+                                    <span id="current-preview-name" class="text-xs text-blue-400"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-3 pt-4">
+                            <button type="submit" id="submit-btn" class="flex-1 btn-primary">Save Book</button>
+                            <button type="button" id="cancel-edit" class="hidden flex-1 btn-outline" onclick="resetForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Receipts Section -->
+                <div class="admin-card p-6">
+                    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                                <i data-lucide="receipt" class="w-5 h-5 text-amber-400"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold text-white">Payment Approvals</h2>
+                                <p class="text-xs text-gray-500">Verify purchase receipts</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="loadReceipts('all')" data-filter="all" class="filter-btn active">All</button>
+                            <button onclick="loadReceipts('pending')" data-filter="pending" class="filter-btn">Pending</button>
+                            <button onclick="loadReceipts('approved')" data-filter="approved" class="filter-btn">Approved</button>
+                            <button onclick="loadReceipts('rejected')" data-filter="rejected" class="filter-btn">Rejected</button>
+                        </div>
+                    </div>
+                    <div id="receipts-list" class="space-y-3">
+                        <div class="text-center py-12 text-gray-500">Loading receipts...</div>
+                    </div>
+                </div>
+
+                <!-- Books List Section -->
+                <div class="admin-card p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                            <i data-lucide="book-open" class="w-5 h-5 text-emerald-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-white">Manage Books</h2>
+                            <p class="text-xs text-gray-500">Edit or remove products</p>
+                        </div>
+                    </div>
+                    <div id="admin-books-grid" class="grid grid-cols-1 gap-3">
+                        <div class="text-center py-12 text-gray-500">Loading books...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const SUPABASE_URL = "https://wuwfjdxgeoqcbqsbxuho.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_6urNqkD2HYEHZtmVXSS8jQ_ByVqLB5T";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        let currentFilter = 'all';
+        let allBooks = [];
+
+        lucide.createIcons();
+
+        // File upload preview handlers
+        document.getElementById('cover-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('cover-filename').innerText = file.name;
+                document.getElementById('cover-preview').classList.remove('hidden');
+                document.getElementById('current-cover').classList.add('hidden');
+            }
+        });
+        
+        document.getElementById('pdf-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('pdf-filename').innerText = file.name;
+                document.getElementById('pdf-preview').classList.remove('hidden');
+                document.getElementById('current-pdf').classList.add('hidden');
+            }
+        });
+        
+        document.getElementById('preview-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('preview-filename').innerText = file.name;
+                document.getElementById('preview-preview').classList.remove('hidden');
+                document.getElementById('current-preview').classList.add('hidden');
+            }
+        });
+
+        function showToast(message, type = 'success') {
+            const existing = document.querySelector('.custom-toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = `custom-toast fixed bottom-6 right-6 z-[300] flex items-center gap-3 px-5 py-3 rounded-xl backdrop-blur-lg shadow-xl animate-fade-up ${type === 'success' ? 'bg-emerald-500/20 border border-emerald-500/30' : 'bg-rose-500/20 border border-rose-500/30'}`;
+            toast.innerHTML = `
+                <div class="w-2 h-2 rounded-full ${type === 'success' ? 'bg-emerald-400' : 'bg-rose-400'} animate-pulse"></div>
+                <span class="text-sm font-medium ${type === 'success' ? 'text-emerald-400' : 'text-rose-400'}">${message}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        async function init() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user || user.email !== 'admin@whyjaba.com') {
+                window.location.href = 'login.html';
+                return;
+            }
+            await loadReceipts('all');
+            await loadBooks();
+        }
+
+        async function loadReceipts(filter = 'all') {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.filter === filter) btn.classList.add('active');
+            });
+            
+            let query = supabaseClient.from('receipts').select('*, books(title, price)').order('created_at', { ascending: false });
+            if (filter !== 'all') query = query.eq('status', filter);
+            
+            const { data: receipts, error } = await query;
+            if (error) { 
+                document.getElementById('receipts-list').innerHTML = `<div class="text-center py-12 text-rose-400">Error loading receipts: ${error.message}</div>`; 
+                return; 
+            }
+            
+            if (!receipts || receipts.length === 0) {
+                document.getElementById('receipts-list').innerHTML = `<div class="text-center py-12"><i data-lucide="inbox" class="w-12 h-12 text-gray-600 mx-auto mb-3"></i><p class="text-gray-500">No receipts found</p></div>`;
+                lucide.createIcons();
+                return;
+            }
+            
+            document.getElementById('receipts-list').innerHTML = receipts.map(r => `
+                <div class="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-emerald-500/30 transition">
+                    <div class="flex flex-wrap gap-4 justify-between items-start">
+                        <div class="flex gap-4">
+                            <img src="${r.receipt_url}" class="w-16 h-16 object-cover rounded-lg cursor-pointer" onclick="window.open('${r.receipt_url}','_blank')" referrerPolicy="no-referrer" onerror="this.src='https://placehold.co/100x100/1e2a24/22c55e?text=No+Image'">
+                            <div>
+                                <p class="font-semibold text-white">${r.books?.title || 'Unknown'}</p>
+                                <p class="text-xs text-gray-500">User: ${r.user_id?.slice(0,8)}...</p>
+                                <p class="text-xs text-gray-500">${new Date(r.created_at).toLocaleString()}</p>
+                                <p class="text-sm font-semibold text-emerald-400 mt-1">${r.books?.price || 0} ETB</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end gap-2">
+                            <span class="status-badge ${r.status === 'pending' ? 'status-pending' : (r.status === 'approved' ? 'status-approved' : 'status-rejected')}">${r.status}</span>
+                            ${r.status === 'pending' ? `
+                                <div class="flex gap-2">
+                                    <button onclick="updateStatus('${r.id}','approved')" class="px-3 py-1 bg-emerald-500 text-black text-xs font-bold rounded-full hover:bg-emerald-400">Approve</button>
+                                    <button onclick="updateStatus('${r.id}','rejected')" class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-bold rounded-full hover:bg-rose-500/30">Reject</button>
+                                </div>
+                            ` : `
+                                <button onclick="deleteReceipt('${r.id}')" class="text-xs text-rose-400 hover:text-rose-300">Delete</button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        async function updateStatus(id, status) {
+            const { error } = await supabaseClient.from('receipts').update({ status }).eq('id', id);
+            if (error) {
+                showToast(error.message, 'error');
+            } else {
+                showToast(`Receipt ${status === 'approved' ? 'approved' : 'rejected'}!`, 'success');
+                loadReceipts(currentFilter);
+            }
+        }
+
+        async function deleteReceipt(id) {
+            if (confirm('Delete this receipt permanently?')) {
+                const { error } = await supabaseClient.from('receipts').delete().eq('id', id);
+                if (error) {
+                    showToast(error.message, 'error');
+                } else {
+                    showToast('Receipt deleted', 'success');
+                    loadReceipts(currentFilter);
+                }
+            }
+        }
+
+        async function loadBooks() {
+            const { data: books, error } = await supabaseClient.from('books').select('*').order('created_at', { ascending: false });
+            if (error) {
+                document.getElementById('admin-books-grid').innerHTML = `<div class="text-center py-12 text-rose-400">Error: ${error.message}</div>`;
+                return;
+            }
+            allBooks = books || [];
+            const grid = document.getElementById('admin-books-grid');
+            if (allBooks.length === 0) { 
+                grid.innerHTML = '<div class="text-center py-12 text-gray-500">No books yet. Add your first book!</div>'; 
+                return; 
+            }
+            grid.innerHTML = allBooks.map(book => `
+                <div class="bg-white/5 rounded-xl p-3 flex gap-3 items-center border border-white/10 hover:border-emerald-500/30 transition">
+                    <img src="${book.cover_url || 'https://placehold.co/100x100/1e2a24/22c55e?text=No+Image'}" class="w-14 h-14 object-cover rounded-lg" referrerPolicy="no-referrer" onerror="this.src='https://placehold.co/100x100/1e2a24/22c55e?text=No+Image'">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-white text-sm">${book.title}</h4>
+                        <p class="text-emerald-400 text-sm font-semibold">${book.price} ETB</p>
+                        <p class="text-xs text-gray-500">${book.category || 'Uncategorized'}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="editBook('${book.id}')" class="p-2 rounded-lg bg-white/5 hover:bg-emerald-500/20 transition" title="Edit">
+                            <i data-lucide="edit-2" class="w-4 h-4 text-gray-400"></i>
+                        </button>
+                        <button onclick="deleteBook('${book.id}')" class="p-2 rounded-lg bg-white/5 hover:bg-rose-500/20 transition" title="Delete">
+                            <i data-lucide="trash-2" class="w-4 h-4 text-rose-400"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        async function editBook(id) {
+            const book = allBooks.find(b => b.id === id);
+            if (!book) return;
+            
+            document.getElementById('edit-id').value = book.id;
+            document.getElementById('title').value = book.title;
+            document.getElementById('price').value = book.price;
+            document.getElementById('category').value = book.category || 'Technology';
+            document.getElementById('description').value = book.description || '';
+            document.getElementById('submit-btn').innerText = 'Update Book';
+            document.getElementById('cancel-edit').classList.remove('hidden');
+            
+            // Show current files
+            if (book.cover_url) {
+                document.getElementById('current-cover-name').innerText = book.cover_url.split('/').pop();
+                document.getElementById('current-cover').classList.remove('hidden');
+            }
+            if (book.pdf_url) {
+                document.getElementById('current-pdf-name').innerText = book.pdf_url.split('/').pop();
+                document.getElementById('current-pdf').classList.remove('hidden');
+            }
+            if (book.preview_url) {
+                document.getElementById('current-preview-name').innerText = book.preview_url.split('/').pop();
+                document.getElementById('current-preview').classList.remove('hidden');
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function deleteBook(id) {
+            if (confirm('Delete this book permanently? Users who purchased will lose access.')) {
+                const { error } = await supabaseClient.from('books').delete().eq('id', id);
+                if (error) {
+                    showToast(error.message, 'error');
+                } else {
+                    showToast('Book deleted', 'success');
+                    loadBooks();
+                }
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('book-form').reset();
+            document.getElementById('edit-id').value = '';
+            document.getElementById('submit-btn').innerText = 'Save Book';
+            document.getElementById('cancel-edit').classList.add('hidden');
+            document.getElementById('cover-preview').classList.add('hidden');
+            document.getElementById('pdf-preview').classList.add('hidden');
+            document.getElementById('preview-preview').classList.add('hidden');
+            document.getElementById('current-cover').classList.add('hidden');
+            document.getElementById('current-pdf').classList.add('hidden');
+            document.getElementById('current-preview').classList.add('hidden');
+        }
+
+        // Handle form submission with file uploads
+        document.getElementById('book-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const editId = document.getElementById('edit-id').value;
+            const title = document.getElementById('title').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+            
+            const coverFile = document.getElementById('cover-file').files[0];
+            const pdfFile = document.getElementById('pdf-file').files[0];
+            const previewFile = document.getElementById('preview-file').files[0];
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Saving...';
+            
+            let coverUrl = null;
+            let pdfUrl = null;
+            let previewUrl = null;
+            
+            // Upload Cover Image
+            if (coverFile) {
+                const coverPath = `covers/${Date.now()}_${coverFile.name}`;
+                const { error: uploadError } = await supabaseClient.storage
+                    .from('receipts')
+                    .upload(coverPath, coverFile);
+                
+                if (uploadError) {
+                    showToast('Cover upload failed: ' + uploadError.message, 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Save Book';
+                    return;
+                }
+                coverUrl = supabaseClient.storage.from('receipts').getPublicUrl(coverPath).data.publicUrl;
+            }
+            
+            // Upload PDF File
+            if (pdfFile) {
+                const pdfPath = `books/${Date.now()}_${pdfFile.name}`;
+                const { error: uploadError } = await supabaseClient.storage
+                    .from('receipts')
+                    .upload(pdfPath, pdfFile);
+                
+                if (uploadError) {
+                    showToast('PDF upload failed: ' + uploadError.message, 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Save Book';
+                    return;
+                }
+                pdfUrl = supabaseClient.storage.from('receipts').getPublicUrl(pdfPath).data.publicUrl;
+            }
+            
+            // Upload Preview PDF
+            if (previewFile) {
+                const previewPath = `previews/${Date.now()}_${previewFile.name}`;
+                const { error: uploadError } = await supabaseClient.storage
+                    .from('receipts')
+                    .upload(previewPath, previewFile);
+                
+                if (uploadError) {
+                    showToast('Preview upload failed: ' + uploadError.message, 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Save Book';
+                    return;
+                }
+                previewUrl = supabaseClient.storage.from('receipts').getPublicUrl(previewPath).data.publicUrl;
+            }
+            
+            // Prepare book data - only include fields that have values
+            const bookData = {
+                title,
+                price,
+                category,
+                description
+            };
+            
+            if (coverUrl) bookData.cover_url = coverUrl;
+            if (pdfUrl) bookData.pdf_url = pdfUrl;
+            if (previewUrl) bookData.preview_url = previewUrl;
+            
+            // For new books, require cover and PDF
+            if (!editId && (!coverUrl || !pdfUrl)) {
+                showToast('Cover image and PDF are required for new books', 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Save Book';
+                return;
+            }
+            
+            // Save to database
+            let result;
+            if (editId) {
+                result = await supabaseClient.from('books').update(bookData).eq('id', editId);
+            } else {
+                result = await supabaseClient.from('books').insert(bookData);
+            }
+            
+            if (result.error) {
+                showToast('Database error: ' + result.error.message, 'error');
+            } else {
+                showToast(editId ? 'Book updated successfully!' : 'Book added successfully!', 'success');
+                resetForm();
+                loadBooks();
+            }
+            
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Save Book';
+        });
+
+        window.loadReceipts = loadReceipts;
+        window.updateStatus = updateStatus;
+        window.deleteReceipt = deleteReceipt;
+        window.editBook = editBook;
+        window.deleteBook = deleteBook;
+        window.resetForm = resetForm;
+        window.logout = async () => { 
+            await supabaseClient.auth.signOut(); 
+            window.location.href = 'index.html'; 
+        };
+        
+        init();
+    </script>
+</body>
+                                    </html>

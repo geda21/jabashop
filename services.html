@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Jaba Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background: #0A0F0C;
+            font-family: system-ui, -apple-system, 'Inter', sans-serif;
+            color: #EFF3EC;
+        }
+        .nav-blur {
+            background: rgba(10, 15, 12, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .btn-primary {
+            background: #22c55e;
+            color: #0A0F0C;
+            font-weight: 700;
+            border-radius: 9999px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: scale(0.98);
+        }
+        .btn-outline {
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            background: transparent;
+            color: #EFF3EC;
+            font-weight: 500;
+            border-radius: 9999px;
+            padding: 0.7rem 1.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+        .glass-card {
+            background: rgba(18, 24, 20, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(34, 197, 94, 0.5);
+            transform: translateY(-3px);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.5s ease forwards;
+        }
+        .rating-stars {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-blur fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold text-white">Jaba<span class="text-emerald-400">Shop</span></h1>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Home</a>
+                <a href="index.html#featured" class="text-sm text-gray-300 hover:text-emerald-400 transition">Courses</a>
+                <a href="services.html" class="text-sm text-emerald-400 font-medium">Services</a>
+                <a href="support.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Support</a>
+                <a href="dashboard.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Dashboard</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div id="user-desktop" class="hidden md:flex items-center gap-3">
+                    <a href="dashboard.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">My Library</a>
+                </div>
+                <div id="guest-desktop" class="hidden md:flex gap-2">
+                    <a href="login.html" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Sign In</a>
+                    <a href="signup.html" class="btn-primary !py-2 !px-5 text-sm">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 pt-32 pb-20">
+        <div class="text-center mb-16 animate-fade-up">
+            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-4 py-1.5 mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">What We Offer</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Our <span class="text-emerald-400">Services</span></h1>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg">Everything you need to master modern technology and creative skills.</p>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Digital Books -->
+            <div class="glass-card p-8 animate-fade-up">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-5">
+                    <i data-lucide="book-open" class="w-7 h-7 text-emerald-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Digital Books</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">PDF guides & ebooks on AI, design, coding, and business growth. Instant download after purchase.</p>
+                <div class="flex items-center gap-1 rating-stars text-sm">
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <span class="text-gray-500 text-xs ml-2">(4.8 rating)</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/10">
+                    <span class="text-xs text-emerald-400">Starting from 199 ETB</span>
+                </div>
+            </div>
+
+            <!-- Video Courses -->
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.1s">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-5">
+                    <i data-lucide="video" class="w-7 h-7 text-emerald-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Video Courses</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">Step-by-step tutorials from industry experts with project files. HD quality lessons.</p>
+                <div class="flex items-center gap-1 rating-stars text-sm">
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <span class="text-gray-500 text-xs ml-2">(4.9 rating)</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/10">
+                    <span class="text-xs text-emerald-400">8+ hours content</span>
+                </div>
+            </div>
+
+            <!-- Mentorship -->
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.2s">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-5">
+                    <i data-lucide="users" class="w-7 h-7 text-emerald-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">1:1 Mentorship</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">Personalized coaching, portfolio reviews, and career roadmap planning with experts.</p>
+                <div class="flex items-center gap-1 rating-stars text-sm">
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                    <span class="text-gray-500 text-xs ml-2">(5.0 rating)</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/10">
+                    <span class="text-xs text-emerald-400">Limited slots available</span>
+                </div>
+            </div>
+
+            <!-- Live Workshops -->
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.3s">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-5">
+                    <i data-lucide="calendar" class="w-7 h-7 text-emerald-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Live Workshops</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">Interactive group sessions on trending topics. Network with peers and learn collaboratively.</p>
+                <div class="mt-4 pt-4 border-t border-white/10">
+                    <span class="text-xs text-emerald-400">Weekly sessions</span>
+                </div>
+            </div>
+
+            <!-- Resource Library -->
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.4s">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-5">
+                    <i data-lucide="database" class="w-7 h-7 text-emerald-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Resource Library</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">Templates, assets, cheat sheets, and toolkits for creators and developers.</p>
+                <div class="mt-4 pt-4 border-t border-white/10">
+                    <span class="text-xs text-emerald-400">500+ resources</span>
+                </div>
+            </div>
+
+            <!-- Community -->
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.5s">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-5">
+                    <i data-lucide="message-circle" class="w-7 h-7 text-emerald-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Private Community</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">Join our exclusive Telegram community. Network, ask questions, and grow together.</p>
+                <a href="https://t.me/JabaaShop" target="_blank" class="inline-flex items-center gap-2 text-emerald-400 text-sm font-semibold hover:underline">
+                    Join Now <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Become Instructor Section -->
+        <div class="glass-card p-8 md:p-12 text-center animate-fade-up">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-5">
+                <i data-lucide="graduation-cap" class="w-8 h-8 text-emerald-400"></i>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Become An Instructor</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-6">Join Jaba Shop as an instructor and share your knowledge with thousands of students worldwide. Earn while you teach.</p>
+            <a href="mailto:jabaashopsupport@gmail.com" class="btn-primary">Start Teaching Today</a>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/10 py-12 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-white">Jaba Shop</span>
+            </div>
+            <p class="text-gray-500 text-xs">© 2026 Jaba Shop — Learn Anywhere, Grow Everywhere</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        async function updateNav() {
+            const SUPABASE_URL = "https://wuwfjdxgeoqcbqsbxuho.supabase.co";
+            const SUPABASE_ANON_KEY = "sb_publishable_6urNqkD2HYEHZtmVXSS8jQ_ByVqLB5T";
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            const guestDiv = document.getElementById('guest-desktop');
+            const userDiv = document.getElementById('user-desktop');
+            
+            if (user) {
+                if (guestDiv) guestDiv.classList.add('hidden');
+                if (userDiv) userDiv.classList.remove('hidden');
+            } else {
+                if (guestDiv) guestDiv.classList.remove('hidden');
+                if (userDiv) userDiv.classList.add('hidden');
+            }
+        }
+        updateNav();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</body>
+</html>

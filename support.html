@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Jaba Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background: #0A0F0C;
+            font-family: system-ui, -apple-system, 'Inter', sans-serif;
+            color: #EFF3EC;
+        }
+        .nav-blur {
+            background: rgba(10, 15, 12, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .btn-primary {
+            background: #22c55e;
+            color: #0A0F0C;
+            font-weight: 700;
+            border-radius: 9999px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: scale(0.98);
+        }
+        .btn-outline {
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            background: transparent;
+            color: #EFF3EC;
+            font-weight: 500;
+            border-radius: 9999px;
+            padding: 0.7rem 1.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+        .glass-card {
+            background: rgba(18, 24, 20, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(34, 197, 94, 0.5);
+            transform: translateY(-3px);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.5s ease forwards;
+        }
+        .support-card {
+            transition: all 0.3s ease;
+        }
+        .support-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-blur fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold text-white">Jaba<span class="text-emerald-400">Shop</span></h1>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Home</a>
+                <a href="index.html#featured" class="text-sm text-gray-300 hover:text-emerald-400 transition">Courses</a>
+                <a href="services.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Services</a>
+                <a href="support.html" class="text-sm text-emerald-400 font-medium">Support</a>
+                <a href="dashboard.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Dashboard</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div id="user-desktop" class="hidden md:flex items-center gap-3">
+                    <a href="dashboard.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">My Library</a>
+                </div>
+                <div id="guest-desktop" class="hidden md:flex gap-2">
+                    <a href="login.html" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Sign In</a>
+                    <a href="signup.html" class="btn-primary !py-2 !px-5 text-sm">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 pt-32 pb-20">
+        <div class="text-center mb-12 animate-fade-up">
+            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-4 py-1.5 mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Deeggarsa / Support Center</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">We're Here to <span class="text-emerald-400">Help</span></h1>
+            <p class="text-gray-400 max-w-2xl mx-auto">Get in touch with our support team for any questions or assistance</p>
+        </div>
+
+        <!-- Support Options Grid -->
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <!-- Telegram Support -->
+            <div class="glass-card p-8 text-center support-card animate-fade-up">
+                <div class="w-20 h-20 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-5">
+                    <i data-lucide="send" class="w-10 h-10 text-emerald-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">Telegram Support</h3>
+                <p class="text-gray-400 text-sm mb-4">Fastest way to reach us. Get responses within hours.</p>
+                <div class="bg-emerald-500/10 rounded-xl p-3 mb-5">
+                    <p class="text-emerald-400 font-mono text-sm">@JabaaShop</p>
+                </div>
+                <a href="https://t.me/JabaaShop" target="_blank" class="btn-primary w-full justify-center">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    Message on Telegram
+                </a>
+            </div>
+
+            <!-- Email Support -->
+            <div class="glass-card p-8 text-center support-card animate-fade-up" style="animation-delay: 0.1s">
+                <div class="w-20 h-20 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-5">
+                    <i data-lucide="mail" class="w-10 h-10 text-emerald-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">Email Support</h3>
+                <p class="text-gray-400 text-sm mb-4">For detailed inquiries or documentation requests.</p>
+                <div class="bg-emerald-500/10 rounded-xl p-3 mb-5">
+                    <p class="text-emerald-400 font-mono text-sm">jabaashopsupport@gmail.com</p>
+                </div>
+                <a href="mailto:jabaashopsupport@gmail.com" class="btn-primary w-full justify-center">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                    Send Email
+                </a>
+            </div>
+        </div>
+
+        <!-- Contact Info Cards -->
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="glass-card p-6 text-center animate-fade-up" style="animation-delay: 0.15s">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="phone" class="w-6 h-6 text-emerald-400"></i>
+                </div>
+                <p class="text-xs text-gray-500 uppercase tracking-wider">Phone / Bilbila</p>
+                <p class="text-white font-semibold text-lg">+251 963 945 956</p>
+            </div>
+
+            <div class="glass-card p-6 text-center animate-fade-up" style="animation-delay: 0.2s">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="clock" class="w-6 h-6 text-emerald-400"></i>
+                </div>
+                <p class="text-xs text-gray-500 uppercase tracking-wider">Support Hours</p>
+                <p class="text-white font-semibold text-sm">Monday - Saturday</p>
+                <p class="text-emerald-400 text-sm">9:00 AM - 9:00 PM (GMT+3)</p>
+            </div>
+
+            <div class="glass-card p-6 text-center animate-fade-up" style="animation-delay: 0.25s">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="map-pin" class="w-6 h-6 text-emerald-400"></i>
+                </div>
+                <p class="text-xs text-gray-500 uppercase tracking-wider">Location / Teessoo</p>
+                <p class="text-white font-semibold">Addis Ababa, Ethiopia</p>
+            </div>
+        </div>
+
+        <!-- FAQ Quick Link -->
+        <div class="glass-card p-8 text-center animate-fade-up" style="animation-delay: 0.3s">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <i data-lucide="help-circle" class="w-8 h-8 text-emerald-400"></i>
+                <h3 class="text-xl font-bold text-white">Quick Answers</h3>
+            </div>
+            <p class="text-gray-400 text-sm mb-6">Check our FAQ for instant solutions to common questions</p>
+            <a href="faq.html" class="btn-outline inline-flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                Browse FAQ
+            </a>
+        </div>
+
+        <!-- Emergency Support Note -->
+        <div class="mt-8 text-center">
+            <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-5 py-2">
+                <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+                <span class="text-xs text-amber-400">Emergency support available via Telegram 24/7</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/10 py-12 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-white">Jaba Shop</span>
+            </div>
+            <p class="text-gray-500 text-xs">© 2026 Jaba Shop — We value your satisfaction / Baga gammadde</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        async function updateNav() {
+            const SUPABASE_URL = "https://wuwfjdxgeoqcbqsbxuho.supabase.co";
+            const SUPABASE_ANON_KEY = "sb_publishable_6urNqkD2HYEHZtmVXSS8jQ_ByVqLB5T";
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            const guestDiv = document.getElementById('guest-desktop');
+            const userDiv = document.getElementById('user-desktop');
+            
+            if (user) {
+                if (guestDiv) guestDiv.classList.add('hidden');
+                if (userDiv) userDiv.classList.remove('hidden');
+            } else {
+                if (guestDiv) guestDiv.classList.remove('hidden');
+                if (userDiv) userDiv.classList.add('hidden');
+            }
+        }
+        updateNav();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</body>
+</html>

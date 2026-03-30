@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy & Security - Jaba Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0A0F0C;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: #EFF3EC;
+        }
+        .nav-blur {
+            background: rgba(10, 15, 12, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .btn-outline {
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            background: transparent;
+            color: #EFF3EC;
+            font-weight: 500;
+            border-radius: 9999px;
+            padding: 0.65rem 1.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-outline:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+        .glass-card {
+            background: rgba(18, 24, 20, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(34, 197, 94, 0.5);
+            transform: translateY(-3px);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.5s ease forwards;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-blur fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="relative">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center shadow-lg animate-float">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 6H21V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V6Z" stroke="white" stroke-width="1.5" fill="none"/>
+                            <path d="M8 6V4C8 2.9 8.9 2 10 2H14C15.1 2 16 2.9 16 4V6" stroke="white" stroke-width="1.5" fill="none"/>
+                            <path d="M12 12V16M10 14H14" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="12" cy="14" r="2" stroke="white" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white">Jaba<span class="text-emerald-400">Shop</span></h1>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Home</a>
+                <a href="index.html#courses" class="text-sm text-gray-300 hover:text-emerald-400 transition">Courses</a>
+                <a href="services.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Services</a>
+                <a href="support.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Support</a>
+                <a href="about.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">About</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div id="user-desktop" class="hidden md:flex items-center gap-3">
+                    <a href="dashboard.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">My Library</a>
+                </div>
+                <div id="guest-desktop" class="hidden md:flex gap-2">
+                    <a href="login.html" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Sign In</a>
+                    <a href="signup.html" class="btn-outline !py-2 !px-5 text-sm">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
+        <div class="text-center mb-12 animate-fade-up">
+            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-4 py-1.5 mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Privacy & Security</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Your Data is <span class="text-emerald-400">Safe With Us</span></h1>
+            <p class="text-gray-400 max-w-2xl mx-auto">Learn how we protect your information and keep your learning experience secure</p>
+        </div>
+
+        <div class="space-y-6">
+            <div class="glass-card p-8 animate-fade-up">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                        <i data-lucide="lock" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Data Protection</h2>
+                </div>
+                <p class="text-gray-400 leading-relaxed">
+                    Your personal information is encrypted and stored securely. We never share your data with third parties. 
+                    All payment receipts are stored with restricted access, visible only to our admin team for verification purposes.
+                </p>
+            </div>
+
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.05s">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                        <i data-lucide="credit-card" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Payment Security</h2>
+                </div>
+                <p class="text-gray-400 leading-relaxed">
+                    We don't store your payment details. All financial transactions are handled directly through Telebirr or your bank. 
+                    Receipts are uploaded via secure, encrypted connections and automatically processed for approval.
+                </p>
+            </div>
+
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.1s">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                        <i data-lucide="user" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Account Privacy</h2>
+                </div>
+                <p class="text-gray-400 leading-relaxed">
+                    Your account information, purchase history, and library are private to you. Only you can access your dashboard. 
+                    We recommend using a strong, unique password for your account.
+                </p>
+            </div>
+
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.15s">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                        <i data-lucide="file-text" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Content Ownership</h2>
+                </div>
+                <p class="text-gray-400 leading-relaxed">
+                    All digital products purchased are for personal use only. Redistribution, resale, or sharing of our content 
+                    is strictly prohibited and violates our terms of service.
+                </p>
+            </div>
+
+            <div class="glass-card p-8 animate-fade-up" style="animation-delay: 0.2s">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                        <i data-lucide="trash-2" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Data Deletion</h2>
+                </div>
+                <p class="text-gray-400 leading-relaxed">
+                    If you delete your account, all your personal data and purchase records are permanently removed from our system 
+                    within 30 days. You can request account deletion from your profile settings.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-10 p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-xl text-center">
+            <p class="text-sm text-emerald-400 flex items-center justify-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                Last Updated: March 2026
+            </p>
+            <p class="text-xs text-gray-500 mt-2">For any privacy concerns, contact us at jabaashopsupport@gmail.com</p>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/10 py-10 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-gray-500 text-xs">© 2026 Jaba Shop — Learn Anywhere, Grow Everywhere</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        async function updateNav() {
+            const SUPABASE_URL = "https://wuwfjdxgeoqcbqsbxuho.supabase.co";
+            const SUPABASE_ANON_KEY = "sb_publishable_6urNqkD2HYEHZtmVXSS8jQ_ByVqLB5T";
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            const guestDiv = document.getElementById('guest-desktop');
+            const userDiv = document.getElementById('user-desktop');
+            
+            if (user) {
+                if (guestDiv) guestDiv.classList.add('hidden');
+                if (userDiv) userDiv.classList.remove('hidden');
+            } else {
+                if (guestDiv) guestDiv.classList.remove('hidden');
+                if (userDiv) userDiv.classList.add('hidden');
+            }
+        }
+        updateNav();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</body>
+</html>
