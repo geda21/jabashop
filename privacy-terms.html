@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy & Terms - Jaba Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0A0F0C;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: #EFF3EC;
+        }
+        .nav-blur {
+            background: rgba(10, 15, 12, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .btn-primary {
+            background: #22c55e;
+            color: #0A0F0C;
+            font-weight: 700;
+            border-radius: 9999px;
+            padding: 0.7rem 1.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: scale(0.98);
+        }
+        .btn-outline {
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            background: transparent;
+            color: #EFF3EC;
+            font-weight: 500;
+            border-radius: 9999px;
+            padding: 0.65rem 1.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-outline:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+        .glass-card {
+            background: rgba(18, 24, 20, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.5s ease forwards;
+        }
+        .policy-section h3 {
+            color: #22c55e;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        .policy-section p, .policy-section li {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+        .policy-section ul {
+            list-style: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .policy-section li {
+            margin-bottom: 0.4rem;
+        }
+        .tab-btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #9ca3af;
+        }
+        .tab-btn.active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-blur fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center shadow-lg">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white">Jaba<span class="text-emerald-400">Shop</span></h1>
+                    <p class="text-[8px] text-emerald-400/70">Premium Digital Learning</p>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Home</a>
+                <a href="index.html#courses" class="text-sm text-gray-300 hover:text-emerald-400 transition">Courses</a>
+                <a href="services.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Services</a>
+                <a href="about.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">About</a>
+                <a href="support.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">Support</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div id="user-desktop" class="hidden md:flex items-center gap-3">
+                    <a href="dashboard.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">My Library</a>
+                </div>
+                <div id="guest-desktop" class="hidden md:flex gap-2">
+                    <a href="login.html" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Sign In</a>
+                    <a href="signup.html" class="btn-primary !py-2 !px-5 text-sm">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 pt-28 pb-20">
+        <div class="text-center mb-10 animate-fade-up">
+            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-4 py-1.5 mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Legal</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Privacy & <span class="text-emerald-400">Terms</span></h1>
+            <p class="text-gray-400 max-w-2xl mx-auto">How we protect your data and the rules that keep Jaba Shop fair for everyone</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex justify-center gap-3 mb-10">
+            <button onclick="switchTab('privacy')" id="tab-privacy" class="tab-btn active">🔒 Privacy Policy</button>
+            <button onclick="switchTab('terms')" id="tab-terms" class="tab-btn">📋 Terms of Service</button>
+        </div>
+
+        <!-- Privacy Policy -->
+        <div id="privacy-view" class="glass-card p-8 md:p-10 animate-fade-up policy-section">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                    <i data-lucide="shield" class="w-5 h-5 text-emerald-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Privacy Policy</h2>
+            </div>
+            <p class="text-xs text-gray-500 mb-6">Last updated: July 24, 2026</p>
+
+            <h3>1. Information We Collect</h3>
+            <p>When you use Jaba Shop, we collect the following information to provide our services:</p>
+            <ul>
+                <li><strong>Account Information:</strong> Email address and password when you register.</li>
+                <li><strong>Payment Receipts:</strong> Screenshots of payment confirmations uploaded for purchase verification.</li>
+                <li><strong>Usage Data:</strong> Basic analytics about how you interact with our platform (pages visited, courses viewed).</li>
+                <li><strong>Device Information:</strong> Browser type, IP address, and device type for security and optimization.</li>
+            </ul>
+
+            <h3>2. How We Use Your Information</h3>
+            <p>We use your data strictly for the following purposes:</p>
+            <ul>
+                <li>To create and manage your account and digital library.</li>
+                <li>To verify payment receipts and grant access to purchased courses.</li>
+                <li>To communicate with you about your purchases, account status, or support requests.</li>
+                <li>To improve our platform and develop new educational content.</li>
+                <li>To detect and prevent fraud or unauthorized access.</li>
+            </ul>
+
+            <h3>3. Data Security</h3>
+            <p>Your security is our priority. We implement industry-standard measures to protect your data:</p>
+            <ul>
+                <li>All data is transmitted over HTTPS encrypted connections.</li>
+                <li>Passwords are hashed and never stored in plain text.</li>
+                <li>Payment receipts are stored in secure cloud storage with restricted access.</li>
+                <li>We never store your Telebirr or bank account details — payments are handled externally.</li>
+            </ul>
+
+            <h3>4. Third-Party Services</h3>
+            <p>We use trusted third-party services to power our platform:</p>
+            <ul>
+                <li><strong>Supabase</strong> — for authentication, database, and secure file storage.</li>
+                <li><strong>Telebirr / Awash Bank</strong> — for payment processing (we only see your receipt, not your account).</li>
+            </ul>
+            <p>These services have their own privacy policies and are bound by strict data protection standards.</p>
+
+            <h3>5. Your Rights</h3>
+            <p>You have full control over your personal data:</p>
+            <ul>
+                <li><strong>Access:</strong> View all data associated with your account in your dashboard.</li>
+                <li><strong>Correction:</strong> Update your email or profile information anytime.</li>
+                <li><strong>Deletion:</strong> Request complete account deletion from your profile settings. All data is permanently removed within 30 days.</li>
+                <li><strong>Portability:</strong> Download your purchased courses at any time from your library.</li>
+            </ul>
+
+            <h3>6. Cookies & Tracking</h3>
+            <p>We use minimal cookies only for essential functions: keeping you logged in and remembering your preferences. We do not use tracking cookies for advertising or sell your browsing data to third parties.</p>
+
+            <h3>7. Children's Privacy</h3>
+            <p>Jaba Shop is not intended for users under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us immediately and we will delete it.</p>
+
+            <h3>8. Changes to This Policy</h3>
+            <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated date. Continued use of the platform after changes constitutes acceptance of the new policy.</p>
+
+            <h3>9. Contact Us</h3>
+            <p>If you have any questions about this Privacy Policy or your data, contact us at:</p>
+            <ul>
+                <li>Email: jabaashopsupport@gmail.com</li>
+                <li>Telegram: @JabaaShop</li>
+                <li>Phone: +251 963 945 956</li>
+            </ul>
+        </div>
+
+        <!-- Terms of Service -->
+        <div id="terms-view" class="glass-card p-8 md:p-10 animate-fade-up policy-section hidden">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                    <i data-lucide="file-text" class="w-5 h-5 text-emerald-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Terms of Service</h2>
+            </div>
+            <p class="text-xs text-gray-500 mb-6">Last updated: July 24, 2026</p>
+
+            <h3>1. Acceptance of Terms</h3>
+            <p>By accessing or using Jaba Shop, you agree to be bound by these Terms of Service. If you do not agree, please do not use our platform. These terms apply to all visitors, users, and customers.</p>
+
+            <h3>2. Description of Service</h3>
+            <p>Jaba Shop is a digital learning marketplace that sells PDF courses, ebooks, and educational materials. We provide a platform for creators to sell content and for students to purchase and download digital products.</p>
+
+            <h3>3. Account Registration</h3>
+            <p>To purchase courses, you must create an account. You agree to:</p>
+            <ul>
+                <li>Provide accurate and complete information during registration.</li>
+                <li>Maintain the security of your password and account.</li>
+                <li>Notify us immediately of any unauthorized use of your account.</li>
+                <li>Be responsible for all activities that occur under your account.</li>
+            </ul>
+
+            <h3>4. Purchases & Payments</h3>
+            <p>All prices are listed in Ethiopian Birr (ETB). Payment is accepted via:</p>
+            <ul>
+                <li>Telebirr mobile money</li>
+                <li>Awash Bank transfer</li>
+            </ul>
+            <p>After payment, you must upload a receipt screenshot through your dashboard. Our team will verify and approve your purchase within 24 hours. Once approved, the digital product is permanently added to your library.</p>
+
+            <h3>5. Refund Policy</h3>
+            <p>Due to the digital nature of our products, all sales are final. Refunds are only granted in the following cases:</p>
+            <ul>
+                <li>The product file is corrupted or cannot be downloaded.</li>
+                <li>The product description was materially misleading.</li>
+                <li>Duplicate charges occurred due to a technical error.</li>
+            </ul>
+            <p>To request a refund, contact us within 7 days of purchase with your receipt and reason.</p>
+
+            <h3>6. Intellectual Property</h3>
+            <p>All content on Jaba Shop, including courses, PDFs, images, logos, and text, is the intellectual property of Jaba Shop or its creators. When you purchase a course, you receive a personal, non-transferable license to use it. You may NOT:</p>
+            <ul>
+                <li>Resell, redistribute, or share purchased content with others.</li>
+                <li>Upload our content to public websites, file-sharing platforms, or social media.</li>
+                <li>Remove watermarks, copyright notices, or author credits.</li>
+                <li>Use our content for commercial purposes without written permission.</li>
+            </ul>
+            <p>Violations will result in immediate account termination and potential legal action.</p>
+
+            <h3>7. User Conduct</h3>
+            <p>You agree not to use Jaba Shop for any unlawful or prohibited purpose, including:</p>
+            <ul>
+                <li>Attempting to hack, disrupt, or damage our platform.</li>
+                <li>Uploading viruses, malware, or harmful code.</li>
+                <li>Impersonating other users or staff members.</li>
+                <li>Posting abusive, hateful, or discriminatory content in any community spaces.</li>
+                <li>Using automated scripts or bots to scrape our content.</li>
+            </ul>
+
+            <h3>8. Account Termination</h3>
+            <p>We reserve the right to suspend or terminate your account at any time for violations of these terms, fraudulent activity, or behavior that harms other users or the platform. You may also delete your account at any time from your profile settings.</p>
+
+            <h3>9. Limitation of Liability</h3>
+            <p>Jaba Shop provides educational content "as is." We do not guarantee specific results from using our courses (such as income, job placement, or skill mastery). We are not liable for any indirect, incidental, or consequential damages arising from your use of the platform.</p>
+
+            <h3>10. Changes to Terms</h3>
+            <p>We may modify these Terms at any time. Changes will be posted on this page with an updated date. Your continued use of Jaba Shop after changes constitutes acceptance of the revised terms.</p>
+
+            <h3>11. Governing Law</h3>
+            <p>These Terms shall be governed by and construed in accordance with the laws of Ethiopia. Any disputes shall be resolved in the courts of Addis Ababa.</p>
+
+            <h3>12. Contact</h3>
+            <p>For questions about these Terms, contact us at:</p>
+            <ul>
+                <li>Email: jabaashopsupport@gmail.com</li>
+                <li>Telegram: @JabaaShop</li>
+                <li>Phone: +251 963 945 956</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/10 py-10 px-6 text-center">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-white">Jaba Shop</span>
+            </div>
+            <div class="flex justify-center gap-4 mb-4">
+                <a href="privacy-terms.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">Privacy & Terms</a>
+                <a href="faq.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">FAQ</a>
+                <a href="support.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">Support</a>
+            </div>
+            <p class="text-gray-500 text-xs">© 2026 Jaba Shop — Learn Anywhere, Grow Everywhere</p>
+        </div>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = "https://wuwfjdxgeoqcbqsbxuho.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_6urNqkD2HYEHZtmVXSS8jQ_ByVqLB5T";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        lucide.createIcons();
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            document.getElementById('privacy-view').classList.add('hidden');
+            document.getElementById('terms-view').classList.add('hidden');
+            document.getElementById(`${tab}-view`).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.switchTab = switchTab;
+
+        async function updateNav() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            const guestDiv = document.getElementById('guest-desktop');
+            const userDiv = document.getElementById('user-desktop');
+
+            if (user) {
+                if (guestDiv) guestDiv.classList.add('hidden');
+                if (userDiv) userDiv.classList.remove('hidden');
+            } else {
+                if (guestDiv) guestDiv.classList.remove('hidden');
+                if (userDiv) userDiv.classList.add('hidden');
+            }
+        }
+        updateNav();
+    </script>
+</body>
+</html>
