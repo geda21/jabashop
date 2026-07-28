@@ -11,160 +11,29 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background: #0A0F0C;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            color: #EFF3EC;
-        }
-        .nav-blur {
-            background: rgba(10, 15, 12, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-        }
-        .btn-primary {
-            background: #22c55e;
-            color: #0A0F0C;
-            font-weight: 700;
-            border-radius: 9999px;
-            padding: 0.6rem 1.2rem;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        .btn-primary:hover {
-            background: #16a34a;
-            transform: scale(0.98);
-        }
-        .btn-outline {
-            border: 1px solid rgba(34, 197, 94, 0.5);
-            background: transparent;
-            color: #EFF3EC;
-            font-weight: 500;
-            border-radius: 9999px;
-            padding: 0.55rem 1.2rem;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        .btn-outline:hover {
-            background: rgba(34, 197, 94, 0.1);
-            border-color: #22c55e;
-        }
-        .stat-card {
-            background: rgba(18, 24, 20, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            border-radius: 1.5rem;
-            transition: all 0.3s ease;
-            text-align: center;
-            padding: 1.5rem;
-        }
-        .stat-card:hover {
-            border-color: rgba(34, 197, 94, 0.5);
-            transform: translateY(-2px);
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #22c55e;
-            margin-top: 0.5rem;
-        }
-        .stat-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #9ca3af;
-        }
-        .course-card {
-            background: #111813;
-            border-radius: 1.5rem;
-            overflow: hidden;
-            transition: all 0.35s ease;
-            border: 1px solid #1e2a24;
-        }
-        .course-card:hover {
-            border-color: rgba(34, 197, 94, 0.5);
-            transform: translateY(-4px);
-        }
-        .tab-btn {
-            padding: 0.5rem 1.2rem;
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            transition: all 0.2s;
-            cursor: pointer;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #9ca3af;
-        }
-        .tab-btn.active {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-            border-color: rgba(34, 197, 94, 0.4);
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-up {
-            animation: fadeUp 0.4s ease forwards;
-        }
-        .status-pending {
-            background: rgba(245, 158, 11, 0.1);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        .status-approved {
-            background: rgba(34, 197, 94, 0.1);
-            color: #22c55e;
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        .spinner {
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 2px solid rgba(34, 197, 94, 0.2);
-            border-top-color: #22c55e;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .category-badge {
-            background: rgba(34, 197, 94, 0.15);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 9999px;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #22c55e;
-            display: inline-block;
-        }
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0A0F0C; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #EFF3EC; }
+        .nav-blur { background: rgba(10, 15, 12, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(34, 197, 94, 0.2); }
+        .btn-primary { background: #22c55e; color: #0A0F0C; font-weight: 700; border-radius: 9999px; padding: 0.6rem 1.2rem; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer; font-size: 0.8rem; }
+        .btn-primary:hover { background: #16a34a; transform: scale(0.98); }
+        .btn-outline { border: 1px solid rgba(34, 197, 94, 0.5); background: transparent; color: #EFF3EC; font-weight: 500; border-radius: 9999px; padding: 0.55rem 1.2rem; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.8rem; }
+        .btn-outline:hover { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; }
+        .stat-card { background: rgba(18, 24, 20, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 1.5rem; transition: all 0.3s ease; text-align: center; padding: 1.5rem; }
+        .stat-card:hover { border-color: rgba(34, 197, 94, 0.5); transform: translateY(-2px); }
+        .stat-number { font-size: 2.5rem; font-weight: 700; color: #22c55e; margin-top: 0.5rem; }
+        .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; }
+        .course-card { background: #111813; border-radius: 1.5rem; overflow: hidden; transition: all 0.35s ease; border: 1px solid #1e2a24; }
+        .course-card:hover { border-color: rgba(34, 197, 94, 0.5); transform: translateY(-4px); }
+        .tab-btn { padding: 0.5rem 1.2rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 500; transition: all 0.2s; cursor: pointer; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #9ca3af; }
+        .tab-btn.active { background: rgba(34, 197, 94, 0.2); color: #22c55e; border-color: rgba(34, 197, 94, 0.4); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-up { animation: fadeUp 0.4s ease forwards; }
+        .status-pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
+        .status-approved { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
+        .spinner { width: 1.5rem; height: 1.5rem; border: 2px solid rgba(34, 197, 94, 0.2); border-top-color: #22c55e; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .category-badge { background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 9999px; padding: 0.2rem 0.8rem; font-size: 0.7rem; font-weight: 600; color: #22c55e; display: inline-block; }
+        .modal-overlay { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); }
     </style>
 </head>
 <body>
@@ -316,6 +185,7 @@
         let currentUser = null;
         let allBooks = [];
         let userReceipts = [];
+        let lessonsByBook = {};
 
         lucide.createIcons();
 
@@ -329,13 +199,30 @@
 
         function copyText(text) { navigator.clipboard.writeText(text); showToast('Copied to clipboard!', 'success'); }
 
+        function formatDuration(minutes) {
+            if (!minutes) return '0 min';
+            if (minutes < 60) return `${minutes} min`;
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return m > 0 ? `${h}h ${m}m` : `${h}h`;
+        }
+
         async function init() {
             const { data: { user } } = await supabaseClient.auth.getUser();
             if (!user) { window.location.href = "login.html"; return; }
             currentUser = user;
-            const [booksRes, receiptsRes] = await Promise.all([supabaseClient.from('books').select('*'), supabaseClient.from('receipts').select('*').eq('user_id', currentUser.id)]);
+            const [booksRes, receiptsRes, lessonsRes] = await Promise.all([
+                supabaseClient.from('books').select('*'),
+                supabaseClient.from('receipts').select('*').eq('user_id', currentUser.id),
+                supabaseClient.from('lessons').select('book_id, duration')
+            ]);
             allBooks = booksRes.data || [];
             userReceipts = receiptsRes.data || [];
+            lessonsByBook = {};
+            lessonsRes.data?.forEach(l => {
+                if (!lessonsByBook[l.book_id]) lessonsByBook[l.book_id] = [];
+                lessonsByBook[l.book_id].push(l);
+            });
             updateStats();
             const pendingBookId = localStorage.getItem('pendingPurchase');
             if (pendingBookId) { setTimeout(() => { openPaymentModal(pendingBookId); localStorage.removeItem('pendingPurchase'); }, 500); }
@@ -366,11 +253,26 @@
         function renderLibrary() {
             const grid = document.getElementById('library-grid');
             const approvedBooks = userReceipts.filter(r => r.status === 'approved').map(r => allBooks.find(b => b.id === r.book_id)).filter(b => b);
-            if (approvedBooks.length === 0) { grid.innerHTML = `<div class="col-span-full text-center py-16"><div class="w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="book-open" class="w-10 h-10 text-emerald-400"></i></div><p class="text-gray-400">Your library is empty</p><a href="#" onclick="switchTab('shop')" class="text-emerald-400 text-sm mt-2 inline-block">Browse courses →</a></div>`; lucide.createIcons(); return; }
+            if (approvedBooks.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-16"><div class="w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="book-open" class="w-10 h-10 text-emerald-400"></i></div><p class="text-gray-400">Your library is empty</p><a href="#" onclick="switchTab('shop')" class="text-emerald-400 text-sm mt-2 inline-block">Browse courses →</a></div>`;
+                lucide.createIcons();
+                return;
+            }
             grid.innerHTML = approvedBooks.map(book => {
+                const isVideo = book.product_type === 'video_course';
+                const bookLessons = lessonsByBook[book.id] || [];
+                const lessonCount = bookLessons.length;
+                const computedDuration = bookLessons.reduce((sum, l) => sum + (l.duration || 0), 0);
+                const displayDuration = book.total_duration || computedDuration;
                 const hasPreview = book.preview_url && book.preview_url.trim() !== '';
                 const previewBtn = hasPreview ? `<a href="${book.preview_url}" target="_blank" class="btn-outline w-full justify-center py-1.5 text-xs mb-2">👁 Free Preview</a>` : '';
-                return `<div class="course-card"><div class="relative h-40 overflow-hidden bg-gradient-to-br from-emerald-500/20 to-emerald-500/20"><img src="${book.cover_url || 'https://placehold.co/600x400/1e2a24/22c55e?text=No+Cover'}" class="w-full h-full object-cover opacity-60" referrerPolicy="no-referrer" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e2a24/22c55e?text=No+Cover';this.style.opacity='1';"><div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold text-emerald-400">⭐ 4.9</div></div><div class="p-5"><h3 class="font-bold text-white text-lg">${book.title}</h3>${previewBtn}<a href="${book.pdf_url}" target="_blank" class="btn-primary w-full justify-center">Download Now ↓</a></div></div>`;
+                const actionBtn = isVideo
+                    ? `<a href="course.html?id=${book.id}" class="btn-primary w-full justify-center">View Course →</a>`
+                    : `<a href="${book.pdf_url}" target="_blank" class="btn-primary w-full justify-center">Download Now ↓</a>`;
+                const metaInfo = isVideo
+                    ? `<div class="flex items-center gap-3 mb-3 text-xs text-gray-500"><span class="flex items-center gap-1"><i data-lucide="play-circle" class="w-3 h-3"></i> ${lessonCount} lessons</span><span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> ${formatDuration(displayDuration)}</span>${book.level ? `<span class="flex items-center gap-1"><i data-lucide="bar-chart" class="w-3 h-3"></i> ${book.level}</span>` : ''}</div>`
+                    : '';
+                return `<div class="course-card"><div class="relative h-40 overflow-hidden bg-gradient-to-br from-emerald-500/20 to-emerald-500/20"><img src="${book.cover_url || 'https://placehold.co/600x400/1e2a24/22c55e?text=No+Cover'}" class="w-full h-full object-cover opacity-60" referrerPolicy="no-referrer" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e2a24/22c55e?text=No+Cover';this.style.opacity='1';"><div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold text-emerald-400">⭐ 4.9</div></div><div class="p-5"><div class="flex items-center gap-2 mb-1"><h3 class="font-bold text-white text-lg">${book.title}</h3>${isVideo ? `<span class="text-[10px] bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded-full border border-blue-500/20">🎬 Video</span>` : ''}</div>${metaInfo}${previewBtn}${actionBtn}</div></div>`;
             }).join('');
             lucide.createIcons();
         }
@@ -381,9 +283,17 @@
             const available = allBooks.filter(b => !ownedIds.includes(b.id));
             if (available.length === 0) { grid.innerHTML = `<div class="col-span-full text-center py-16"><div class="w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="shopping-cart" class="w-10 h-10 text-emerald-400"></i></div><p class="text-gray-400">No courses available</p></div>`; lucide.createIcons(); return; }
             grid.innerHTML = available.map(book => {
+                const isVideo = book.product_type === 'video_course';
+                const bookLessons = lessonsByBook[book.id] || [];
+                const lessonCount = bookLessons.length;
+                const computedDuration = bookLessons.reduce((sum, l) => sum + (l.duration || 0), 0);
+                const displayDuration = book.total_duration || computedDuration;
                 const hasPreview = book.preview_url && book.preview_url.trim() !== '';
                 const previewBtn = hasPreview ? `<a href="${book.preview_url}" target="_blank" class="btn-outline w-full justify-center py-1.5 text-xs mb-2">👁 Free Preview</a>` : '';
-                return `<div class="course-card"><div class="relative h-40 overflow-hidden bg-gradient-to-br from-emerald-500/20 to-emerald-500/20"><img src="${book.cover_url || 'https://placehold.co/600x400/1e2a24/22c55e?text=No+Cover'}" class="w-full h-full object-cover opacity-60" referrerPolicy="no-referrer" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e2a24/22c55e?text=No+Cover';this.style.opacity='1';"><div class="absolute top-3 left-3"><span class="category-badge">${book.category || 'Course'}</span></div><div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold text-emerald-400">${book.price} ETB</div></div><div class="p-5"><h3 class="font-bold text-white text-lg">${book.title}</h3>${previewBtn}<button onclick="openPaymentModal('${book.id}')" class="btn-primary w-full justify-center">Enroll Now →</button></div></div>`;
+                const metaInfo = isVideo
+                    ? `<div class="flex items-center gap-3 mb-3 text-xs text-gray-500"><span class="flex items-center gap-1"><i data-lucide="play-circle" class="w-3 h-3"></i> ${lessonCount} lessons</span><span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> ${formatDuration(displayDuration)}</span>${book.level ? `<span class="flex items-center gap-1"><i data-lucide="bar-chart" class="w-3 h-3"></i> ${book.level}</span>` : ''}</div>`
+                    : '';
+                return `<div class="course-card"><div class="relative h-40 overflow-hidden bg-gradient-to-br from-emerald-500/20 to-emerald-500/20"><img src="${book.cover_url || 'https://placehold.co/600x400/1e2a24/22c55e?text=No+Cover'}" class="w-full h-full object-cover opacity-60" referrerPolicy="no-referrer" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e2a24/22c55e?text=No+Cover';this.style.opacity='1';"><div class="absolute top-3 left-3 flex flex-col gap-1"><span class="category-badge">${book.category || 'Course'}</span>${isVideo ? `<span class="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/20 backdrop-blur">🎬 Video Course</span>` : ''}</div><div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold text-emerald-400">${book.price} ETB</div></div><div class="p-5"><h3 class="font-bold text-white text-lg">${book.title}</h3><p class="text-gray-400 text-sm mb-2 line-clamp-2">${book.description || 'Premium digital course'}</p>${metaInfo}${previewBtn}<button onclick="openPaymentModal('${book.id}')" class="btn-primary w-full justify-center">Enroll Now →</button></div></div>`;
             }).join('');
             lucide.createIcons();
         }
