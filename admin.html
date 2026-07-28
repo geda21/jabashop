@@ -8,139 +8,29 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background: #0A0F0C;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            color: #EFF3EC;
-        }
-        .nav-blur {
-            background: rgba(10, 15, 12, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-        }
-        .btn-primary {
-            background: #22c55e;
-            color: #0A0F0C;
-            font-weight: 700;
-            border-radius: 9999px;
-            padding: 0.6rem 1.2rem;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        .btn-primary:hover {
-            background: #16a34a;
-            transform: scale(0.98);
-        }
-        .btn-outline {
-            border: 1px solid rgba(34, 197, 94, 0.5);
-            background: transparent;
-            color: #EFF3EC;
-            font-weight: 500;
-            border-radius: 9999px;
-            padding: 0.55rem 1.2rem;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        .btn-outline:hover {
-            background: rgba(34, 197, 94, 0.1);
-            border-color: #22c55e;
-        }
-        .admin-card {
-            background: rgba(18, 24, 20, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            border-radius: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        .admin-card:hover {
-            border-color: rgba(34, 197, 94, 0.5);
-        }
-        .input-glass {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            border-radius: 0.75rem;
-            padding: 0.6rem 1rem;
-            color: white;
-            width: 100%;
-            font-size: 0.8rem;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .input-glass:focus {
-            border-color: #22c55e;
-            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
-        }
-        .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0A0F0C; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #EFF3EC; }
+        .nav-blur { background: rgba(10, 15, 12, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(34, 197, 94, 0.2); }
+        .btn-primary { background: #22c55e; color: #0A0F0C; font-weight: 700; border-radius: 9999px; padding: 0.6rem 1.2rem; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer; font-size: 0.8rem; }
+        .btn-primary:hover { background: #16a34a; transform: scale(0.98); }
+        .btn-outline { border: 1px solid rgba(34, 197, 94, 0.5); background: transparent; color: #EFF3EC; font-weight: 500; border-radius: 9999px; padding: 0.55rem 1.2rem; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.8rem; }
+        .btn-outline:hover { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; }
+        .admin-card { background: rgba(18, 24, 20, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 1.5rem; transition: all 0.3s ease; }
+        .admin-card:hover { border-color: rgba(34, 197, 94, 0.5); }
+        .input-glass { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 0.75rem; padding: 0.6rem 1rem; color: white; width: 100%; font-size: 0.8rem; outline: none; transition: all 0.2s; }
+        .input-glass:focus { border-color: #22c55e; box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1); }
+        .status-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
         .status-pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
         .status-approved { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
         .status-rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
-        .filter-btn {
-            padding: 0.4rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            cursor: pointer;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #9ca3af;
-        }
-        .filter-btn.active {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-            border-color: rgba(34, 197, 94, 0.4);
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-up {
-            animation: fadeUp 0.4s ease forwards;
-        }
-        .spinner {
-            width: 1rem;
-            height: 1rem;
-            border: 2px solid rgba(34, 197, 94, 0.2);
-            border-top-color: #22c55e;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .upload-area {
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .upload-area:hover {
-            border-color: #22c55e;
-            background: rgba(34, 197, 94, 0.05);
-        }
-        .preview-img {
-            max-width: 100px;
-            max-height: 100px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-        }
+        .filter-btn { padding: 0.4rem 1rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 500; cursor: pointer; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #9ca3af; }
+        .filter-btn.active { background: rgba(34, 197, 94, 0.2); color: #22c55e; border-color: rgba(34, 197, 94, 0.4); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-up { animation: fadeUp 0.4s ease forwards; }
+        .spinner { width: 1rem; height: 1rem; border: 2px solid rgba(34, 197, 94, 0.2); border-top-color: #22c55e; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .upload-area { transition: all 0.2s; cursor: pointer; }
+        .upload-area:hover { border-color: #22c55e; background: rgba(34, 197, 94, 0.05); }
     </style>
 </head>
 <body>
@@ -187,17 +77,17 @@
 
                     <form id="book-form" class="space-y-4" enctype="multipart/form-data">
                         <input type="hidden" id="edit-id">
-                        
+
                         <div>
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">Title</label>
                             <input type="text" id="title" class="input-glass" placeholder="Course title" required>
                         </div>
-                        
+
                         <div>
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">Price (ETB)</label>
                             <input type="number" id="price" class="input-glass" placeholder="499" required>
                         </div>
-                        
+
                         <div>
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">Category</label>
                             <select id="category" class="input-glass">
@@ -210,8 +100,8 @@
                                 <option value="Web Development">🌐 Web Development</option>
                             </select>
                         </div>
-                        
-                        <!-- BATCH 2: Product Type Selector -->
+
+                        <!-- Product Type Selector -->
                         <div>
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">Product Type</label>
                             <select id="product_type" class="input-glass" onchange="toggleProductType()">
@@ -219,8 +109,8 @@
                                 <option value="video_course">🎬 Video Course</option>
                             </select>
                         </div>
-                        
-                        <!-- BATCH 2: Video Course Fields (conditional) -->
+
+                        <!-- Video Course Fields (conditional) -->
                         <div id="video-fields" class="hidden space-y-4">
                             <div>
                                 <label class="text-xs font-semibold text-gray-400 mb-1 block">Level</label>
@@ -231,16 +121,21 @@
                                 </select>
                             </div>
                             <div>
+                                <label class="text-xs font-semibold text-gray-400 mb-1 block">Course Video URL (YouTube)</label>
+                                <input type="text" id="video_url" class="input-glass" placeholder="https://youtube.com/watch?v=...">
+                                <p class="text-[10px] text-gray-600 mt-1">Main course video or trailer (optional)</p>
+                            </div>
+                            <div>
                                 <label class="text-xs font-semibold text-gray-400 mb-1 block">Total Duration (minutes)</label>
                                 <input type="number" id="total_duration" class="input-glass" placeholder="e.g. 120">
                             </div>
                         </div>
-                        
+
                         <div>
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">Description</label>
                             <textarea id="description" class="input-glass h-24 resize-none" placeholder="Course description..."></textarea>
                         </div>
-                        
+
                         <!-- Cover Image Upload -->
                         <div>
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">Cover Image</label>
@@ -263,8 +158,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- PDF File Upload -->
+
+                        <!-- PDF File Upload (hidden for video courses) -->
                         <div id="pdf-upload-wrapper">
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">PDF File</label>
                             <div class="upload-area border-2 border-dashed border-white/10 rounded-xl p-4 text-center" onclick="document.getElementById('pdf-file').click()">
@@ -286,7 +181,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Preview PDF Upload (Optional) -->
                         <div>
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">Preview PDF (Optional)</label>
@@ -309,7 +204,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="flex gap-3 pt-4">
                             <button type="submit" id="submit-btn" class="flex-1 btn-primary">Save Book</button>
                             <button type="button" id="cancel-edit" class="hidden flex-1 btn-outline" onclick="resetForm()">Cancel</button>
@@ -360,7 +255,7 @@
                     </div>
                 </div>
 
-                <!-- BATCH 2: Lesson Manager Section -->
+                <!-- Lesson Manager Section -->
                 <div id="lesson-manager" class="admin-card p-6 hidden">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
@@ -368,17 +263,19 @@
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-white">Lesson Manager</h2>
-                            <p class="text-xs text-gray-500">Manage course curriculum</p>
+                            <p class="text-xs text-gray-500">Add YouTube lessons to this course</p>
                         </div>
                     </div>
+
+                    <!-- Lessons List -->
                     <div id="lessons-list" class="space-y-3 mb-6"></div>
-                    
+
                     <!-- Add/Edit Lesson Form -->
                     <div class="border-t border-white/10 pt-4">
                         <h4 class="text-sm font-semibold text-white mb-3" id="lesson-form-title">Add Lesson</h4>
                         <input type="hidden" id="lesson-edit-id">
                         <div class="space-y-3">
-                            <input type="text" id="lesson-title" class="input-glass" placeholder="Lesson title">
+                            <input type="text" id="lesson-title" class="input-glass" placeholder="Lesson title (e.g. Introduction)">
                             <input type="text" id="lesson-video" class="input-glass" placeholder="YouTube URL (full link)">
                             <div class="grid grid-cols-2 gap-3">
                                 <input type="number" id="lesson-duration" class="input-glass" placeholder="Duration (min)">
@@ -404,7 +301,7 @@
         const SUPABASE_URL = "https://wuwfjdxgeoqcbqsbxuho.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable_6urNqkD2HYEHZtmVXSS8jQ_ByVqLB5T";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
+
         let currentFilter = 'all';
         let allBooks = [];
         let currentEditingBookId = null;
@@ -421,7 +318,7 @@
                 document.getElementById('current-cover').classList.add('hidden');
             }
         });
-        
+
         document.getElementById('pdf-file').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -430,7 +327,7 @@
                 document.getElementById('current-pdf').classList.add('hidden');
             }
         });
-        
+
         document.getElementById('preview-file').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -443,7 +340,7 @@
         function showToast(message, type = 'success') {
             const existing = document.querySelector('.custom-toast');
             if (existing) existing.remove();
-            
+
             const toast = document.createElement('div');
             toast.className = `custom-toast fixed bottom-6 right-6 z-[300] flex items-center gap-3 px-5 py-3 rounded-xl backdrop-blur-lg shadow-xl animate-fade-up ${type === 'success' ? 'bg-emerald-500/20 border border-emerald-500/30' : 'bg-rose-500/20 border border-rose-500/30'}`;
             toast.innerHTML = `
@@ -457,14 +354,18 @@
             }, 3500);
         }
 
-        // BATCH 2: Toggle video fields based on product type
+        // Toggle video fields and PDF upload based on product type
         function toggleProductType() {
             const type = document.getElementById('product_type').value;
             const videoFields = document.getElementById('video-fields');
+            const pdfWrapper = document.getElementById('pdf-upload-wrapper');
+
             if (type === 'video_course') {
                 videoFields.classList.remove('hidden');
+                pdfWrapper.classList.add('hidden');
             } else {
                 videoFields.classList.add('hidden');
+                pdfWrapper.classList.remove('hidden');
             }
         }
 
@@ -484,22 +385,22 @@
                 btn.classList.remove('active');
                 if (btn.dataset.filter === filter) btn.classList.add('active');
             });
-            
+
             let query = supabaseClient.from('receipts').select('*, books(title, price)').order('created_at', { ascending: false });
             if (filter !== 'all') query = query.eq('status', filter);
-            
+
             const { data: receipts, error } = await query;
             if (error) { 
                 document.getElementById('receipts-list').innerHTML = `<div class="text-center py-12 text-rose-400">Error loading receipts: ${error.message}</div>`; 
                 return; 
             }
-            
+
             if (!receipts || receipts.length === 0) {
                 document.getElementById('receipts-list').innerHTML = `<div class="text-center py-12"><i data-lucide="inbox" class="w-12 h-12 text-gray-600 mx-auto mb-3"></i><p class="text-gray-500">No receipts found</p></div>`;
                 lucide.createIcons();
                 return;
             }
-            
+
             document.getElementById('receipts-list').innerHTML = receipts.map(r => `
                 <div class="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-emerald-500/30 transition">
                     <div class="flex flex-wrap gap-4 justify-between items-start">
@@ -595,25 +496,24 @@
         async function editBook(id) {
             const book = allBooks.find(b => b.id === id);
             if (!book) return;
-            
+
             document.getElementById('edit-id').value = book.id;
             document.getElementById('title').value = book.title;
             document.getElementById('price').value = book.price;
             document.getElementById('category').value = book.category || 'Technology';
             document.getElementById('description').value = book.description || '';
-            
-            // BATCH 2: Load product type and video fields
+
             document.getElementById('product_type').value = book.product_type || 'pdf';
             toggleProductType();
             if (book.product_type === 'video_course') {
                 document.getElementById('level').value = book.level || 'Beginner';
+                document.getElementById('video_url').value = book.video_url || '';
                 document.getElementById('total_duration').value = book.total_duration || '';
             }
-            
+
             document.getElementById('submit-btn').innerText = 'Update Book';
             document.getElementById('cancel-edit').classList.remove('hidden');
-            
-            // BATCH 2: Show lesson manager for video courses
+
             if (book.product_type === 'video_course') {
                 document.getElementById('lesson-manager').classList.remove('hidden');
                 loadLessons(book.id);
@@ -621,8 +521,7 @@
                 document.getElementById('lesson-manager').classList.add('hidden');
                 resetLessonForm();
             }
-            
-            // Show current files
+
             if (book.cover_url) {
                 document.getElementById('current-cover-name').innerText = book.cover_url.split('/').pop();
                 document.getElementById('current-cover').classList.remove('hidden');
@@ -635,7 +534,7 @@
                 document.getElementById('current-preview-name').innerText = book.preview_url.split('/').pop();
                 document.getElementById('current-preview').classList.remove('hidden');
             }
-            
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -655,6 +554,7 @@
             document.getElementById('book-form').reset();
             document.getElementById('edit-id').value = '';
             document.getElementById('product_type').value = 'pdf';
+            document.getElementById('video_url').value = '';
             toggleProductType();
             document.getElementById('submit-btn').innerText = 'Save Book';
             document.getElementById('cancel-edit').classList.add('hidden');
@@ -673,33 +573,29 @@
         // Handle form submission with file uploads
         document.getElementById('book-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const editId = document.getElementById('edit-id').value;
             const title = document.getElementById('title').value;
             const price = parseFloat(document.getElementById('price').value);
             const category = document.getElementById('category').value;
             const description = document.getElementById('description').value;
             const productType = document.getElementById('product_type').value;
-            
+
             const coverFile = document.getElementById('cover-file').files[0];
             const pdfFile = document.getElementById('pdf-file').files[0];
             const previewFile = document.getElementById('preview-file').files[0];
-            
+
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner"></span> Saving...';
-            
+
             let coverUrl = null;
             let pdfUrl = null;
             let previewUrl = null;
-            
-            // Upload Cover Image
+
             if (coverFile) {
                 const coverPath = `covers/${Date.now()}_${coverFile.name}`;
-                const { error: uploadError } = await supabaseClient.storage
-                    .from('receipts')
-                    .upload(coverPath, coverFile);
-                
+                const { error: uploadError } = await supabaseClient.storage.from('receipts').upload(coverPath, coverFile);
                 if (uploadError) {
                     showToast('Cover upload failed: ' + uploadError.message, 'error');
                     submitBtn.disabled = false;
@@ -708,14 +604,10 @@
                 }
                 coverUrl = supabaseClient.storage.from('receipts').getPublicUrl(coverPath).data.publicUrl;
             }
-            
-            // Upload PDF File
+
             if (pdfFile) {
                 const pdfPath = `books/${Date.now()}_${pdfFile.name}`;
-                const { error: uploadError } = await supabaseClient.storage
-                    .from('receipts')
-                    .upload(pdfPath, pdfFile);
-                
+                const { error: uploadError } = await supabaseClient.storage.from('receipts').upload(pdfPath, pdfFile);
                 if (uploadError) {
                     showToast('PDF upload failed: ' + uploadError.message, 'error');
                     submitBtn.disabled = false;
@@ -724,14 +616,10 @@
                 }
                 pdfUrl = supabaseClient.storage.from('receipts').getPublicUrl(pdfPath).data.publicUrl;
             }
-            
-            // Upload Preview PDF
+
             if (previewFile) {
                 const previewPath = `previews/${Date.now()}_${previewFile.name}`;
-                const { error: uploadError } = await supabaseClient.storage
-                    .from('receipts')
-                    .upload(previewPath, previewFile);
-                
+                const { error: uploadError } = await supabaseClient.storage.from('receipts').upload(previewPath, previewFile);
                 if (uploadError) {
                     showToast('Preview upload failed: ' + uploadError.message, 'error');
                     submitBtn.disabled = false;
@@ -740,8 +628,7 @@
                 }
                 previewUrl = supabaseClient.storage.from('receipts').getPublicUrl(previewPath).data.publicUrl;
             }
-            
-            // Prepare book data
+
             const bookData = {
                 title,
                 price,
@@ -749,53 +636,58 @@
                 description,
                 product_type: productType
             };
-            
+
             if (productType === 'video_course') {
                 bookData.level = document.getElementById('level').value || null;
+                bookData.video_url = document.getElementById('video_url').value.trim() || null;
                 bookData.total_duration = parseInt(document.getElementById('total_duration').value) || null;
             }
-            
+
             if (coverUrl) bookData.cover_url = coverUrl;
             if (pdfUrl) bookData.pdf_url = pdfUrl;
             if (previewUrl) bookData.preview_url = previewUrl;
-            
-            // Validation: cover required for new books
+
             if (!editId && !coverUrl) {
                 showToast('Cover image is required', 'error');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Save Book';
                 return;
             }
-            
-            // Validation: PDF required for new PDF books only
+
             if (!editId && productType === 'pdf' && !pdfUrl) {
                 showToast('PDF file is required for PDF books', 'error');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Save Book';
                 return;
             }
-            
-            // Save to database
+
             let result;
             if (editId) {
                 result = await supabaseClient.from('books').update(bookData).eq('id', editId);
             } else {
-                result = await supabaseClient.from('books').insert(bookData);
+                result = await supabaseClient.from('books').insert(bookData).select();
             }
-            
+
             if (result.error) {
                 showToast('Database error: ' + result.error.message, 'error');
             } else {
                 showToast(editId ? 'Book updated successfully!' : 'Book added successfully!', 'success');
-                resetForm();
+
+                if (!editId && productType === 'video_course' && result.data && result.data[0]) {
+                    resetForm();
+                    setTimeout(() => editBook(result.data[0].id), 300);
+                } else {
+                    resetForm();
+                }
+
                 loadBooks();
             }
-            
+
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Save Book';
         });
 
-        // BATCH 2: Lesson Manager Functions
+        // Lesson Manager Functions
         function parseYouTubeId(url) {
             if (!url) return null;
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -809,12 +701,12 @@
                 .select('*')
                 .eq('book_id', bookId)
                 .order('order_index', { ascending: true });
-            
+
             if (error) {
                 document.getElementById('lessons-list').innerHTML = `<div class="text-rose-400 text-sm">Error loading lessons: ${error.message}</div>`;
                 return;
             }
-            
+
             currentLessons = lessons || [];
             renderLessonsList();
         }
@@ -822,11 +714,11 @@
         function renderLessonsList() {
             const container = document.getElementById('lessons-list');
             if (currentLessons.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-gray-500 text-sm">No lessons yet. Add your first lesson below.</div>`;
+                container.innerHTML = `<div class="text-center py-8 text-gray-500 text-sm">No lessons yet. Add your first YouTube lesson below.</div>`;
                 lucide.createIcons();
                 return;
             }
-            
+
             container.innerHTML = currentLessons.map((lesson, index) => `
                 <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3 border border-white/10 hover:border-emerald-500/30 transition">
                     <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xs font-bold">${index + 1}</div>
@@ -863,17 +755,17 @@
             const duration = parseInt(document.getElementById('lesson-duration').value) || null;
             const isPreview = document.getElementById('lesson-preview').checked;
             const description = document.getElementById('lesson-desc').value.trim();
-            
+
             if (!title || !videoUrl) {
                 showToast('Title and YouTube URL are required', 'error');
                 return;
             }
-            
+
             if (!parseYouTubeId(videoUrl)) {
                 showToast('Please enter a valid YouTube URL', 'error');
                 return;
             }
-            
+
             const lessonData = {
                 title,
                 video_url: videoUrl,
@@ -881,20 +773,20 @@
                 is_preview: isPreview,
                 description: description || null
             };
-            
+
             if (!editId) {
                 lessonData.book_id = currentEditingBookId;
                 const maxOrder = currentLessons.reduce((max, l) => Math.max(max, l.order_index), -1);
                 lessonData.order_index = maxOrder + 1;
             }
-            
+
             let result;
             if (editId) {
                 result = await supabaseClient.from('lessons').update(lessonData).eq('id', editId);
             } else {
                 result = await supabaseClient.from('lessons').insert(lessonData);
             }
-            
+
             if (result.error) {
                 showToast('Error: ' + result.error.message, 'error');
             } else {
@@ -921,19 +813,17 @@
             if (idx <= 0) return;
             const lesson = currentLessons[idx];
             const prevLesson = currentLessons[idx - 1];
-            
+
             const tempOrder = lesson.order_index;
             lesson.order_index = prevLesson.order_index;
             prevLesson.order_index = tempOrder;
-            
-            const { error } = await supabaseClient.from('lessons')
-                .update({ order_index: lesson.order_index }).eq('id', lesson.id);
+
+            const { error } = await supabaseClient.from('lessons').update({ order_index: lesson.order_index }).eq('id', lesson.id);
             if (error) { showToast(error.message, 'error'); return; }
-            
-            const { error: error2 } = await supabaseClient.from('lessons')
-                .update({ order_index: prevLesson.order_index }).eq('id', prevLesson.id);
+
+            const { error: error2 } = await supabaseClient.from('lessons').update({ order_index: prevLesson.order_index }).eq('id', prevLesson.id);
             if (error2) { showToast(error2.message, 'error'); return; }
-            
+
             loadLessons(currentEditingBookId);
         }
 
@@ -942,33 +832,31 @@
             if (idx >= currentLessons.length - 1) return;
             const lesson = currentLessons[idx];
             const nextLesson = currentLessons[idx + 1];
-            
+
             const tempOrder = lesson.order_index;
             lesson.order_index = nextLesson.order_index;
             nextLesson.order_index = tempOrder;
-            
-            const { error } = await supabaseClient.from('lessons')
-                .update({ order_index: lesson.order_index }).eq('id', lesson.id);
+
+            const { error } = await supabaseClient.from('lessons').update({ order_index: lesson.order_index }).eq('id', lesson.id);
             if (error) { showToast(error.message, 'error'); return; }
-            
-            const { error: error2 } = await supabaseClient.from('lessons')
-                .update({ order_index: nextLesson.order_index }).eq('id', nextLesson.id);
+
+            const { error: error2 } = await supabaseClient.from('lessons').update({ order_index: nextLesson.order_index }).eq('id', nextLesson.id);
             if (error2) { showToast(error2.message, 'error'); return; }
-            
+
             loadLessons(currentEditingBookId);
         }
 
         function editLesson(id) {
             const lesson = currentLessons.find(l => l.id === id);
             if (!lesson) return;
-            
+
             document.getElementById('lesson-edit-id').value = lesson.id;
             document.getElementById('lesson-title').value = lesson.title;
             document.getElementById('lesson-video').value = lesson.video_url;
             document.getElementById('lesson-duration').value = lesson.duration || '';
             document.getElementById('lesson-preview').checked = lesson.is_preview;
             document.getElementById('lesson-desc').value = lesson.description || '';
-            
+
             document.getElementById('lesson-form-title').innerText = 'Edit Lesson';
             document.getElementById('lesson-submit-btn').innerText = 'Update Lesson';
             document.getElementById('lesson-cancel-btn').classList.remove('hidden');
@@ -1003,8 +891,8 @@
             await supabaseClient.auth.signOut(); 
             window.location.href = 'index.html'; 
         };
-        
+
         init();
     </script>
 </body>
-</html>
+                                    </html>
