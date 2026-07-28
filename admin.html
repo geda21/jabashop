@@ -211,6 +211,31 @@
                             </select>
                         </div>
                         
+                        <!-- BATCH 2: Product Type Selector -->
+                        <div>
+                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Product Type</label>
+                            <select id="product_type" class="input-glass" onchange="toggleProductType()">
+                                <option value="pdf">📄 PDF Book</option>
+                                <option value="video_course">🎬 Video Course</option>
+                            </select>
+                        </div>
+                        
+                        <!-- BATCH 2: Video Course Fields (conditional) -->
+                        <div id="video-fields" class="hidden space-y-4">
+                            <div>
+                                <label class="text-xs font-semibold text-gray-400 mb-1 block">Level</label>
+                                <select id="level" class="input-glass">
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-gray-400 mb-1 block">Total Duration (minutes)</label>
+                                <input type="number" id="total_duration" class="input-glass" placeholder="e.g. 120">
+                            </div>
+                        </div>
+                        
                         <div>
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">Description</label>
                             <textarea id="description" class="input-glass h-24 resize-none" placeholder="Course description..."></textarea>
@@ -240,7 +265,7 @@
                         </div>
                         
                         <!-- PDF File Upload -->
-                        <div>
+                        <div id="pdf-upload-wrapper">
                             <label class="text-xs font-semibold text-gray-400 mb-1 block">PDF File</label>
                             <div class="upload-area border-2 border-dashed border-white/10 rounded-xl p-4 text-center" onclick="document.getElementById('pdf-file').click()">
                                 <i data-lucide="file-text" class="w-8 h-8 text-gray-500 mx-auto mb-2"></i>
@@ -334,6 +359,43 @@
                         <div class="text-center py-12 text-gray-500">Loading books...</div>
                     </div>
                 </div>
+
+                <!-- BATCH 2: Lesson Manager Section -->
+                <div id="lesson-manager" class="admin-card p-6 hidden">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                            <i data-lucide="film" class="w-5 h-5 text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-white">Lesson Manager</h2>
+                            <p class="text-xs text-gray-500">Manage course curriculum</p>
+                        </div>
+                    </div>
+                    <div id="lessons-list" class="space-y-3 mb-6"></div>
+                    
+                    <!-- Add/Edit Lesson Form -->
+                    <div class="border-t border-white/10 pt-4">
+                        <h4 class="text-sm font-semibold text-white mb-3" id="lesson-form-title">Add Lesson</h4>
+                        <input type="hidden" id="lesson-edit-id">
+                        <div class="space-y-3">
+                            <input type="text" id="lesson-title" class="input-glass" placeholder="Lesson title">
+                            <input type="text" id="lesson-video" class="input-glass" placeholder="YouTube URL (full link)">
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="number" id="lesson-duration" class="input-glass" placeholder="Duration (min)">
+                                <label class="flex items-center gap-2 text-sm text-gray-400 cursor-pointer select-none">
+                                    <input type="checkbox" id="lesson-preview" class="w-4 h-4 rounded border-white/10 bg-black/30 text-emerald-500 focus:ring-emerald-500/50">
+                                    <span>Free Preview</span>
+                                </label>
+                            </div>
+                            <textarea id="lesson-desc" class="input-glass h-20 resize-none" placeholder="Lesson description"></textarea>
+                            <div class="flex gap-3">
+                                <button type="button" id="lesson-submit-btn" onclick="saveLesson()" class="flex-1 btn-primary text-xs">Add Lesson</button>
+                                <button type="button" id="lesson-cancel-btn" onclick="resetLessonForm()" class="hidden flex-1 btn-outline text-xs">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
@@ -345,6 +407,8 @@
         
         let currentFilter = 'all';
         let allBooks = [];
+        let currentEditingBookId = null;
+        let currentLessons = [];
 
         lucide.createIcons();
 
@@ -391,6 +455,17 @@
                 toast.style.opacity = '0';
                 setTimeout(() => toast.remove(), 300);
             }, 3500);
+        }
+
+        // BATCH 2: Toggle video fields based on product type
+        function toggleProductType() {
+            const type = document.getElementById('product_type').value;
+            const videoFields = document.getElementById('video-fields');
+            if (type === 'video_course') {
+                videoFields.classList.remove('hidden');
+            } else {
+                videoFields.classList.add('hidden');
+            }
         }
 
         async function init() {
@@ -488,13 +563,21 @@
                 grid.innerHTML = '<div class="text-center py-12 text-gray-500">No books yet. Add your first book!</div>'; 
                 return; 
             }
-            grid.innerHTML = allBooks.map(book => `
+            grid.innerHTML = allBooks.map(book => {
+                const isVideo = book.product_type === 'video_course';
+                const typeBadge = isVideo 
+                    ? `<span class="text-[10px] bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded-full border border-blue-500/20">🎬 Video</span>`
+                    : `<span class="text-[10px] bg-gray-500/10 text-gray-400 px-1.5 py-0.5 rounded-full border border-gray-500/20">📄 PDF</span>`;
+                return `
                 <div class="bg-white/5 rounded-xl p-3 flex gap-3 items-center border border-white/10 hover:border-emerald-500/30 transition">
                     <img src="${book.cover_url || 'https://placehold.co/100x100/1e2a24/22c55e?text=No+Image'}" class="w-14 h-14 object-cover rounded-lg" referrerPolicy="no-referrer" onerror="this.src='https://placehold.co/100x100/1e2a24/22c55e?text=No+Image'">
-                    <div class="flex-1">
-                        <h4 class="font-bold text-white text-sm">${book.title}</h4>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-0.5">
+                            <h4 class="font-bold text-white text-sm truncate">${book.title}</h4>
+                            ${typeBadge}
+                        </div>
                         <p class="text-emerald-400 text-sm font-semibold">${book.price} ETB</p>
-                        <p class="text-xs text-gray-500">${book.category || 'Uncategorized'}</p>
+                        <p class="text-xs text-gray-500">${book.category || 'Uncategorized'}${isVideo && book.level ? ' · ' + book.level : ''}${isVideo && book.total_duration ? ' · ' + book.total_duration + ' min' : ''}</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="editBook('${book.id}')" class="p-2 rounded-lg bg-white/5 hover:bg-emerald-500/20 transition" title="Edit">
@@ -505,7 +588,7 @@
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
             lucide.createIcons();
         }
 
@@ -518,8 +601,26 @@
             document.getElementById('price').value = book.price;
             document.getElementById('category').value = book.category || 'Technology';
             document.getElementById('description').value = book.description || '';
+            
+            // BATCH 2: Load product type and video fields
+            document.getElementById('product_type').value = book.product_type || 'pdf';
+            toggleProductType();
+            if (book.product_type === 'video_course') {
+                document.getElementById('level').value = book.level || 'Beginner';
+                document.getElementById('total_duration').value = book.total_duration || '';
+            }
+            
             document.getElementById('submit-btn').innerText = 'Update Book';
             document.getElementById('cancel-edit').classList.remove('hidden');
+            
+            // BATCH 2: Show lesson manager for video courses
+            if (book.product_type === 'video_course') {
+                document.getElementById('lesson-manager').classList.remove('hidden');
+                loadLessons(book.id);
+            } else {
+                document.getElementById('lesson-manager').classList.add('hidden');
+                resetLessonForm();
+            }
             
             // Show current files
             if (book.cover_url) {
@@ -553,6 +654,8 @@
         function resetForm() {
             document.getElementById('book-form').reset();
             document.getElementById('edit-id').value = '';
+            document.getElementById('product_type').value = 'pdf';
+            toggleProductType();
             document.getElementById('submit-btn').innerText = 'Save Book';
             document.getElementById('cancel-edit').classList.add('hidden');
             document.getElementById('cover-preview').classList.add('hidden');
@@ -561,6 +664,10 @@
             document.getElementById('current-cover').classList.add('hidden');
             document.getElementById('current-pdf').classList.add('hidden');
             document.getElementById('current-preview').classList.add('hidden');
+            document.getElementById('lesson-manager').classList.add('hidden');
+            resetLessonForm();
+            currentEditingBookId = null;
+            currentLessons = [];
         }
 
         // Handle form submission with file uploads
@@ -572,6 +679,7 @@
             const price = parseFloat(document.getElementById('price').value);
             const category = document.getElementById('category').value;
             const description = document.getElementById('description').value;
+            const productType = document.getElementById('product_type').value;
             
             const coverFile = document.getElementById('cover-file').files[0];
             const pdfFile = document.getElementById('pdf-file').files[0];
@@ -633,21 +741,35 @@
                 previewUrl = supabaseClient.storage.from('receipts').getPublicUrl(previewPath).data.publicUrl;
             }
             
-            // Prepare book data - only include fields that have values
+            // Prepare book data
             const bookData = {
                 title,
                 price,
                 category,
-                description
+                description,
+                product_type: productType
             };
+            
+            if (productType === 'video_course') {
+                bookData.level = document.getElementById('level').value || null;
+                bookData.total_duration = parseInt(document.getElementById('total_duration').value) || null;
+            }
             
             if (coverUrl) bookData.cover_url = coverUrl;
             if (pdfUrl) bookData.pdf_url = pdfUrl;
             if (previewUrl) bookData.preview_url = previewUrl;
             
-            // For new books, require cover and PDF
-            if (!editId && (!coverUrl || !pdfUrl)) {
-                showToast('Cover image and PDF are required for new books', 'error');
+            // Validation: cover required for new books
+            if (!editId && !coverUrl) {
+                showToast('Cover image is required', 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Save Book';
+                return;
+            }
+            
+            // Validation: PDF required for new PDF books only
+            if (!editId && productType === 'pdf' && !pdfUrl) {
+                showToast('PDF file is required for PDF books', 'error');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Save Book';
                 return;
@@ -673,12 +795,210 @@
             submitBtn.innerHTML = 'Save Book';
         });
 
+        // BATCH 2: Lesson Manager Functions
+        function parseYouTubeId(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        async function loadLessons(bookId) {
+            currentEditingBookId = bookId;
+            const { data: lessons, error } = await supabaseClient.from('lessons')
+                .select('*')
+                .eq('book_id', bookId)
+                .order('order_index', { ascending: true });
+            
+            if (error) {
+                document.getElementById('lessons-list').innerHTML = `<div class="text-rose-400 text-sm">Error loading lessons: ${error.message}</div>`;
+                return;
+            }
+            
+            currentLessons = lessons || [];
+            renderLessonsList();
+        }
+
+        function renderLessonsList() {
+            const container = document.getElementById('lessons-list');
+            if (currentLessons.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-gray-500 text-sm">No lessons yet. Add your first lesson below.</div>`;
+                lucide.createIcons();
+                return;
+            }
+            
+            container.innerHTML = currentLessons.map((lesson, index) => `
+                <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3 border border-white/10 hover:border-emerald-500/30 transition">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xs font-bold">${index + 1}</div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2">
+                            <h4 class="text-sm font-semibold text-white truncate">${lesson.title}</h4>
+                            ${lesson.is_preview ? `<span class="text-[10px] bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20">Preview</span>` : ''}
+                        </div>
+                        <p class="text-xs text-gray-500">${lesson.duration || 0} min · ${parseYouTubeId(lesson.video_url) ? 'YouTube ✓' : 'Invalid URL'}</p>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="moveLessonUp('${lesson.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 transition ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}" ${index === 0 ? 'disabled' : ''} title="Move Up">
+                            <i data-lucide="chevron-up" class="w-3.5 h-3.5 text-gray-400"></i>
+                        </button>
+                        <button onclick="moveLessonDown('${lesson.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 transition ${index === currentLessons.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}" ${index === currentLessons.length - 1 ? 'disabled' : ''} title="Move Down">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-400"></i>
+                        </button>
+                        <button onclick="editLesson('${lesson.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-blue-500/20 transition" title="Edit">
+                            <i data-lucide="edit-2" class="w-3.5 h-3.5 text-gray-400"></i>
+                        </button>
+                        <button onclick="deleteLesson('${lesson.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 transition" title="Delete">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-400"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        async function saveLesson() {
+            const editId = document.getElementById('lesson-edit-id').value;
+            const title = document.getElementById('lesson-title').value.trim();
+            const videoUrl = document.getElementById('lesson-video').value.trim();
+            const duration = parseInt(document.getElementById('lesson-duration').value) || null;
+            const isPreview = document.getElementById('lesson-preview').checked;
+            const description = document.getElementById('lesson-desc').value.trim();
+            
+            if (!title || !videoUrl) {
+                showToast('Title and YouTube URL are required', 'error');
+                return;
+            }
+            
+            if (!parseYouTubeId(videoUrl)) {
+                showToast('Please enter a valid YouTube URL', 'error');
+                return;
+            }
+            
+            const lessonData = {
+                title,
+                video_url: videoUrl,
+                duration,
+                is_preview: isPreview,
+                description: description || null
+            };
+            
+            if (!editId) {
+                lessonData.book_id = currentEditingBookId;
+                const maxOrder = currentLessons.reduce((max, l) => Math.max(max, l.order_index), -1);
+                lessonData.order_index = maxOrder + 1;
+            }
+            
+            let result;
+            if (editId) {
+                result = await supabaseClient.from('lessons').update(lessonData).eq('id', editId);
+            } else {
+                result = await supabaseClient.from('lessons').insert(lessonData);
+            }
+            
+            if (result.error) {
+                showToast('Error: ' + result.error.message, 'error');
+            } else {
+                showToast(editId ? 'Lesson updated!' : 'Lesson added!', 'success');
+                resetLessonForm();
+                loadLessons(currentEditingBookId);
+                loadBooks();
+            }
+        }
+
+        async function deleteLesson(id) {
+            if (!confirm('Delete this lesson permanently?')) return;
+            const { error } = await supabaseClient.from('lessons').delete().eq('id', id);
+            if (error) {
+                showToast(error.message, 'error');
+            } else {
+                showToast('Lesson deleted', 'success');
+                loadLessons(currentEditingBookId);
+            }
+        }
+
+        async function moveLessonUp(id) {
+            const idx = currentLessons.findIndex(l => l.id === id);
+            if (idx <= 0) return;
+            const lesson = currentLessons[idx];
+            const prevLesson = currentLessons[idx - 1];
+            
+            const tempOrder = lesson.order_index;
+            lesson.order_index = prevLesson.order_index;
+            prevLesson.order_index = tempOrder;
+            
+            const { error } = await supabaseClient.from('lessons')
+                .update({ order_index: lesson.order_index }).eq('id', lesson.id);
+            if (error) { showToast(error.message, 'error'); return; }
+            
+            const { error: error2 } = await supabaseClient.from('lessons')
+                .update({ order_index: prevLesson.order_index }).eq('id', prevLesson.id);
+            if (error2) { showToast(error2.message, 'error'); return; }
+            
+            loadLessons(currentEditingBookId);
+        }
+
+        async function moveLessonDown(id) {
+            const idx = currentLessons.findIndex(l => l.id === id);
+            if (idx >= currentLessons.length - 1) return;
+            const lesson = currentLessons[idx];
+            const nextLesson = currentLessons[idx + 1];
+            
+            const tempOrder = lesson.order_index;
+            lesson.order_index = nextLesson.order_index;
+            nextLesson.order_index = tempOrder;
+            
+            const { error } = await supabaseClient.from('lessons')
+                .update({ order_index: lesson.order_index }).eq('id', lesson.id);
+            if (error) { showToast(error.message, 'error'); return; }
+            
+            const { error: error2 } = await supabaseClient.from('lessons')
+                .update({ order_index: nextLesson.order_index }).eq('id', nextLesson.id);
+            if (error2) { showToast(error2.message, 'error'); return; }
+            
+            loadLessons(currentEditingBookId);
+        }
+
+        function editLesson(id) {
+            const lesson = currentLessons.find(l => l.id === id);
+            if (!lesson) return;
+            
+            document.getElementById('lesson-edit-id').value = lesson.id;
+            document.getElementById('lesson-title').value = lesson.title;
+            document.getElementById('lesson-video').value = lesson.video_url;
+            document.getElementById('lesson-duration').value = lesson.duration || '';
+            document.getElementById('lesson-preview').checked = lesson.is_preview;
+            document.getElementById('lesson-desc').value = lesson.description || '';
+            
+            document.getElementById('lesson-form-title').innerText = 'Edit Lesson';
+            document.getElementById('lesson-submit-btn').innerText = 'Update Lesson';
+            document.getElementById('lesson-cancel-btn').classList.remove('hidden');
+        }
+
+        function resetLessonForm() {
+            document.getElementById('lesson-edit-id').value = '';
+            document.getElementById('lesson-title').value = '';
+            document.getElementById('lesson-video').value = '';
+            document.getElementById('lesson-duration').value = '';
+            document.getElementById('lesson-preview').checked = false;
+            document.getElementById('lesson-desc').value = '';
+            document.getElementById('lesson-form-title').innerText = 'Add Lesson';
+            document.getElementById('lesson-submit-btn').innerText = 'Add Lesson';
+            document.getElementById('lesson-cancel-btn').classList.add('hidden');
+        }
+
         window.loadReceipts = loadReceipts;
         window.updateStatus = updateStatus;
         window.deleteReceipt = deleteReceipt;
         window.editBook = editBook;
         window.deleteBook = deleteBook;
         window.resetForm = resetForm;
+        window.toggleProductType = toggleProductType;
+        window.saveLesson = saveLesson;
+        window.deleteLesson = deleteLesson;
+        window.moveLessonUp = moveLessonUp;
+        window.moveLessonDown = moveLessonDown;
+        window.editLesson = editLesson;
+        window.resetLessonForm = resetLessonForm;
         window.logout = async () => { 
             await supabaseClient.auth.signOut(); 
             window.location.href = 'index.html'; 
@@ -687,4 +1007,4 @@
         init();
     </script>
 </body>
-                                    </html>
+</html>
