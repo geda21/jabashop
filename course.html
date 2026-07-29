@@ -3,128 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Player - Jaba Shop</title>
+    <title>Course Player — Jaba Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0A0F0C; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #EFF3EC; }
-        .nav-blur { background: rgba(10, 15, 12, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(34, 197, 94, 0.2); }
-        .lesson-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 0.75rem; padding: 0.75rem 1rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.75rem; }
-        .lesson-item:hover { background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.3); }
-        .lesson-item.active { background: rgba(34, 197, 94, 0.12); border-color: #22c55e; }
-        .lesson-number { width: 28px; height: 28px; border-radius: 0.5rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .lesson-item.active .lesson-number { background: #22c55e; color: #0A0F0C; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1rem; background: #000; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 1rem; }
-        .preview-badge { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-size: 0.6rem; padding: 0.1rem 0.5rem; border-radius: 9999px; font-weight: 600; }
-        .completed-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(34, 197, 94, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .completed-check.done { background: #22c55e; border-color: #22c55e; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-up { animation: fadeUp 0.3s ease forwards; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <nav class="nav-blur fixed top-0 w-full z-50">
-        <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+        <div class="max-w-7xl mx-auto px-5 md:px-6 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                     <i data-lucide="shopping-bag" class="w-5 h-5 text-white"></i>
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-white">Jaba<span class="text-emerald-400">Shop</span></h1>
                 </div>
-            </div>
-            <div class="flex items-center gap-4">
-                <a href="dashboard.html" class="text-sm text-gray-300 hover:text-emerald-400 transition">My Library</a>
-                <button onclick="logout()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:text-rose-400 transition">
+            </a>
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html" class="hidden sm:block text-sm text-gray-300 hover:text-emerald-400 transition px-3 py-2 rounded-lg hover:bg-white/5">My Library</a>
+                <button onclick="logout()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:text-rose-400 hover:border-rose-500/30 transition">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
-                    Logout
+                    <span class="hidden sm:inline">Logout</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pt-24 pb-16">
-        <div id="loading-state" class="text-center py-20">
-            <div class="w-12 h-12 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-gray-400">Loading course...</p>
+    <main class="max-w-7xl mx-auto px-5 md:px-6 pt-24 pb-16">
+        <div id="loading-state" class="text-center py-24">
+            <div class="w-10 h-10 border-2 border-emerald-500/15 border-t-emerald-500 rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="text-gray-500 text-sm">Loading course...</p>
         </div>
 
         <div id="course-content" class="hidden">
             <!-- Breadcrumb -->
-            <div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
+            <div class="flex items-center gap-2 text-sm text-gray-500 mb-5">
                 <a href="dashboard.html" class="hover:text-emerald-400 transition">My Library</a>
-                <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                <span id="course-category" class="text-emerald-400">Course</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                <span id="course-category" class="text-emerald-400 font-medium">Course</span>
             </div>
 
-            <div class="grid lg:grid-cols-3 gap-6">
-                <!-- Left: Video Player -->
-                <div class="lg:col-span-2 space-y-4">
-                    <div class="video-container shadow-2xl shadow-emerald-500/10">
-                        <iframe id="video-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- VIDEO COURSE LAYOUT -->
+            <div id="video-layout" class="hidden">
+                <div class="grid lg:grid-cols-3 gap-5 lg:gap-6">
+                    <!-- Left: Video Player -->
+                    <div class="lg:col-span-2 space-y-5">
+                        <div class="video-container shadow-2xl shadow-black/40">
+                            <iframe id="video-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+
+                        <div class="animate-fade-up">
+                            <div class="flex flex-wrap items-center gap-3 mb-3">
+                                <span id="current-lesson-number" class="text-[11px] bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Lesson 1</span>
+                                <span id="current-lesson-duration" class="text-xs text-gray-500 flex items-center gap-1.5">
+                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                                    <span>0 min</span>
+                                </span>
+                            </div>
+                            <h1 id="current-lesson-title" class="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">Loading...</h1>
+                            <p id="current-lesson-desc" class="text-gray-400 text-sm leading-relaxed">Loading description...</p>
+
+                            <div class="flex flex-wrap items-center gap-3 mt-5">
+                                <button id="prev-btn" onclick="prevLesson()" class="btn-ghost !rounded-full">
+                                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                    Previous
+                                </button>
+                                <button id="next-btn" onclick="nextLesson()" class="btn-primary !rounded-full">
+                                    Next
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                                <button id="mark-complete-btn" onclick="toggleComplete()" class="ml-auto btn-ghost !rounded-full border-emerald-500/20 hover:border-emerald-500/40 hover:text-emerald-400">
+                                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                                    <span>Mark Complete</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="animate-fade-up">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span id="current-lesson-number" class="text-xs bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded-full font-semibold">Lesson 1</span>
-                            <span id="current-lesson-duration" class="text-xs text-gray-500 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> <span>0 min</span></span>
-                        </div>
-                        <h1 id="current-lesson-title" class="text-2xl font-bold text-white mb-2">Loading...</h1>
-                        <p id="current-lesson-desc" class="text-gray-400 text-sm">Loading description...</p>
+                    <!-- Right: Lesson List -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-[#111813] rounded-2xl border border-white/[0.06] p-5 sticky top-24">
+                            <div class="flex items-center gap-3 mb-5">
+                                <img id="course-cover" src="" class="w-11 h-11 rounded-lg object-cover bg-gray-800" alt="" onerror="this.style.display='none'">
+                                <div class="min-w-0">
+                                    <h3 id="course-title" class="font-bold text-white text-sm truncate">Loading...</h3>
+                                    <p id="course-meta" class="text-xs text-gray-500 mt-0.5">0 lessons · 0 min</p>
+                                </div>
+                            </div>
 
-                        <div class="flex items-center gap-3 mt-4">
-                            <button id="prev-btn" onclick="prevLesson()" class="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition disabled:opacity-30 disabled:cursor-not-allowed">
-                                ← Previous
-                            </button>
-                            <button id="next-btn" onclick="nextLesson()" class="px-4 py-2 rounded-full bg-emerald-500 text-black text-sm font-semibold hover:bg-emerald-400 transition disabled:opacity-30 disabled:cursor-not-allowed">
-                                Next →
-                            </button>
-                            <button id="mark-complete-btn" onclick="toggleComplete()" class="ml-auto px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-emerald-500/10 hover:text-emerald-400 transition flex items-center gap-2">
-                                <i data-lucide="check-circle" class="w-4 h-4"></i>
-                                <span>Mark Complete</span>
-                            </button>
+                            <div class="mb-4">
+                                <div class="flex justify-between text-xs text-gray-400 mb-1.5 font-medium">
+                                    <span>Progress</span>
+                                    <span id="progress-text" class="text-emerald-400">0%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div id="progress-bar" class="progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div id="lessons-container" class="space-y-1.5 max-h-[60vh] overflow-y-auto pr-1 scrollbar-hide">
+                                <!-- Lessons injected here -->
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Right: Lesson List -->
-                <div class="lg:col-span-1">
-                    <div class="bg-[#111813] rounded-2xl border border-white/10 p-5 sticky top-24">
-                        <div class="flex items-center gap-3 mb-4">
-                            <img id="course-cover" src="" class="w-12 h-12 rounded-lg object-cover" onerror="this.style.display='none'">
-                            <div>
-                                <h3 id="course-title" class="font-bold text-white text-sm">Loading...</h3>
-                                <p id="course-meta" class="text-xs text-gray-500">0 lessons · 0 min</p>
+            <!-- PDF COURSE LAYOUT -->
+            <div id="pdf-layout" class="hidden">
+                <div class="grid lg:grid-cols-5 gap-6 lg:gap-10 items-start">
+                    <!-- Left: PDF Cover -->
+                    <div class="lg:col-span-2 flex flex-col items-center">
+                        <div class="pdf-cover-container group">
+                            <img id="pdf-cover-img" src="" alt="Course Cover" class="transition-transform duration-500 group-hover:scale-[1.02]" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-elevated)'; this.parentElement.innerHTML+=\`<div class=\'flex items-center justify-center h-full text-gray-600 text-sm\'>No Cover</div>\`;">
+                            <div class="pdf-badge">PDF</div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+
+                        <div class="mt-5 w-full max-w-[420px]">
+                            <a id="pdf-download-btn" href="#" target="_blank" class="btn-primary w-full justify-center py-3">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                Download PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right: Course Info -->
+                    <div class="lg:col-span-3 space-y-6">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-3">
+                                <span id="pdf-category" class="category-badge">Course</span>
+                                <span class="text-[11px] bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider border border-amber-500/20">E-Book</span>
+                            </div>
+                            <h1 id="pdf-title" class="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">Loading...</h1>
+                            <p id="pdf-desc" class="text-gray-400 text-sm md:text-base leading-relaxed">Loading description...</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <div class="bg-[#111813] border border-white/[0.06] rounded-xl p-4 text-center">
+                                <i data-lucide="file-text" class="w-5 h-5 text-emerald-400 mx-auto mb-1.5"></i>
+                                <p id="pdf-pages" class="text-white font-bold text-lg">—</p>
+                                <p class="text-gray-500 text-[11px] uppercase tracking-wider font-semibold mt-0.5">Pages</p>
+                            </div>
+                            <div class="bg-[#111813] border border-white/[0.06] rounded-xl p-4 text-center">
+                                <i data-lucide="layers" class="w-5 h-5 text-emerald-400 mx-auto mb-1.5"></i>
+                                <p id="pdf-chapters" class="text-white font-bold text-lg">—</p>
+                                <p class="text-gray-500 text-[11px] uppercase tracking-wider font-semibold mt-0.5">Chapters</p>
+                            </div>
+                            <div class="bg-[#111813] border border-white/[0.06] rounded-xl p-4 text-center">
+                                <i data-lucide="clock" class="w-5 h-5 text-emerald-400 mx-auto mb-1.5"></i>
+                                <p id="pdf-duration" class="text-white font-bold text-lg">—</p>
+                                <p class="text-gray-500 text-[11px] uppercase tracking-wider font-semibold mt-0.5">Read Time</p>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <div class="flex justify-between text-xs text-gray-400 mb-1">
-                                <span>Progress</span>
-                                <span id="progress-text">0%</span>
-                            </div>
-                            <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                <div id="progress-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        <div id="pdf-chapters-list" class="bg-[#111813] border border-white/[0.06] rounded-2xl p-5 hidden">
+                            <h3 class="text-sm font-bold text-white mb-3 uppercase tracking-wider">Contents</h3>
+                            <div id="chapters-container" class="space-y-1">
+                                <!-- Chapters injected here -->
                             </div>
                         </div>
 
-                        <div id="lessons-container" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
-                            <!-- Lessons injected here -->
+                        <div id="pdf-preview-section" class="hidden">
+                            <a id="pdf-preview-btn" href="#" target="_blank" class="btn-outline w-full sm:w-auto justify-center">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                Open Preview
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="error-state" class="hidden text-center py-20">
-            <i data-lucide="alert-circle" class="w-16 h-16 text-rose-400 mx-auto mb-4"></i>
+        <div id="error-state" class="hidden text-center py-24">
+            <div class="w-16 h-16 rounded-full bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
+                <i data-lucide="alert-circle" class="w-8 h-8 text-rose-400"></i>
+            </div>
             <h2 class="text-xl font-bold text-white mb-2">Course not found</h2>
-            <p class="text-gray-400 mb-6">This course doesn't exist or you don't have access.</p>
-            <a href="dashboard.html" class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-black font-semibold rounded-full hover:bg-emerald-400 transition">
+            <p class="text-gray-400 mb-6 max-w-sm mx-auto text-sm">This course doesn't exist or you don't have access to it.</p>
+            <a href="dashboard.html" class="btn-primary">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>
                 Back to Library
             </a>
@@ -167,7 +226,6 @@
             courseId = params.get('id');
             if (!courseId) { showError(); return; }
 
-            // Verify user owns this course
             const { data: receipt } = await supabaseClient
                 .from('receipts')
                 .select('*')
@@ -178,7 +236,6 @@
 
             if (!receipt) { showError(); return; }
 
-            // Load course + lessons
             const [{ data: bookData }, { data: lessonsData }, { data: progressData }] = await Promise.all([
                 supabaseClient.from('books').select('*').eq('id', courseId).single(),
                 supabaseClient.from('lessons').select('*').eq('book_id', courseId).order('order_index', { ascending: true }),
@@ -204,26 +261,35 @@
             document.getElementById('loading-state').classList.add('hidden');
             document.getElementById('course-content').classList.remove('hidden');
 
-            // Course info
+            const isVideo = course.product_type === 'video_course';
+
+            if (isVideo) {
+                renderVideoCourse();
+            } else {
+                renderPdfCourse();
+            }
+        }
+
+        function renderVideoCourse() {
+            document.getElementById('video-layout').classList.remove('hidden');
+            document.getElementById('pdf-layout').classList.add('hidden');
+
             document.getElementById('course-title').innerText = course.title;
             document.getElementById('course-category').innerText = course.category || 'Course';
             document.getElementById('course-cover').src = course.cover_url || '';
+            document.getElementById('course-cover').alt = course.title;
 
             const totalDuration = lessons.reduce((sum, l) => sum + (l.duration || 0), 0);
             document.getElementById('course-meta').innerText = `${lessons.length} lessons · ${formatDuration(totalDuration)}`;
 
-            // Progress
             const progress = lessons.length > 0 ? Math.round((completedLessons.size / lessons.length) * 100) : 0;
             document.getElementById('progress-text').innerText = progress + '%';
             document.getElementById('progress-bar').style.width = progress + '%';
 
-            // Render lesson list
             const container = document.getElementById('lessons-container');
             container.innerHTML = lessons.map((lesson, idx) => {
                 const isActive = idx === currentLessonIndex;
                 const isCompleted = completedLessons.has(lesson.id);
-                const ytId = parseYouTubeId(lesson.video_url);
-                const thumb = ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : '';
 
                 return `
                     <div class="lesson-item ${isActive ? 'active' : ''}" onclick="playLesson(${idx})">
@@ -231,9 +297,9 @@
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2">
                                 <h4 class="text-sm font-medium ${isActive ? 'text-white' : 'text-gray-300'} truncate">${lesson.title}</h4>
-                                ${lesson.is_preview ? '<span class="preview-badge">PREVIEW</span>' : ''}
+                                ${lesson.is_preview ? '<span class="preview-badge">Preview</span>' : ''}
                             </div>
-                            <p class="text-xs text-gray-500">${formatDuration(lesson.duration)}</p>
+                            <p class="text-xs text-gray-500 mt-0.5">${formatDuration(lesson.duration)}</p>
                         </div>
                         <div class="completed-check ${isCompleted ? 'done' : ''}">
                             ${isCompleted ? '<i data-lucide="check" class="w-3 h-3 text-black"></i>' : ''}
@@ -246,44 +312,95 @@
             lucide.createIcons();
         }
 
+        function renderPdfCourse() {
+            document.getElementById('pdf-layout').classList.remove('hidden');
+            document.getElementById('video-layout').classList.add('hidden');
+
+            const coverImg = document.getElementById('pdf-cover-img');
+            coverImg.src = course.cover_url || '';
+            coverImg.alt = course.title;
+
+            const downloadBtn = document.getElementById('pdf-download-btn');
+            if (course.pdf_url) {
+                downloadBtn.href = course.pdf_url;
+            } else {
+                downloadBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                downloadBtn.onclick = (e) => { e.preventDefault(); alert('PDF not available yet.'); };
+            }
+
+            document.getElementById('pdf-category').innerText = course.category || 'Course';
+            document.getElementById('pdf-title').innerText = course.title;
+            document.getElementById('pdf-desc').innerText = course.description || 'No description available.';
+
+            document.getElementById('pdf-pages').innerText = course.page_count || '—';
+            document.getElementById('pdf-chapters').innerText = course.chapter_count || '—';
+            document.getElementById('pdf-duration').innerText = course.reading_time ? formatDuration(course.reading_time) : '—';
+
+            const chaptersContainer = document.getElementById('chapters-container');
+            const chaptersList = document.getElementById('pdf-chapters-list');
+
+            if (course.chapters && Array.isArray(course.chapters) && course.chapters.length > 0) {
+                chaptersList.classList.remove('hidden');
+                chaptersContainer.innerHTML = course.chapters.map((ch, i) => `
+                    <div class="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.03] transition">
+                        <span class="text-xs font-bold text-emerald-400/60 w-5">${i + 1}</span>
+                        <span class="text-sm text-gray-300">${ch}</span>
+                    </div>
+                `).join('');
+            } else if (lessons.length > 0) {
+                chaptersList.classList.remove('hidden');
+                chaptersContainer.innerHTML = lessons.map((l, i) => `
+                    <div class="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.03] transition">
+                        <span class="text-xs font-bold text-emerald-400/60 w-5">${i + 1}</span>
+                        <span class="text-sm text-gray-300">${l.title}</span>
+                    </div>
+                `).join('');
+            }
+
+            const previewSection = document.getElementById('pdf-preview-section');
+            const previewBtn = document.getElementById('pdf-preview-btn');
+            if (course.preview_url) {
+                previewSection.classList.remove('hidden');
+                previewBtn.href = course.preview_url;
+            }
+
+            lucide.createIcons();
+        }
+
         function loadLesson(index) {
             if (index < 0 || index >= lessons.length) return;
             currentLessonIndex = index;
             const lesson = lessons[index];
             const ytId = parseYouTubeId(lesson.video_url);
 
-            // Update player
             document.getElementById('video-player').src = ytId 
                 ? `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1`
                 : '';
 
-            // Update info
             document.getElementById('current-lesson-number').innerText = `Lesson ${index + 1}`;
-            document.getElementById('current-lesson-duration').innerHTML = `<i data-lucide="clock" class="w-3 h-3"></i> ${formatDuration(lesson.duration)}`;
+            document.getElementById('current-lesson-duration').innerHTML = `<i data-lucide="clock" class="w-3.5 h-3.5"></i> ${formatDuration(lesson.duration)}`;
             document.getElementById('current-lesson-title').innerText = lesson.title;
             document.getElementById('current-lesson-desc').innerText = lesson.description || 'No description available.';
 
-            // Update buttons
             document.getElementById('prev-btn').disabled = index === 0;
             document.getElementById('next-btn').disabled = index === lessons.length - 1;
 
-            // Update mark complete button
             const isCompleted = completedLessons.has(lesson.id);
             const markBtn = document.getElementById('mark-complete-btn');
             markBtn.innerHTML = isCompleted 
                 ? '<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i><span class="text-emerald-400">Completed</span>'
                 : '<i data-lucide="check-circle" class="w-4 h-4"></i><span>Mark Complete</span>';
 
-            // Update active lesson in sidebar
             document.querySelectorAll('.lesson-item').forEach((el, i) => {
                 el.classList.toggle('active', i === index);
-                el.querySelector('.lesson-number').classList.toggle('bg-emerald-500', i === index);
-                el.querySelector('.lesson-number').classList.toggle('text-black', i === index);
-                el.querySelector('h4').classList.toggle('text-white', i === index);
-                el.querySelector('h4').classList.toggle('text-gray-300', i !== index);
+                const num = el.querySelector('.lesson-number');
+                num.classList.toggle('bg-emerald-500', i === index);
+                num.classList.toggle('text-black', i === index);
+                const title = el.querySelector('h4');
+                title.classList.toggle('text-white', i === index);
+                title.classList.toggle('text-gray-300', i !== index);
             });
 
-            // Scroll active lesson into view
             const activeEl = document.querySelectorAll('.lesson-item')[index];
             if (activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
@@ -304,14 +421,12 @@
             const isCompleted = completedLessons.has(lesson.id);
 
             if (isCompleted) {
-                // Mark incomplete
                 await supabaseClient.from('user_lesson_progress')
                     .delete()
                     .eq('user_id', currentUser.id)
                     .eq('lesson_id', lesson.id);
                 completedLessons.delete(lesson.id);
             } else {
-                // Mark complete
                 await supabaseClient.from('user_lesson_progress')
                     .upsert({ 
                         user_id: currentUser.id, 
@@ -322,10 +437,29 @@
                 completedLessons.add(lesson.id);
             }
 
-            renderCourse();
+            const progress = lessons.length > 0 ? Math.round((completedLessons.size / lessons.length) * 100) : 0;
+            document.getElementById('progress-text').innerText = progress + '%';
+            document.getElementById('progress-bar').style.width = progress + '%';
+
+            const container = document.getElementById('lessons-container');
+            const items = container.querySelectorAll('.lesson-item');
+            items[currentLessonIndex].querySelector('.completed-check').classList.toggle('done', !isCompleted);
+            items[currentLessonIndex].querySelector('.completed-check').innerHTML = !isCompleted 
+                ? '<i data-lucide="check" class="w-3 h-3 text-black"></i>' 
+                : '';
+
+            const markBtn = document.getElementById('mark-complete-btn');
+            markBtn.innerHTML = !isCompleted 
+                ? '<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i><span class="text-emerald-400">Completed</span>'
+                : '<i data-lucide="check-circle" class="w-4 h-4"></i><span>Mark Complete</span>';
+
+            lucide.createIcons();
         }
 
-        window.logout = async () => { await supabaseClient.auth.signOut(); window.location.href = 'index.html'; };
+        window.logout = async () => { 
+            await supabaseClient.auth.signOut(); 
+            window.location.href = 'index.html'; 
+        };
         window.prevLesson = prevLesson;
         window.nextLesson = nextLesson;
         window.playLesson = playLesson;
@@ -334,4 +468,4 @@
         init();
     </script>
 </body>
-                          </html>
+    </html>    
