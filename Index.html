@@ -79,7 +79,7 @@
         <div class="max-w-5xl mx-auto text-center relative z-10">
             <div class="inline-flex items-center gap-2 bg-emerald-500/8 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-6 animate-fade-up">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="text-[11px] font-bold uppercase tracking-widest text-emerald-400">Ethiopia's Digital Learning Hub</span>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-emerald-400">Built in Ethiopia · Available Worldwide</span>
             </div>
             
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] text-balance animate-fade-up" style="animation-delay:0.05s">
@@ -88,7 +88,7 @@
             </h1>
             
             <p class="text-gray-400 max-w-xl mx-auto mt-5 text-base md:text-lg leading-relaxed animate-fade-up" style="animation-delay:0.1s">
-                Premium courses in video editing, online business, computer basics, and more — crafted for African learners.
+                Practical digital courses and e-books for learners everywhere — pay locally in ETB or internationally through secure checkout.
             </p>
             
             <div class="flex flex-wrap justify-center gap-3 mt-8 animate-fade-up" style="animation-delay:0.15s">
@@ -230,6 +230,20 @@
             }
         };
 
+        window.buyInternational = (url) => {
+            if (!url) {
+                alert('International checkout is not available for this product yet.');
+                return;
+            }
+            try {
+                const parsed = new URL(url);
+                if (parsed.protocol !== 'https:') throw new Error('Invalid checkout URL');
+                window.open(parsed.href, '_blank', 'noopener,noreferrer');
+            } catch (error) {
+                alert('This product has an invalid international checkout link.');
+            }
+        };
+
         function formatDuration(minutes) {
             if (!minutes) return '0 min';
             if (minutes < 60) return `${minutes} min`;
@@ -276,14 +290,25 @@
                     const hasPreview = book.preview_url && book.preview_url.trim() !== '';
                     
                     let actionHtml = '';
+                    const hasInternationalCheckout = Boolean(book.gumroad_url && String(book.gumroad_url).trim());
+                    const internationalPrice = book.international_price != null
+                        ? `$${Number(book.international_price).toFixed(2)} USD`
+                        : 'International';
+
                     if (receipt && receipt.status === 'approved') {
                         actionHtml = isVideo
                             ? `<a href="course.html?id=${book.id}" class="btn-primary w-full justify-center py-2.5 text-sm">View Course →</a>`
-                            : `<a href="${book.pdf_url}" target="_blank" class="btn-primary w-full justify-center py-2.5 text-sm">Download Now ↓</a>`;
-                    } else if (receipt && receipt.status === 'pending') {
-                        actionHtml = `<button disabled class="w-full bg-gray-800/50 text-gray-500 py-2.5 rounded-full text-sm cursor-not-allowed border border-white/5">Pending Approval ⏳</button>`;
+                            : `<a href="${book.pdf_url}" target="_blank" rel="noopener noreferrer" class="btn-primary w-full justify-center py-2.5 text-sm">Download Now ↓</a>`;
                     } else {
-                        actionHtml = `<button onclick="triggerPurchase('${book.id}')" class="btn-primary w-full justify-center py-2.5 text-sm">Enroll Now →</button>`;
+                        const localButton = receipt && receipt.status === 'pending'
+                            ? `<button disabled class="w-full bg-gray-800/50 text-gray-500 py-2.5 rounded-full text-sm cursor-not-allowed border border-white/5">Local Payment Pending ⏳</button>`
+                            : `<button onclick="triggerPurchase('${book.id}')" class="btn-primary w-full justify-center py-2.5 text-sm">🇪🇹 Pay ${book.price} ETB</button>`;
+
+                        const internationalButton = hasInternationalCheckout
+                            ? `<button onclick='buyInternational(${JSON.stringify(book.gumroad_url)})' class="btn-outline w-full justify-center py-2.5 text-sm">🌍 Pay ${internationalPrice}</button>`
+                            : '';
+
+                        actionHtml = `<div class="space-y-2">${localButton}${internationalButton}</div>`;
                     }
 
                     const previewHtml = hasPreview 
@@ -320,9 +345,10 @@
                                     ${typeBadge}
                                 </div>
                                 <div class="absolute bottom-3 right-3">
-                                    <span class="bg-black/50 backdrop-blur-md text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-lg border border-white/10">
-                                        ${book.price} ETB
-                                    </span>
+                                    <div class="bg-black/60 backdrop-blur-md text-xs font-bold px-2.5 py-1.5 rounded-lg border border-white/10 text-right">
+                                        <div class="text-emerald-400">${book.price} ETB</div>
+                                        ${book.international_price != null ? `<div class="text-blue-300">$${Number(book.international_price).toFixed(2)} USD</div>` : ''}
+                                    </div>
                                 </div>
                             </div>
                             <div class="p-5 flex flex-col flex-1">
