@@ -360,7 +360,7 @@
         async function loadInternationalProducts() {
             const grid = document.getElementById('international-products-grid');
             if (!grid) return;
-            const {data,error}=await supabase.from('international_products').select('*').order('created_at',{ascending:false});
+            const {data,error}=await supabaseClient.from('international_products').select('*').order('created_at',{ascending:false});
             if(error){console.error(error);grid.innerHTML='<div class="glass-card p-8 text-center text-gray-500 sm:col-span-2 lg:col-span-3">International products are temporarily unavailable.</div>';return;}
             if(!data?.length){grid.innerHTML='<div class="glass-card p-8 text-center text-gray-500 sm:col-span-2 lg:col-span-3">International products coming soon.</div>';return;}
             grid.innerHTML=data.map(p=>`<article class="glass-card overflow-hidden group flex flex-col">
