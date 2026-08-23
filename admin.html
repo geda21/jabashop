@@ -2,978 +2,386 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="google-adsense-account" content="ca-pub-6487607786586240">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6487607786586240" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Jaba Shop</title>
+    <title>Jaba Shop — Premium Digital Learning</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0A0F0C; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #EFF3EC; }
-        .nav-blur { background: rgba(10, 15, 12, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(34, 197, 94, 0.2); }
-        .btn-primary { background: #22c55e; color: #0A0F0C; font-weight: 700; border-radius: 9999px; padding: 0.6rem 1.2rem; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer; font-size: 0.8rem; }
-        .btn-primary:hover { background: #16a34a; transform: scale(0.98); }
-        .btn-outline { border: 1px solid rgba(34, 197, 94, 0.5); background: transparent; color: #EFF3EC; font-weight: 500; border-radius: 9999px; padding: 0.55rem 1.2rem; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.8rem; }
-        .btn-outline:hover { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; }
-        .admin-card { background: rgba(18, 24, 20, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 1.5rem; transition: all 0.3s ease; }
-        .admin-card:hover { border-color: rgba(34, 197, 94, 0.5); }
-        .input-glass { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 0.75rem; padding: 0.6rem 1rem; color: white; width: 100%; font-size: 0.8rem; outline: none; transition: all 0.2s; }
-        .input-glass:focus { border-color: #22c55e; box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1); }
-        .status-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
-        .status-pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
-        .status-approved { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
-        .status-rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
-        .filter-btn { padding: 0.4rem 1rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 500; cursor: pointer; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #9ca3af; }
-        .filter-btn.active { background: rgba(34, 197, 94, 0.2); color: #22c55e; border-color: rgba(34, 197, 94, 0.4); }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-up { animation: fadeUp 0.4s ease forwards; }
-        .spinner { width: 1rem; height: 1rem; border: 2px solid rgba(34, 197, 94, 0.2); border-top-color: #22c55e; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .upload-area { transition: all 0.2s; cursor: pointer; }
-        .upload-area:hover { border-color: #22c55e; background: rgba(34, 197, 94, 0.05); }
+        .hero-blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(60px);
+        }
     </style>
 </head>
 <body>
 
     <nav class="nav-blur fixed top-0 w-full z-50">
-        <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+        <div class="max-w-7xl mx-auto px-5 md:px-6 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:shadow-emerald-500/30 transition-all duration-300">
                     <i data-lucide="shopping-bag" class="w-5 h-5 text-white"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-white">Jaba<span class="text-emerald-400">Shop</span></h1>
-                    <p class="text-[8px] text-emerald-400/70">Admin Panel</p>
+                    <h1 class="text-xl font-bold text-white tracking-tight">Jaba<span class="text-emerald-400">Shop</span></h1>
+                    <p class="text-[9px] text-emerald-400/60 font-medium tracking-wide uppercase">Premium Digital Learning</p>
                 </div>
+            </a>
+
+            <div class="hidden md:flex items-center gap-1">
+                <a href="index.html" class="px-3 py-2 text-sm text-gray-300 hover:text-emerald-400 transition rounded-lg hover:bg-white/5">Home</a>
+                <a href="#courses" class="px-3 py-2 text-sm text-gray-300 hover:text-emerald-400 transition rounded-lg hover:bg-white/5">Courses</a>
+                <a href="services.html" class="px-3 py-2 text-sm text-gray-300 hover:text-emerald-400 transition rounded-lg hover:bg-white/5">Services</a>
+                <a href="about.html" class="px-3 py-2 text-sm text-gray-300 hover:text-emerald-400 transition rounded-lg hover:bg-white/5">About</a>
+                <a href="support.html" class="px-3 py-2 text-sm text-gray-300 hover:text-emerald-400 transition rounded-lg hover:bg-white/5">Support</a>
             </div>
-            <div class="flex items-center gap-4">
-                <button onclick="logout()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:text-rose-400 transition">
-                    <i data-lucide="log-out" class="w-4 h-4"></i>
-                    Logout
+
+            <div class="flex items-center gap-3">
+                <div id="user-desktop" class="hidden md:flex items-center gap-3">
+                    <a href="dashboard.html" class="px-3 py-2 text-sm text-gray-300 hover:text-emerald-400 transition rounded-lg hover:bg-white/5">My Library</a>
+                </div>
+                <div id="guest-desktop" class="hidden md:flex gap-2 items-center">
+                    <a href="login.html" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Sign In</a>
+                    <a href="signup.html" class="btn-primary !py-2 !px-5 text-sm">Get Started</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/5 text-gray-300" aria-label="Open menu">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pt-24 pb-16">
-        <div class="mb-8 animate-fade-up">
-            <h1 class="text-3xl font-bold text-white">Admin Dashboard</h1>
-            <p class="text-gray-400 mt-1">Manage books, approve payments, and control content</p>
-        </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+        <button id="mobile-menu-close" class="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 text-gray-300" aria-label="Close menu">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <a href="index.html"><i data-lucide="home" class="w-5 h-5"></i> Home</a>
+        <a href="#courses"><i data-lucide="book-open" class="w-5 h-5"></i> Courses</a>
+        <a href="services.html"><i data-lucide="briefcase" class="w-5 h-5"></i> Services</a>
+        <a href="about.html"><i data-lucide="info" class="w-5 h-5"></i> About</a>
+        <a href="support.html"><i data-lucide="help-circle" class="w-5 h-5"></i> Support</a>
+        <div id="mobile-auth" class="mt-auto pt-4 border-t border-white/10 flex flex-col gap-2"></div>
+    </div>
 
-        <div class="grid lg:grid-cols-3 gap-8">
-            <!-- Left Column: Book Management -->
-            <div class="lg:col-span-1">
-                <div class="admin-card p-6 sticky top-24">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                            <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-400"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-lg font-bold text-white">Add / Edit Book</h2>
-                            <p class="text-xs text-gray-500">Upload new digital products</p>
-                        </div>
-                    </div>
-
-                    <form id="book-form" class="space-y-4" enctype="multipart/form-data">
-                        <input type="hidden" id="edit-id">
-
-                        <div>
-                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Title</label>
-                            <input type="text" id="title" class="input-glass" placeholder="Course title" required>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Price (ETB)</label>
-                            <input type="number" id="price" class="input-glass" placeholder="499" required>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Category</label>
-                            <select id="category" class="input-glass">
-                                <option value="Video Editing">🎬 Video Editing</option>
-                                <option value="Online Business">💼 Online Business</option>
-                                <option value="Computer Basics">💻 Computer Basics</option>
-                                <option value="Technology">⚙️ Technology</option>
-                                <option value="AI">🤖 AI & Machine Learning</option>
-                                <option value="Graphic Design">🎨 Graphic Design</option>
-                                <option value="Web Development">🌐 Web Development</option>
-                            </select>
-                        </div>
-
-                        <!-- Product Type Selector -->
-                        <div>
-                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Product Type</label>
-                            <select id="product_type" class="input-glass" onchange="toggleProductType()">
-                                <option value="pdf">📄 PDF Book</option>
-                                <option value="video_course">🎬 Video Course</option>
-                            </select>
-                        </div>
-
-                        <!-- Video Course Fields (conditional) -->
-                        <div id="video-fields" class="hidden space-y-4">
-                            <div>
-                                <label class="text-xs font-semibold text-gray-400 mb-1 block">Level</label>
-                                <select id="level" class="input-glass">
-                                    <option value="Beginner">Beginner</option>
-                                    <option value="Intermediate">Intermediate</option>
-                                    <option value="Advanced">Advanced</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-xs font-semibold text-gray-400 mb-1 block">Course Video URL (YouTube)</label>
-                                <input type="text" id="video_url" class="input-glass" placeholder="https://youtube.com/watch?v=...">
-                                <p class="text-[10px] text-gray-600 mt-1">Main course video or trailer (optional)</p>
-                            </div>
-                            <div>
-                                <label class="text-xs font-semibold text-gray-400 mb-1 block">Total Duration (minutes)</label>
-                                <input type="number" id="total_duration" class="input-glass" placeholder="e.g. 120">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Description</label>
-                            <textarea id="description" class="input-glass h-24 resize-none" placeholder="Course description..."></textarea>
-                        </div>
-
-                        <!-- Cover Image Upload -->
-                        <div>
-                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Cover Image</label>
-                            <div class="upload-area border-2 border-dashed border-white/10 rounded-xl p-4 text-center" onclick="document.getElementById('cover-file').click()">
-                                <i data-lucide="image" class="w-8 h-8 text-gray-500 mx-auto mb-2"></i>
-                                <p class="text-xs text-gray-400">Click to upload cover image</p>
-                                <p class="text-[10px] text-gray-600">PNG, JPG, JPEG (Max 5MB)</p>
-                                <input type="file" id="cover-file" accept="image/*" class="hidden">
-                            </div>
-                            <div id="cover-preview" class="hidden mt-2">
-                                <div class="flex items-center gap-2 bg-emerald-500/10 rounded-lg p-2">
-                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-                                    <span id="cover-filename" class="text-xs text-emerald-400"></span>
-                                </div>
-                            </div>
-                            <div id="current-cover" class="hidden mt-2">
-                                <div class="flex items-center gap-2 bg-blue-500/10 rounded-lg p-2">
-                                    <i data-lucide="image" class="w-4 h-4 text-blue-400"></i>
-                                    <span id="current-cover-name" class="text-xs text-blue-400"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- PDF File Upload (hidden for video courses) -->
-                        <div id="pdf-upload-wrapper">
-                            <label class="text-xs font-semibold text-gray-400 mb-1 block">PDF File</label>
-                            <div class="upload-area border-2 border-dashed border-white/10 rounded-xl p-4 text-center" onclick="document.getElementById('pdf-file').click()">
-                                <i data-lucide="file-text" class="w-8 h-8 text-gray-500 mx-auto mb-2"></i>
-                                <p class="text-xs text-gray-400">Click to upload PDF file</p>
-                                <p class="text-[10px] text-gray-600">PDF only (Max 20MB)</p>
-                                <input type="file" id="pdf-file" accept="application/pdf" class="hidden">
-                            </div>
-                            <div id="pdf-preview" class="hidden mt-2">
-                                <div class="flex items-center gap-2 bg-emerald-500/10 rounded-lg p-2">
-                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-                                    <span id="pdf-filename" class="text-xs text-emerald-400"></span>
-                                </div>
-                            </div>
-                            <div id="current-pdf" class="hidden mt-2">
-                                <div class="flex items-center gap-2 bg-blue-500/10 rounded-lg p-2">
-                                    <i data-lucide="file-text" class="w-4 h-4 text-blue-400"></i>
-                                    <span id="current-pdf-name" class="text-xs text-blue-400"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Preview PDF Upload (Optional) -->
-                        <div>
-                            <label class="text-xs font-semibold text-gray-400 mb-1 block">Preview PDF (Optional)</label>
-                            <div class="upload-area border-2 border-dashed border-white/10 rounded-xl p-4 text-center" onclick="document.getElementById('preview-file').click()">
-                                <i data-lucide="eye" class="w-8 h-8 text-gray-500 mx-auto mb-2"></i>
-                                <p class="text-xs text-gray-400">Click to upload preview PDF</p>
-                                <p class="text-[10px] text-gray-600">Optional - for free preview</p>
-                                <input type="file" id="preview-file" accept="application/pdf" class="hidden">
-                            </div>
-                            <div id="preview-preview" class="hidden mt-2">
-                                <div class="flex items-center gap-2 bg-emerald-500/10 rounded-lg p-2">
-                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-                                    <span id="preview-filename" class="text-xs text-emerald-400"></span>
-                                </div>
-                            </div>
-                            <div id="current-preview" class="hidden mt-2">
-                                <div class="flex items-center gap-2 bg-blue-500/10 rounded-lg p-2">
-                                    <i data-lucide="eye" class="w-4 h-4 text-blue-400"></i>
-                                    <span id="current-preview-name" class="text-xs text-blue-400"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex gap-3 pt-4">
-                            <button type="submit" id="submit-btn" class="flex-1 btn-primary">Save Book</button>
-                            <button type="button" id="cancel-edit" class="hidden flex-1 btn-outline" onclick="resetForm()">Cancel</button>
-                        </div>
-                    </form>
+    <section class="hero-gradient relative pt-28 md:pt-36 pb-16 md:pb-24 px-5 md:px-6 overflow-hidden">
+        <div class="hero-blob -top-40 -right-40 md:top-[-20%] md:right-[10%]"></div>
+        <div class="hero-blob bottom-0 left-[-20%] md:left-[-10%]" style="width:400px;height:400px;background:radial-gradient(circle, rgba(34,197,94,0.05) 0%, transparent 70%)"></div>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-emerald-500/8 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-6 animate-fade-up">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-emerald-400">Ethiopia's Digital Learning Hub</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] text-balance animate-fade-up" style="animation-delay:0.05s">
+                Master Skills That<br>
+                <span class="text-emerald-400">Shape Your Future</span>
+            </h1>
+            
+            <p class="text-gray-400 max-w-xl mx-auto mt-5 text-base md:text-lg leading-relaxed animate-fade-up" style="animation-delay:0.1s">
+                Premium courses in video editing, online business, computer basics, and more — crafted for African learners.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-3 mt-8 animate-fade-up" style="animation-delay:0.15s">
+                <a href="#courses" class="btn-primary">Explore Courses</a>
+                <a href="dashboard.html" class="btn-outline">My Library</a>
+            </div>
+            
+            <div class="flex justify-center gap-6 mt-8 text-xs text-gray-500 animate-fade-up" style="animation-delay:0.2s">
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="infinity" class="w-3.5 h-3.5 text-emerald-400/70"></i>
+                    Lifetime Access
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400/70"></i>
+                    Mobile Friendly
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="badge-check" class="w-3.5 h-3.5 text-emerald-400/70"></i>
+                    Expert Instructors
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Right Column -->
-            <div class="lg:col-span-2 space-y-8">
-                <!-- Receipts Section -->
-                <div class="admin-card p-6">
-                    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                                <i data-lucide="receipt" class="w-5 h-5 text-amber-400"></i>
-                            </div>
-                            <div>
-                                <h2 class="text-lg font-bold text-white">Payment Approvals</h2>
-                                <p class="text-xs text-gray-500">Verify purchase receipts</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="loadReceipts('all')" data-filter="all" class="filter-btn active">All</button>
-                            <button onclick="loadReceipts('pending')" data-filter="pending" class="filter-btn">Pending</button>
-                            <button onclick="loadReceipts('approved')" data-filter="approved" class="filter-btn">Approved</button>
-                            <button onclick="loadReceipts('rejected')" data-filter="rejected" class="filter-btn">Rejected</button>
-                        </div>
-                    </div>
-                    <div id="receipts-list" class="space-y-3">
-                        <div class="text-center py-12 text-gray-500">Loading receipts...</div>
-                    </div>
-                </div>
-
-                <!-- Books List Section -->
-                <div class="admin-card p-6">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                            <i data-lucide="book-open" class="w-5 h-5 text-emerald-400"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-lg font-bold text-white">Manage Books</h2>
-                            <p class="text-xs text-gray-500">Edit or remove products</p>
-                        </div>
-                    </div>
-                    <div id="admin-books-grid" class="grid grid-cols-1 gap-3">
-                        <div class="text-center py-12 text-gray-500">Loading books...</div>
-                    </div>
-                </div>
-
-                <!-- Lesson Manager Section -->
-                <div id="lesson-manager" class="admin-card p-6 hidden">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                            <i data-lucide="film" class="w-5 h-5 text-blue-400"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-lg font-bold text-white">Lesson Manager</h2>
-                            <p class="text-xs text-gray-500">Add YouTube lessons to this course</p>
-                        </div>
-                    </div>
-
-                    <!-- Lessons List -->
-                    <div id="lessons-list" class="space-y-3 mb-6"></div>
-
-                    <!-- Add/Edit Lesson Form -->
-                    <div class="border-t border-white/10 pt-4">
-                        <h4 class="text-sm font-semibold text-white mb-3" id="lesson-form-title">Add Lesson</h4>
-                        <input type="hidden" id="lesson-edit-id">
-                        <div class="space-y-3">
-                            <input type="text" id="lesson-title" class="input-glass" placeholder="Lesson title (e.g. Introduction)">
-                            <input type="text" id="lesson-video" class="input-glass" placeholder="YouTube URL (full link)">
-                            <div class="grid grid-cols-2 gap-3">
-                                <input type="number" id="lesson-duration" class="input-glass" placeholder="Duration (min)">
-                                <label class="flex items-center gap-2 text-sm text-gray-400 cursor-pointer select-none">
-                                    <input type="checkbox" id="lesson-preview" class="w-4 h-4 rounded border-white/10 bg-black/30 text-emerald-500 focus:ring-emerald-500/50">
-                                    <span>Free Preview</span>
-                                </label>
-                            </div>
-                            <textarea id="lesson-desc" class="input-glass h-20 resize-none" placeholder="Lesson description"></textarea>
-                            <div class="flex gap-3">
-                                <button type="button" id="lesson-submit-btn" onclick="saveLesson()" class="flex-1 btn-primary text-xs">Add Lesson</button>
-                                <button type="button" id="lesson-cancel-btn" onclick="resetLessonForm()" class="hidden flex-1 btn-outline text-xs">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+    <section id="courses" class="max-w-7xl mx-auto px-5 md:px-6 py-16 md:py-24">
+        <div class="text-center mb-12 md:mb-16">
+            <span class="text-emerald-400 text-[11px] font-bold uppercase tracking-widest">Featured Programs</span>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-3 text-balance">Courses Built for You</h2>
+            <p class="text-gray-500 mt-3 max-w-lg mx-auto text-sm md:text-base">Practical skills, local context, global standards.</p>
+        </div>
+        
+        <div id="books-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            <div class="col-span-full flex justify-center py-16">
+                <div class="spinner w-8 h-8"></div>
             </div>
         </div>
-    </main>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-5 md:px-6 pb-20 md:pb-28">
+        <div class="bg-gradient-to-br from-emerald-500/5 to-transparent border border-emerald-500/10 rounded-3xl p-8 md:p-14 text-center relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <div class="relative z-10">
+                <h2 class="text-2xl md:text-4xl font-bold text-white mb-3 text-balance">Ready to start learning?</h2>
+                <p class="text-gray-400 max-w-md mx-auto mb-8 text-sm md:text-base">Join thousands of students building their digital skills with Jaba Shop.</p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <a href="#courses" class="btn-primary">Browse All Courses</a>
+                    <a href="dashboard.html" class="btn-outline">Go to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- International Store -->
+    <section id="international-store" class="py-20 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <span class="section-label">🌍 International Store</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mt-3">Digital Products for Everyone</h2>
+            <p class="text-gray-500 mt-2 mb-10 max-w-xl">Independent products available worldwide with secure checkout and delivery through Gumroad.</p>
+            <div id="international-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-8 text-center text-gray-500 sm:col-span-2 lg:col-span-3">Loading international products...</div>
+            </div>
+        </div>
+    </section>
+<footer class="border-t border-white/[0.06] py-12 px-5 md:px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <span class="font-bold text-white text-lg">Jaba Shop</span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-5">
+                    <a href="index.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">Home</a>
+                    <a href="services.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">Services</a>
+                    <a href="about.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">About</a>
+                    <a href="support.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">Support</a>
+                    <a href="faq.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">FAQ</a>
+                    <a href="privacy-terms.html" class="text-xs text-gray-500 hover:text-emerald-400 transition">Privacy & Terms</a>
+                </div>
+            </div>
+            <div class="text-center md:text-left border-t border-white/[0.04] pt-6">
+                <p class="text-gray-600 text-xs">© 2026 Jaba Shop — Learn Anywhere, Grow Everywhere</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         const SUPABASE_URL = "https://wuwfjdxgeoqcbqsbxuho.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable_6urNqkD2HYEHZtmVXSS8jQ_ByVqLB5T";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        window.supabaseClient = supabaseClient;
 
-        let currentFilter = 'all';
         let allBooks = [];
-        let currentEditingBookId = null;
-        let currentLessons = [];
+        let currentUser = null;
 
         lucide.createIcons();
 
-        // File upload preview handlers
-        document.getElementById('cover-file').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                document.getElementById('cover-filename').innerText = file.name;
-                document.getElementById('cover-preview').classList.remove('hidden');
-                document.getElementById('current-cover').classList.add('hidden');
-            }
-        });
+        // Mobile Menu
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
 
-        document.getElementById('pdf-file').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                document.getElementById('pdf-filename').innerText = file.name;
-                document.getElementById('pdf-preview').classList.remove('hidden');
-                document.getElementById('current-pdf').classList.add('hidden');
-            }
-        });
+        mobileMenuBtn?.addEventListener('click', () => mobileMenu.classList.add('open'));
+        mobileMenuClose?.addEventListener('click', () => mobileMenu.classList.remove('open'));
 
-        document.getElementById('preview-file').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                document.getElementById('preview-filename').innerText = file.name;
-                document.getElementById('preview-preview').classList.remove('hidden');
-                document.getElementById('current-preview').classList.add('hidden');
-            }
-        });
-
-        function showToast(message, type = 'success') {
-            const existing = document.querySelector('.custom-toast');
-            if (existing) existing.remove();
-
-            const toast = document.createElement('div');
-            toast.className = `custom-toast fixed bottom-6 right-6 z-[300] flex items-center gap-3 px-5 py-3 rounded-xl backdrop-blur-lg shadow-xl animate-fade-up ${type === 'success' ? 'bg-emerald-500/20 border border-emerald-500/30' : 'bg-rose-500/20 border border-rose-500/30'}`;
-            toast.innerHTML = `
-                <div class="w-2 h-2 rounded-full ${type === 'success' ? 'bg-emerald-400' : 'bg-rose-400'} animate-pulse"></div>
-                <span class="text-sm font-medium ${type === 'success' ? 'text-emerald-400' : 'text-rose-400'}">${message}</span>
-            `;
-            document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
-        }
-
-        // Toggle video fields and PDF upload based on product type
-        function toggleProductType() {
-            const type = document.getElementById('product_type').value;
-            const videoFields = document.getElementById('video-fields');
-            const pdfWrapper = document.getElementById('pdf-upload-wrapper');
-
-            if (type === 'video_course') {
-                videoFields.classList.remove('hidden');
-                pdfWrapper.classList.add('hidden');
-            } else {
-                videoFields.classList.add('hidden');
-                pdfWrapper.classList.remove('hidden');
-            }
-        }
-
-        async function init() {
+        async function checkAuth() {
             const { data: { user } } = await supabaseClient.auth.getUser();
-            if (!user || user.email !== 'admin@whyjaba.com') {
-                window.location.href = 'login.html';
-                return;
+            currentUser = user;
+            const guestDiv = document.getElementById('guest-desktop');
+            const userDiv = document.getElementById('user-desktop');
+            const mobileAuth = document.getElementById('mobile-auth');
+
+            if (user) {
+                guestDiv?.classList.add('hidden');
+                userDiv?.classList.remove('hidden');
+                if (mobileAuth) {
+                    mobileAuth.innerHTML = `
+                        <a href="dashboard.html" class="btn-primary justify-center">My Library</a>
+                        <a href="#" onclick="logout(); return false;" class="text-rose-400 text-sm text-center py-2">Sign Out</a>
+                    `;
+                }
+            } else {
+                guestDiv?.classList.remove('hidden');
+                userDiv?.classList.add('hidden');
+                if (mobileAuth) {
+                    mobileAuth.innerHTML = `
+                        <a href="login.html" class="btn-outline justify-center">Sign In</a>
+                        <a href="signup.html" class="btn-primary justify-center">Get Started</a>
+                    `;
+                }
             }
-            await loadReceipts('all');
-            await loadBooks();
-        }
-
-        async function loadReceipts(filter = 'all') {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.filter === filter) btn.classList.add('active');
-            });
-
-            let query = supabaseClient.from('receipts').select('*, books(title, price)').order('created_at', { ascending: false });
-            if (filter !== 'all') query = query.eq('status', filter);
-
-            const { data: receipts, error } = await query;
-            if (error) { 
-                document.getElementById('receipts-list').innerHTML = `<div class="text-center py-12 text-rose-400">Error loading receipts: ${error.message}</div>`; 
-                return; 
-            }
-
-            if (!receipts || receipts.length === 0) {
-                document.getElementById('receipts-list').innerHTML = `<div class="text-center py-12"><i data-lucide="inbox" class="w-12 h-12 text-gray-600 mx-auto mb-3"></i><p class="text-gray-500">No receipts found</p></div>`;
-                lucide.createIcons();
-                return;
-            }
-
-            document.getElementById('receipts-list').innerHTML = receipts.map(r => `
-                <div class="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-emerald-500/30 transition">
-                    <div class="flex flex-wrap gap-4 justify-between items-start">
-                        <div class="flex gap-4">
-                            <img src="${r.receipt_url}" class="w-16 h-16 object-cover rounded-lg cursor-pointer" onclick="window.open('${r.receipt_url}','_blank')" referrerPolicy="no-referrer" onerror="this.src='https://placehold.co/100x100/1e2a24/22c55e?text=No+Image'">
-                            <div>
-                                <p class="font-semibold text-white">${r.books?.title || 'Unknown'}</p>
-                                <p class="text-xs text-gray-500">User: ${r.user_id?.slice(0,8)}...</p>
-                                <p class="text-xs text-gray-500">${new Date(r.created_at).toLocaleString()}</p>
-                                <p class="text-sm font-semibold text-emerald-400 mt-1">${r.books?.price || 0} ETB</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-end gap-2">
-                            <span class="status-badge ${r.status === 'pending' ? 'status-pending' : (r.status === 'approved' ? 'status-approved' : 'status-rejected')}">${r.status}</span>
-                            ${r.status === 'pending' ? `
-                                <div class="flex gap-2">
-                                    <button onclick="updateStatus('${r.id}','approved')" class="px-3 py-1 bg-emerald-500 text-black text-xs font-bold rounded-full hover:bg-emerald-400">Approve</button>
-                                    <button onclick="updateStatus('${r.id}','rejected')" class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-bold rounded-full hover:bg-rose-500/30">Reject</button>
-                                </div>
-                            ` : `
-                                <button onclick="deleteReceipt('${r.id}')" class="text-xs text-rose-400 hover:text-rose-300">Delete</button>
-                            `}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
             lucide.createIcons();
         }
 
-        async function updateStatus(id, status) {
-            const { error } = await supabaseClient.from('receipts').update({ status }).eq('id', id);
-            if (error) {
-                showToast(error.message, 'error');
-            } else {
-                showToast(`Receipt ${status === 'approved' ? 'approved' : 'rejected'}!`, 'success');
-                loadReceipts(currentFilter);
-            }
-        }
+        window.logout = async () => {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'index.html';
+        };
 
-        async function deleteReceipt(id) {
-            if (confirm('Delete this receipt permanently?')) {
-                const { error } = await supabaseClient.from('receipts').delete().eq('id', id);
-                if (error) {
-                    showToast(error.message, 'error');
-                } else {
-                    showToast('Receipt deleted', 'success');
-                    loadReceipts(currentFilter);
+        window.triggerPurchase = (bookId) => {
+            if (!currentUser) {
+                localStorage.setItem('pendingPurchase', bookId);
+                if (confirm('Please sign in to enroll. Go to login?')) {
+                    window.location.href = 'login.html';
                 }
+            } else {
+                localStorage.setItem('pendingPurchase', bookId);
+                window.location.href = `dashboard.html?buy=${bookId}`;
             }
+        };
+
+        function formatDuration(minutes) {
+            if (!minutes) return '0 min';
+            if (minutes < 60) return `${minutes} min`;
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return m > 0 ? `${h}h ${m}m` : `${h}h`;
         }
 
         async function loadBooks() {
-            const { data: books, error } = await supabaseClient.from('books').select('*').order('created_at', { ascending: false });
-            if (error) {
-                document.getElementById('admin-books-grid').innerHTML = `<div class="text-center py-12 text-rose-400">Error: ${error.message}</div>`;
-                return;
-            }
-            allBooks = books || [];
-            const grid = document.getElementById('admin-books-grid');
-            if (allBooks.length === 0) { 
-                grid.innerHTML = '<div class="text-center py-12 text-gray-500">No books yet. Add your first book!</div>'; 
-                return; 
-            }
-            grid.innerHTML = allBooks.map(book => {
-                const isVideo = book.product_type === 'video_course';
-                const typeBadge = isVideo 
-                    ? `<span class="text-[10px] bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded-full border border-blue-500/20">🎬 Video</span>`
-                    : `<span class="text-[10px] bg-gray-500/10 text-gray-400 px-1.5 py-0.5 rounded-full border border-gray-500/20">📄 PDF</span>`;
-                return `
-                <div class="bg-white/5 rounded-xl p-3 flex gap-3 items-center border border-white/10 hover:border-emerald-500/30 transition">
-                    <img src="${book.cover_url || 'https://placehold.co/100x100/1e2a24/22c55e?text=No+Image'}" class="w-14 h-14 object-cover rounded-lg" referrerPolicy="no-referrer" onerror="this.src='https://placehold.co/100x100/1e2a24/22c55e?text=No+Image'">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-0.5">
-                            <h4 class="font-bold text-white text-sm truncate">${book.title}</h4>
-                            ${typeBadge}
+            const grid = document.getElementById('books-grid');
+            try {
+                const [{ data: books }, { data: lessons }] = await Promise.all([
+                    supabaseClient.from('books').select('*'),
+                    supabaseClient.from('lessons').select('book_id, duration')
+                ]);
+                
+                if (!books) throw new Error('No data');
+                allBooks = books || [];
+                
+                const lessonsByBook = {};
+                lessons?.forEach(l => {
+                    if (!lessonsByBook[l.book_id]) lessonsByBook[l.book_id] = [];
+                    lessonsByBook[l.book_id].push(l);
+                });
+
+                if (allBooks.length === 0) {
+                    grid.innerHTML = `<div class="col-span-full text-center py-16 text-gray-400">No courses yet. Check back soon!</div>`;
+                    return;
+                }
+
+                let userReceipts = [];
+                if (currentUser) {
+                    const { data: receipts } = await supabaseClient.from('receipts').select('*').eq('user_id', currentUser.id);
+                    userReceipts = receipts || [];
+                }
+
+                grid.innerHTML = allBooks.map((book, index) => {
+                    const receipt = userReceipts.find(r => r.book_id === book.id);
+                    const isVideo = book.product_type === 'video_course';
+                    const bookLessons = lessonsByBook[book.id] || [];
+                    const lessonCount = bookLessons.length;
+                    const computedDuration = bookLessons.reduce((sum, l) => sum + (l.duration || 0), 0);
+                    const displayDuration = book.total_duration || computedDuration;
+                    const hasPreview = book.preview_url && book.preview_url.trim() !== '';
+                    
+                    let actionHtml = '';
+                    if (receipt && receipt.status === 'approved') {
+                        actionHtml = isVideo
+                            ? `<a href="course.html?id=${book.id}" class="btn-primary w-full justify-center py-2.5 text-sm">View Course →</a>`
+                            : `<a href="${book.pdf_url}" target="_blank" class="btn-primary w-full justify-center py-2.5 text-sm">Download Now ↓</a>`;
+                    } else if (receipt && receipt.status === 'pending') {
+                        actionHtml = `<button disabled class="w-full bg-gray-800/50 text-gray-500 py-2.5 rounded-full text-sm cursor-not-allowed border border-white/5">Pending Approval ⏳</button>`;
+                    } else {
+                        actionHtml = `<button onclick="triggerPurchase('${book.id}')" class="btn-primary w-full justify-center py-2.5 text-sm">Enroll Now →</button>`;
+                    }
+
+                    const previewHtml = hasPreview 
+                        ? `<a href="${book.preview_url}" target="_blank" class="btn-ghost w-full justify-center py-2 text-xs mb-2.5"><i data-lucide="play" class="w-3.5 h-3.5"></i> Free Preview</a>` 
+                        : '';
+
+                    const metaHtml = isVideo
+                        ? `<div class="flex items-center gap-3 mb-3 text-xs text-gray-500">
+                             <span class="flex items-center gap-1"><i data-lucide="play-circle" class="w-3.5 h-3.5"></i> ${lessonCount} lessons</span>
+                             <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${formatDuration(displayDuration)}</span>
+                           </div>`
+                        : `<div class="flex items-center gap-3 mb-3 text-xs text-gray-500">
+                             <span class="flex items-center gap-1"><i data-lucide="file-text" class="w-3.5 h-3.5"></i> Digital Book</span>
+                           </div>`;
+
+                    const typeBadge = isVideo
+                        ? `<span class="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/20 backdrop-blur">Video</span>`
+                        : `<span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full border border-amber-500/20 backdrop-blur">E-Book</span>`;
+
+                    return `
+                        <div class="course-card animate-fade-up flex flex-col" style="animation-delay: ${index * 0.06}s">
+                            <div class="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-emerald-500/10 to-emerald-500/5">
+                                <img 
+                                    src="${book.cover_url || 'https://placehold.co/600x375/141b16/22c55e?text=No+Cover'}" 
+                                    alt="${book.title}" 
+                                    class="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-500"
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer" 
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x375/141b16/22c55e?text=No+Cover';this.style.opacity='1';"
+                                >
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                                    <span class="category-badge">${book.category || 'Course'}</span>
+                                    ${typeBadge}
+                                </div>
+                                <div class="absolute bottom-3 right-3">
+                                    <span class="bg-black/50 backdrop-blur-md text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-lg border border-white/10">
+                                        ${book.price} ETB
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-5 flex flex-col flex-1">
+                                <h3 class="text-lg font-bold text-white mb-1.5 leading-snug">${book.title}</h3>
+                                <p class="text-gray-500 text-sm mb-3 line-clamp-2 flex-1">${book.description || 'Premium digital course crafted for African learners.'}</p>
+                                ${metaHtml}
+                                ${previewHtml}
+                                ${actionHtml}
+                            </div>
                         </div>
-                        <p class="text-emerald-400 text-sm font-semibold">${book.price} ETB</p>
-                        <p class="text-xs text-gray-500">${book.category || 'Uncategorized'}${isVideo && book.level ? ' · ' + book.level : ''}${isVideo && book.total_duration ? ' · ' + book.total_duration + ' min' : ''}</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="editBook('${book.id}')" class="p-2 rounded-lg bg-white/5 hover:bg-emerald-500/20 transition" title="Edit">
-                            <i data-lucide="edit-2" class="w-4 h-4 text-gray-400"></i>
-                        </button>
-                        <button onclick="deleteBook('${book.id}')" class="p-2 rounded-lg bg-white/5 hover:bg-rose-500/20 transition" title="Delete">
-                            <i data-lucide="trash-2" class="w-4 h-4 text-rose-400"></i>
-                        </button>
-                    </div>
-                </div>
-            `}).join('');
-            lucide.createIcons();
-        }
-
-        async function editBook(id) {
-            const book = allBooks.find(b => b.id === id);
-            if (!book) return;
-
-            document.getElementById('edit-id').value = book.id;
-            document.getElementById('title').value = book.title;
-            document.getElementById('price').value = book.price;
-            document.getElementById('category').value = book.category || 'Technology';
-            document.getElementById('description').value = book.description || '';
-
-            document.getElementById('product_type').value = book.product_type || 'pdf';
-            toggleProductType();
-            if (book.product_type === 'video_course') {
-                document.getElementById('level').value = book.level || 'Beginner';
-                document.getElementById('video_url').value = book.video_url || '';
-                document.getElementById('total_duration').value = book.total_duration || '';
-            }
-
-            document.getElementById('submit-btn').innerText = 'Update Book';
-            document.getElementById('cancel-edit').classList.remove('hidden');
-
-            if (book.product_type === 'video_course') {
-                document.getElementById('lesson-manager').classList.remove('hidden');
-                loadLessons(book.id);
-            } else {
-                document.getElementById('lesson-manager').classList.add('hidden');
-                resetLessonForm();
-            }
-
-            if (book.cover_url) {
-                document.getElementById('current-cover-name').innerText = book.cover_url.split('/').pop();
-                document.getElementById('current-cover').classList.remove('hidden');
-            }
-            if (book.pdf_url) {
-                document.getElementById('current-pdf-name').innerText = book.pdf_url.split('/').pop();
-                document.getElementById('current-pdf').classList.remove('hidden');
-            }
-            if (book.preview_url) {
-                document.getElementById('current-preview-name').innerText = book.preview_url.split('/').pop();
-                document.getElementById('current-preview').classList.remove('hidden');
-            }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        async function deleteBook(id) {
-            if (confirm('Delete this book permanently? Users who purchased will lose access.')) {
-                const { error } = await supabaseClient.from('books').delete().eq('id', id);
-                if (error) {
-                    showToast(error.message, 'error');
-                } else {
-                    showToast('Book deleted', 'success');
-                    loadBooks();
-                }
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('book-form').reset();
-            document.getElementById('edit-id').value = '';
-            document.getElementById('product_type').value = 'pdf';
-            document.getElementById('video_url').value = '';
-            toggleProductType();
-            document.getElementById('submit-btn').innerText = 'Save Book';
-            document.getElementById('cancel-edit').classList.add('hidden');
-            document.getElementById('cover-preview').classList.add('hidden');
-            document.getElementById('pdf-preview').classList.add('hidden');
-            document.getElementById('preview-preview').classList.add('hidden');
-            document.getElementById('current-cover').classList.add('hidden');
-            document.getElementById('current-pdf').classList.add('hidden');
-            document.getElementById('current-preview').classList.add('hidden');
-            document.getElementById('lesson-manager').classList.add('hidden');
-            resetLessonForm();
-            currentEditingBookId = null;
-            currentLessons = [];
-        }
-
-        // Handle form submission with file uploads
-        document.getElementById('book-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const editId = document.getElementById('edit-id').value;
-            const title = document.getElementById('title').value;
-            const price = parseFloat(document.getElementById('price').value);
-            const category = document.getElementById('category').value;
-            const description = document.getElementById('description').value;
-            const productType = document.getElementById('product_type').value;
-
-            const coverFile = document.getElementById('cover-file').files[0];
-            const pdfFile = document.getElementById('pdf-file').files[0];
-            const previewFile = document.getElementById('preview-file').files[0];
-
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner"></span> Saving...';
-
-            let coverUrl = null;
-            let pdfUrl = null;
-            let previewUrl = null;
-
-            if (coverFile) {
-                const coverPath = `covers/${Date.now()}_${coverFile.name}`;
-                const { error: uploadError } = await supabaseClient.storage.from('receipts').upload(coverPath, coverFile);
-                if (uploadError) {
-                    showToast('Cover upload failed: ' + uploadError.message, 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Save Book';
-                    return;
-                }
-                coverUrl = supabaseClient.storage.from('receipts').getPublicUrl(coverPath).data.publicUrl;
-            }
-
-            if (pdfFile) {
-                const pdfPath = `books/${Date.now()}_${pdfFile.name}`;
-                const { error: uploadError } = await supabaseClient.storage.from('receipts').upload(pdfPath, pdfFile);
-                if (uploadError) {
-                    showToast('PDF upload failed: ' + uploadError.message, 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Save Book';
-                    return;
-                }
-                pdfUrl = supabaseClient.storage.from('receipts').getPublicUrl(pdfPath).data.publicUrl;
-            }
-
-            if (previewFile) {
-                const previewPath = `previews/${Date.now()}_${previewFile.name}`;
-                const { error: uploadError } = await supabaseClient.storage.from('receipts').upload(previewPath, previewFile);
-                if (uploadError) {
-                    showToast('Preview upload failed: ' + uploadError.message, 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Save Book';
-                    return;
-                }
-                previewUrl = supabaseClient.storage.from('receipts').getPublicUrl(previewPath).data.publicUrl;
-            }
-
-            const bookData = {
-                title,
-                price,
-                category,
-                description,
-                product_type: productType
-            };
-
-            if (productType === 'video_course') {
-                bookData.level = document.getElementById('level').value || null;
-                bookData.video_url = document.getElementById('video_url').value.trim() || null;
-                bookData.total_duration = parseInt(document.getElementById('total_duration').value) || null;
-            }
-
-            if (coverUrl) bookData.cover_url = coverUrl;
-            if (pdfUrl) bookData.pdf_url = pdfUrl;
-            if (previewUrl) bookData.preview_url = previewUrl;
-
-            if (!editId && !coverUrl) {
-                showToast('Cover image is required', 'error');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Save Book';
-                return;
-            }
-
-            if (!editId && productType === 'pdf' && !pdfUrl) {
-                showToast('PDF file is required for PDF books', 'error');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Save Book';
-                return;
-            }
-
-            let result;
-            if (editId) {
-                result = await supabaseClient.from('books').update(bookData).eq('id', editId);
-            } else {
-                result = await supabaseClient.from('books').insert(bookData).select();
-            }
-
-            if (result.error) {
-                showToast('Database error: ' + result.error.message, 'error');
-            } else {
-                showToast(editId ? 'Book updated successfully!' : 'Book added successfully!', 'success');
-
-                if (!editId && productType === 'video_course' && result.data && result.data[0]) {
-                    resetForm();
-                    setTimeout(() => editBook(result.data[0].id), 300);
-                } else {
-                    resetForm();
-                }
-
-                loadBooks();
-            }
-
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Save Book';
-        });
-
-        // Lesson Manager Functions
-        function parseYouTubeId(url) {
-            if (!url) return null;
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
-        }
-
-        async function loadLessons(bookId) {
-            currentEditingBookId = bookId;
-            const { data: lessons, error } = await supabaseClient.from('lessons')
-                .select('*')
-                .eq('book_id', bookId)
-                .order('order_index', { ascending: true });
-
-            if (error) {
-                document.getElementById('lessons-list').innerHTML = `<div class="text-rose-400 text-sm">Error loading lessons: ${error.message}</div>`;
-                return;
-            }
-
-            currentLessons = lessons || [];
-            renderLessonsList();
-        }
-
-        function renderLessonsList() {
-            const container = document.getElementById('lessons-list');
-            if (currentLessons.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-gray-500 text-sm">No lessons yet. Add your first YouTube lesson below.</div>`;
+                    `;
+                }).join('');
+                
                 lucide.createIcons();
-                return;
-            }
-
-            container.innerHTML = currentLessons.map((lesson, index) => `
-                <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3 border border-white/10 hover:border-emerald-500/30 transition">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xs font-bold">${index + 1}</div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2">
-                            <h4 class="text-sm font-semibold text-white truncate">${lesson.title}</h4>
-                            ${lesson.is_preview ? `<span class="text-[10px] bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20">Preview</span>` : ''}
-                        </div>
-                        <p class="text-xs text-gray-500">${lesson.duration || 0} min · ${parseYouTubeId(lesson.video_url) ? 'YouTube ✓' : 'Invalid URL'}</p>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <button onclick="moveLessonUp('${lesson.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 transition ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}" ${index === 0 ? 'disabled' : ''} title="Move Up">
-                            <i data-lucide="chevron-up" class="w-3.5 h-3.5 text-gray-400"></i>
-                        </button>
-                        <button onclick="moveLessonDown('${lesson.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 transition ${index === currentLessons.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}" ${index === currentLessons.length - 1 ? 'disabled' : ''} title="Move Down">
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-400"></i>
-                        </button>
-                        <button onclick="editLesson('${lesson.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-blue-500/20 transition" title="Edit">
-                            <i data-lucide="edit-2" class="w-3.5 h-3.5 text-gray-400"></i>
-                        </button>
-                        <button onclick="deleteLesson('${lesson.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 transition" title="Delete">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-400"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-            lucide.createIcons();
-        }
-
-        async function saveLesson() {
-            const editId = document.getElementById('lesson-edit-id').value;
-            const title = document.getElementById('lesson-title').value.trim();
-            const videoUrl = document.getElementById('lesson-video').value.trim();
-            const duration = parseInt(document.getElementById('lesson-duration').value) || null;
-            const isPreview = document.getElementById('lesson-preview').checked;
-            const description = document.getElementById('lesson-desc').value.trim();
-
-            if (!title || !videoUrl) {
-                showToast('Title and YouTube URL are required', 'error');
-                return;
-            }
-
-            if (!parseYouTubeId(videoUrl)) {
-                showToast('Please enter a valid YouTube URL', 'error');
-                return;
-            }
-
-            const lessonData = {
-                title,
-                video_url: videoUrl,
-                duration,
-                is_preview: isPreview,
-                description: description || null
-            };
-
-            if (!editId) {
-                lessonData.book_id = currentEditingBookId;
-                const maxOrder = currentLessons.reduce((max, l) => Math.max(max, l.order_index), -1);
-                lessonData.order_index = maxOrder + 1;
-            }
-
-            let result;
-            if (editId) {
-                result = await supabaseClient.from('lessons').update(lessonData).eq('id', editId);
-            } else {
-                result = await supabaseClient.from('lessons').insert(lessonData);
-            }
-
-            if (result.error) {
-                showToast('Error: ' + result.error.message, 'error');
-            } else {
-                showToast(editId ? 'Lesson updated!' : 'Lesson added!', 'success');
-                resetLessonForm();
-                loadLessons(currentEditingBookId);
-                loadBooks();
+            } catch (err) {
+                console.error('Load books error:', err);
+                grid.innerHTML = `<div class="col-span-full text-center text-rose-400 py-12">Failed to load courses. Please refresh.</div>`;
             }
         }
 
-        async function deleteLesson(id) {
-            if (!confirm('Delete this lesson permanently?')) return;
-            const { error } = await supabaseClient.from('lessons').delete().eq('id', id);
-            if (error) {
-                showToast(error.message, 'error');
-            } else {
-                showToast('Lesson deleted', 'success');
-                loadLessons(currentEditingBookId);
-            }
-        }
-
-        async function moveLessonUp(id) {
-            const idx = currentLessons.findIndex(l => l.id === id);
-            if (idx <= 0) return;
-            const lesson = currentLessons[idx];
-            const prevLesson = currentLessons[idx - 1];
-
-            const tempOrder = lesson.order_index;
-            lesson.order_index = prevLesson.order_index;
-            prevLesson.order_index = tempOrder;
-
-            const { error } = await supabaseClient.from('lessons').update({ order_index: lesson.order_index }).eq('id', lesson.id);
-            if (error) { showToast(error.message, 'error'); return; }
-
-            const { error: error2 } = await supabaseClient.from('lessons').update({ order_index: prevLesson.order_index }).eq('id', prevLesson.id);
-            if (error2) { showToast(error2.message, 'error'); return; }
-
-            loadLessons(currentEditingBookId);
-        }
-
-        async function moveLessonDown(id) {
-            const idx = currentLessons.findIndex(l => l.id === id);
-            if (idx >= currentLessons.length - 1) return;
-            const lesson = currentLessons[idx];
-            const nextLesson = currentLessons[idx + 1];
-
-            const tempOrder = lesson.order_index;
-            lesson.order_index = nextLesson.order_index;
-            nextLesson.order_index = tempOrder;
-
-            const { error } = await supabaseClient.from('lessons').update({ order_index: lesson.order_index }).eq('id', lesson.id);
-            if (error) { showToast(error.message, 'error'); return; }
-
-            const { error: error2 } = await supabaseClient.from('lessons').update({ order_index: nextLesson.order_index }).eq('id', nextLesson.id);
-            if (error2) { showToast(error2.message, 'error'); return; }
-
-            loadLessons(currentEditingBookId);
-        }
-
-        function editLesson(id) {
-            const lesson = currentLessons.find(l => l.id === id);
-            if (!lesson) return;
-
-            document.getElementById('lesson-edit-id').value = lesson.id;
-            document.getElementById('lesson-title').value = lesson.title;
-            document.getElementById('lesson-video').value = lesson.video_url;
-            document.getElementById('lesson-duration').value = lesson.duration || '';
-            document.getElementById('lesson-preview').checked = lesson.is_preview;
-            document.getElementById('lesson-desc').value = lesson.description || '';
-
-            document.getElementById('lesson-form-title').innerText = 'Edit Lesson';
-            document.getElementById('lesson-submit-btn').innerText = 'Update Lesson';
-            document.getElementById('lesson-cancel-btn').classList.remove('hidden');
-        }
-
-        function resetLessonForm() {
-            document.getElementById('lesson-edit-id').value = '';
-            document.getElementById('lesson-title').value = '';
-            document.getElementById('lesson-video').value = '';
-            document.getElementById('lesson-duration').value = '';
-            document.getElementById('lesson-preview').checked = false;
-            document.getElementById('lesson-desc').value = '';
-            document.getElementById('lesson-form-title').innerText = 'Add Lesson';
-            document.getElementById('lesson-submit-btn').innerText = 'Add Lesson';
-            document.getElementById('lesson-cancel-btn').classList.add('hidden');
-        }
-
-        window.loadReceipts = loadReceipts;
-        window.updateStatus = updateStatus;
-        window.deleteReceipt = deleteReceipt;
-        window.editBook = editBook;
-        window.deleteBook = deleteBook;
-        window.resetForm = resetForm;
-        window.toggleProductType = toggleProductType;
-        window.saveLesson = saveLesson;
-        window.deleteLesson = deleteLesson;
-        window.moveLessonUp = moveLessonUp;
-        window.moveLessonDown = moveLessonDown;
-        window.editLesson = editLesson;
-        window.resetLessonForm = resetLessonForm;
-        window.logout = async () => { 
-            await supabaseClient.auth.signOut(); 
-            window.location.href = 'index.html'; 
-        };
-
-        init();
+        checkAuth().then(() => loadBooks());
     
         async function loadInternationalProducts() {
-            const list = document.getElementById('internationalProductsList');
-            if (!list) return;
-            const { data, error } = await supabase.from('international_products').select('*').order('created_at', { ascending: false });
-            if (error) { list.innerHTML = `<p class="text-sm text-red-400">${error.message}</p>`; return; }
-            if (!data?.length) { list.innerHTML = '<p class="text-sm text-gray-500">No international products yet.</p>'; return; }
-            list.innerHTML = data.map(p => `<div class="bg-white/[0.03] border border-white/5 rounded-xl p-3 flex items-center gap-3">
-                ${p.cover_url ? `<img src="${p.cover_url}" class="w-14 h-14 rounded-lg object-cover">` : `<div class="w-14 h-14 rounded-lg bg-blue-500/10 flex items-center justify-center">🌍</div>`}
-                <div class="min-w-0 flex-1"><p class="text-sm font-semibold text-white truncate">${p.title}</p><p class="text-xs text-blue-300">$${Number(p.price_usd).toFixed(2)} USD</p><p class="text-[11px] text-gray-500">${p.category || 'International Product'}</p></div>
-                <button type="button" onclick='editInternationalProduct(${JSON.stringify(p)})' class="w-8 h-8 rounded-lg bg-white/5">✎</button>
-                <button type="button" onclick="deleteInternationalProduct('${p.id}')" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400">🗑</button>
-            </div>`).join('');
+            const grid = document.getElementById('international-products-grid');
+            if (!grid) return;
+            const {data,error}=await supabaseClient.from('international_products').select('*').order('created_at',{ascending:false});
+            if(error){console.error(error);grid.innerHTML='<div class="glass-card p-8 text-center text-gray-500 sm:col-span-2 lg:col-span-3">International products are temporarily unavailable.</div>';return;}
+            if(!data?.length){grid.innerHTML='<div class="glass-card p-8 text-center text-gray-500 sm:col-span-2 lg:col-span-3">International products coming soon.</div>';return;}
+            grid.innerHTML=data.map(p=>`<article class="glass-card overflow-hidden group flex flex-col">
+                <div class="relative aspect-video bg-[#0c1510] overflow-hidden">
+                    ${p.cover_url?`<img src="${p.cover_url}" alt="${p.title}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center text-5xl">🌍</div>`}
+                    <span class="absolute top-3 right-3 bg-black/60 text-blue-300 text-xs font-bold px-2.5 py-1 rounded-lg border border-white/10">$${Number(p.price_usd).toFixed(2)} USD</span>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="text-xs text-blue-300 font-semibold mb-2">${p.category||'International Product'}</div>
+                    <h3 class="text-lg font-bold text-white mb-2">${p.title}</h3>
+                    <p class="text-sm text-gray-500 mb-5">${p.description||'Digital product available worldwide.'}</p>
+                    <button onclick='openInternationalCheckout(${JSON.stringify(p.gumroad_url)})' class="btn-primary w-full justify-center py-2.5 text-sm mt-auto">Buy Now →</button>
+                </div>
+            </article>`).join('');
         }
-        document.getElementById('internationalProductForm')?.addEventListener('submit', async e => {
-            e.preventDefault();
-            const id = document.getElementById('international_product_id').value;
-            const payload = {
-                title: document.getElementById('international_title').value.trim(),
-                price_usd: Number(document.getElementById('international_usd_price').value),
-                category: document.getElementById('international_category').value.trim() || null,
-                gumroad_url: document.getElementById('international_gumroad_url').value.trim(),
-                cover_url: document.getElementById('international_cover_url').value.trim() || null,
-                description: document.getElementById('international_description').value.trim() || null
-            };
-            const result = id ? await supabase.from('international_products').update(payload).eq('id', id) : await supabase.from('international_products').insert(payload);
-            if (result.error) return alert(result.error.message);
-            resetInternationalForm(); loadInternationalProducts();
-        });
-        window.editInternationalProduct = p => {
-            document.getElementById('international_product_id').value=p.id;
-            document.getElementById('international_title').value=p.title||'';
-            document.getElementById('international_usd_price').value=p.price_usd??'';
-            document.getElementById('international_category').value=p.category||'';
-            document.getElementById('international_gumroad_url').value=p.gumroad_url||'';
-            document.getElementById('international_cover_url').value=p.cover_url||'';
-            document.getElementById('international_description').value=p.description||'';
-            document.getElementById('internationalSaveBtn').textContent='Update International Product';
-            document.getElementById('internationalCancelBtn').classList.remove('hidden');
+        window.openInternationalCheckout=url=>{
+            try{const u=new URL(url);if(u.protocol!=='https:')throw 0;window.open(u.href,'_blank','noopener,noreferrer');}
+            catch(e){alert('International checkout is currently unavailable.');}
         };
-        window.resetInternationalForm = () => {
-            document.getElementById('internationalProductForm')?.reset();
-            document.getElementById('international_product_id').value='';
-            document.getElementById('internationalSaveBtn').textContent='Add International Product';
-            document.getElementById('internationalCancelBtn').classList.add('hidden');
-        };
-        window.deleteInternationalProduct = async id => {
-            if(!confirm('Delete this international product?')) return;
-            const {error}=await supabase.from('international_products').delete().eq('id',id);
-            if(error) return alert(error.message);
-            loadInternationalProducts();
-        };
-        window.addEventListener('load', loadInternationalProducts);
+        window.addEventListener('load',loadInternationalProducts);
 
 </script>
-
-        <!-- International Products -->
-        <section class="glass-card p-5 sm:p-6 mb-6" id="internationalProductsSection">
-            <div class="mb-5">
-                <h2 class="text-lg font-bold text-white">🌍 International Products</h2>
-                <p class="text-xs text-gray-500 mt-1">Independent Gumroad catalog. No PDF upload, receipt approval, or Jabashop library unlock.</p>
-            </div>
-            <form id="internationalProductForm" class="space-y-4">
-                <input type="hidden" id="international_product_id">
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Product Name</label><input id="international_title" class="input-glass" required></div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Price (USD)</label><input type="number" id="international_usd_price" class="input-glass" min="0" step="0.01" placeholder="9.99" required></div>
-                    <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Category</label><input id="international_category" class="input-glass" placeholder="AI Prompts"></div>
-                </div>
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Gumroad Product URL</label><input type="url" id="international_gumroad_url" class="input-glass" placeholder="https://..." required></div>
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Cover Image URL</label><input type="url" id="international_cover_url" class="input-glass" placeholder="https://..."></div>
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Description</label><textarea id="international_description" class="input-glass min-h-[100px]"></textarea></div>
-                <div class="flex gap-2">
-                    <button class="btn-primary flex-1 justify-center" id="internationalSaveBtn">Add International Product</button>
-                    <button type="button" class="btn-outline hidden" id="internationalCancelBtn" onclick="resetInternationalForm()">Cancel</button>
-                </div>
-            </form>
-            <div class="mt-6 pt-5 border-t border-white/5">
-                <h3 class="text-sm font-bold text-white mb-3">International Catalog</h3>
-                <div id="internationalProductsList" class="space-y-3"><p class="text-sm text-gray-500">Loading...</p></div>
-            </div>
-        </section>
 </body>
-                                    </html>
+</html>
