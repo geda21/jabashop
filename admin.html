@@ -302,7 +302,7 @@
         <section class="admin-card p-5 sm:p-6 mb-8" id="internationalProductsSection">
             <div class="mb-5">
                 <h2 class="text-lg font-bold text-white">🌍 International Products</h2>
-                <p class="text-xs text-gray-500 mt-1">Independent Gumroad catalog. No PDF upload, receipt approval, or Jabashop library unlock.</p>
+                <p class="text-xs text-gray-500 mt-1">Independent Gumroad catalog. Upload the thumbnail here; only the Gumroad product link is external.</p>
             </div>
             <form id="internationalProductForm" class="space-y-4">
                 <input type="hidden" id="international_product_id">
@@ -312,7 +312,19 @@
                     <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Category</label><input id="international_category" class="input-glass" placeholder="AI Prompts"></div>
                 </div>
                 <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Gumroad Product URL</label><input type="url" id="international_gumroad_url" class="input-glass" placeholder="https://..." required></div>
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Cover Image URL</label><input type="url" id="international_cover_url" class="input-glass" placeholder="https://..."></div>
+                <div>
+                    <label class="text-xs font-semibold text-gray-400 mb-1 block">Cover Thumbnail</label>
+                    <input type="file" id="international_cover_file" class="input-glass" accept="image/png,image/jpeg,image/webp,image/gif">
+                    <input type="hidden" id="international_existing_cover_url">
+                    <p class="text-[11px] text-gray-500 mt-1.5">Upload the thumbnail directly. Jabaa Shop will store it in Supabase automatically.</p>
+                    <div id="international_cover_preview_wrap" class="hidden mt-3 items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] p-3">
+                        <img id="international_cover_preview" src="" alt="Cover preview" class="w-20 h-14 rounded-lg object-cover border border-white/10">
+                        <div class="min-w-0">
+                            <p class="text-xs font-semibold text-white">Thumbnail ready</p>
+                            <p id="international_cover_preview_name" class="text-[11px] text-gray-500 truncate">Current image</p>
+                        </div>
+                    </div>
+                </div>
                 <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Description</label><textarea id="international_description" class="input-glass min-h-[100px]"></textarea></div>
                 <div class="flex gap-2">
                     <button class="btn-primary flex-1 justify-center" id="internationalSaveBtn">Add International Product</button>
@@ -937,36 +949,132 @@
                 <button type="button" onclick="deleteInternationalProduct('${p.id}')" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400">🗑</button>
             </div>`).join('');
         }
+        function setInternationalCoverPreview(url, name = 'Current image') {
+            const wrap = document.getElementById('international_cover_preview_wrap');
+            const img = document.getElementById('international_cover_preview');
+            const nameEl = document.getElementById('international_cover_preview_name');
+            if (!wrap || !img) return;
+            if (!url) {
+                wrap.classList.add('hidden');
+                wrap.classList.remove('flex');
+                img.removeAttribute('src');
+                if (nameEl) nameEl.textContent = 'Current image';
+                return;
+            }
+            img.src = url;
+            if (nameEl) nameEl.textContent = name;
+            wrap.classList.remove('hidden');
+            wrap.classList.add('flex');
+        }
+
+        document.getElementById('international_cover_file')?.addEventListener('change', e => {
+            const file = e.target.files?.[0];
+            if (!file) {
+                const existing = document.getElementById('international_existing_cover_url').value;
+                setInternationalCoverPreview(existing, existing ? 'Current saved thumbnail' : 'Current image');
+                return;
+            }
+            if (!file.type.startsWith('image/')) {
+                alert('Please choose an image file.');
+                e.target.value = '';
+                return;
+            }
+            const previewUrl = URL.createObjectURL(file);
+            setInternationalCoverPreview(previewUrl, file.name);
+        });
+
         document.getElementById('internationalProductForm')?.addEventListener('submit', async e => {
             e.preventDefault();
+
             const id = document.getElementById('international_product_id').value;
-            const payload = {
-                title: document.getElementById('international_title').value.trim(),
-                price_usd: Number(document.getElementById('international_usd_price').value),
-                category: document.getElementById('international_category').value.trim() || null,
-                gumroad_url: document.getElementById('international_gumroad_url').value.trim(),
-                cover_url: document.getElementById('international_cover_url').value.trim() || null,
-                description: document.getElementById('international_description').value.trim() || null
-            };
-            const result = id ? await supabaseClient.from('international_products').update(payload).eq('id', id) : await supabaseClient.from('international_products').insert(payload);
-            if (result.error) return alert(result.error.message);
-            resetInternationalForm(); loadInternationalProducts();
+            const coverInput = document.getElementById('international_cover_file');
+            const coverFile = coverInput?.files?.[0] || null;
+            let coverUrl = document.getElementById('international_existing_cover_url').value || null;
+            const saveBtn = document.getElementById('internationalSaveBtn');
+
+            if (!id && !coverFile && !coverUrl) {
+                alert('Please choose a cover thumbnail.');
+                return;
+            }
+
+            if (coverFile) {
+                if (!coverFile.type.startsWith('image/')) {
+                    alert('Cover must be an image file.');
+                    return;
+                }
+                if (coverFile.size > 5 * 1024 * 1024) {
+                    alert('Cover image must be 5 MB or smaller.');
+                    return;
+                }
+            }
+
+            const originalButtonText = id ? 'Update International Product' : 'Add International Product';
+            saveBtn.disabled = true;
+            saveBtn.textContent = coverFile ? 'Uploading thumbnail...' : 'Saving...';
+
+            try {
+                if (coverFile) {
+                    const safeName = coverFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+                    const coverPath = `international-covers/${Date.now()}_${safeName}`;
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from('receipts')
+                        .upload(coverPath, coverFile, { cacheControl: '3600', upsert: false });
+
+                    if (uploadError) throw new Error('Thumbnail upload failed: ' + uploadError.message);
+
+                    const { data: publicUrlData } = supabaseClient.storage
+                        .from('receipts')
+                        .getPublicUrl(coverPath);
+                    coverUrl = publicUrlData.publicUrl;
+                }
+
+                const payload = {
+                    title: document.getElementById('international_title').value.trim(),
+                    price_usd: Number(document.getElementById('international_usd_price').value),
+                    category: document.getElementById('international_category').value.trim() || null,
+                    gumroad_url: document.getElementById('international_gumroad_url').value.trim(),
+                    cover_url: coverUrl,
+                    description: document.getElementById('international_description').value.trim() || null
+                };
+
+                const result = id
+                    ? await supabaseClient.from('international_products').update(payload).eq('id', id)
+                    : await supabaseClient.from('international_products').insert(payload);
+
+                if (result.error) throw result.error;
+
+                resetInternationalForm();
+                await loadInternationalProducts();
+            } catch (err) {
+                alert(err?.message || 'Could not save the international product.');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = document.getElementById('international_product_id').value
+                    ? 'Update International Product'
+                    : 'Add International Product';
+            }
         });
+
         window.editInternationalProduct = p => {
-            document.getElementById('international_product_id').value=p.id;
-            document.getElementById('international_title').value=p.title||'';
-            document.getElementById('international_usd_price').value=p.price_usd??'';
-            document.getElementById('international_category').value=p.category||'';
-            document.getElementById('international_gumroad_url').value=p.gumroad_url||'';
-            document.getElementById('international_cover_url').value=p.cover_url||'';
-            document.getElementById('international_description').value=p.description||'';
-            document.getElementById('internationalSaveBtn').textContent='Update International Product';
+            document.getElementById('international_product_id').value = p.id;
+            document.getElementById('international_title').value = p.title || '';
+            document.getElementById('international_usd_price').value = p.price_usd ?? '';
+            document.getElementById('international_category').value = p.category || '';
+            document.getElementById('international_gumroad_url').value = p.gumroad_url || '';
+            document.getElementById('international_existing_cover_url').value = p.cover_url || '';
+            document.getElementById('international_description').value = p.description || '';
+            document.getElementById('international_cover_file').value = '';
+            setInternationalCoverPreview(p.cover_url || '', p.cover_url ? 'Current saved thumbnail' : 'No thumbnail');
+            document.getElementById('internationalSaveBtn').textContent = 'Update International Product';
             document.getElementById('internationalCancelBtn').classList.remove('hidden');
         };
+
         window.resetInternationalForm = () => {
             document.getElementById('internationalProductForm')?.reset();
-            document.getElementById('international_product_id').value='';
-            document.getElementById('internationalSaveBtn').textContent='Add International Product';
+            document.getElementById('international_product_id').value = '';
+            document.getElementById('international_existing_cover_url').value = '';
+            setInternationalCoverPreview('');
+            document.getElementById('internationalSaveBtn').textContent = 'Add International Product';
             document.getElementById('internationalCancelBtn').classList.add('hidden');
         };
         window.deleteInternationalProduct = async id => {
