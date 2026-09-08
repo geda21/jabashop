@@ -295,6 +295,36 @@
 
             </div>
         </div>
+    
+
+
+        <!-- International Products -->
+        <section class="admin-card p-5 sm:p-6 mb-8" id="internationalProductsSection">
+            <div class="mb-5">
+                <h2 class="text-lg font-bold text-white">🌍 International Products</h2>
+                <p class="text-xs text-gray-500 mt-1">Independent Gumroad catalog. No PDF upload, receipt approval, or Jabashop library unlock.</p>
+            </div>
+            <form id="internationalProductForm" class="space-y-4">
+                <input type="hidden" id="international_product_id">
+                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Product Name</label><input id="international_title" class="input-glass" required></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Price (USD)</label><input type="number" id="international_usd_price" class="input-glass" min="0" step="0.01" placeholder="9.99" required></div>
+                    <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Category</label><input id="international_category" class="input-glass" placeholder="AI Prompts"></div>
+                </div>
+                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Gumroad Product URL</label><input type="url" id="international_gumroad_url" class="input-glass" placeholder="https://..." required></div>
+                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Cover Image URL</label><input type="url" id="international_cover_url" class="input-glass" placeholder="https://..."></div>
+                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Description</label><textarea id="international_description" class="input-glass min-h-[100px]"></textarea></div>
+                <div class="flex gap-2">
+                    <button class="btn-primary flex-1 justify-center" id="internationalSaveBtn">Add International Product</button>
+                    <button type="button" class="btn-outline hidden" id="internationalCancelBtn" onclick="resetInternationalForm()">Cancel</button>
+                </div>
+            </form>
+            <div class="mt-6 pt-5 border-t border-white/5">
+                <h3 class="text-sm font-bold text-white mb-3">International Catalog</h3>
+                <div id="internationalProductsList" class="space-y-3"><p class="text-sm text-gray-500">Loading...</p></div>
+            </div>
+        </section>
+
     </main>
 
     <script>
@@ -948,32 +978,5 @@
         window.addEventListener('load', loadInternationalProducts);
 
 </script>
-
-        <!-- International Products -->
-        <section class="glass-card p-5 sm:p-6 mb-6" id="internationalProductsSection">
-            <div class="mb-5">
-                <h2 class="text-lg font-bold text-white">🌍 International Products</h2>
-                <p class="text-xs text-gray-500 mt-1">Independent Gumroad catalog. No PDF upload, receipt approval, or Jabashop library unlock.</p>
-            </div>
-            <form id="internationalProductForm" class="space-y-4">
-                <input type="hidden" id="international_product_id">
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Product Name</label><input id="international_title" class="input-glass" required></div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Price (USD)</label><input type="number" id="international_usd_price" class="input-glass" min="0" step="0.01" placeholder="9.99" required></div>
-                    <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Category</label><input id="international_category" class="input-glass" placeholder="AI Prompts"></div>
-                </div>
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Gumroad Product URL</label><input type="url" id="international_gumroad_url" class="input-glass" placeholder="https://..." required></div>
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Cover Image URL</label><input type="url" id="international_cover_url" class="input-glass" placeholder="https://..."></div>
-                <div><label class="text-xs font-semibold text-gray-400 mb-1 block">Description</label><textarea id="international_description" class="input-glass min-h-[100px]"></textarea></div>
-                <div class="flex gap-2">
-                    <button class="btn-primary flex-1 justify-center" id="internationalSaveBtn">Add International Product</button>
-                    <button type="button" class="btn-outline hidden" id="internationalCancelBtn" onclick="resetInternationalForm()">Cancel</button>
-                </div>
-            </form>
-            <div class="mt-6 pt-5 border-t border-white/5">
-                <h3 class="text-sm font-bold text-white mb-3">International Catalog</h3>
-                <div id="internationalProductsList" class="space-y-3"><p class="text-sm text-gray-500">Loading...</p></div>
-            </div>
-        </section>
 </body>
                                     </html>
