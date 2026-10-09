@@ -156,12 +156,12 @@
                     <i data-lucide="alert-triangle" class="w-5 h-5 text-rose-400"></i>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-white">Delete Account</h3>
-                    <p class="text-xs text-gray-500">Permanently delete your account and all data</p>
+                    <h3 class="text-lg font-bold text-white">Request Account Deletion</h3>
+                    <p class="text-xs text-gray-500">Contact support to securely request account deletion</p>
                 </div>
             </div>
             <button onclick="confirmDelete()" class="w-full py-3 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 transition font-semibold">
-                Delete My Account
+                Request Account Deletion
             </button>
         </div>
     </main>
@@ -173,11 +173,11 @@
                 <div class="w-16 h-16 rounded-full bg-rose-500/10 flex items-center justify-center mx-auto mb-4">
                     <i data-lucide="alert-triangle" class="w-8 h-8 text-rose-400"></i>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-2">Delete Account?</h3>
-                <p id="confirm-message" class="text-gray-400 text-sm mb-6">This action cannot be undone. All your books and data will be permanently lost.</p>
+                <h3 class="text-xl font-bold text-white mb-2">Request Account Deletion?</h3>
+                <p id="confirm-message" class="text-gray-400 text-sm mb-6">Account deletion requires identity verification. No account or purchase data will be deleted from this page.</p>
                 <div class="flex gap-3">
                     <button onclick="closeConfirmModal()" class="flex-1 btn-outline">Cancel</button>
-                    <button id="confirm-action" class="flex-1 bg-rose-500 text-white font-bold py-2 rounded-full hover:bg-rose-600 transition">Delete</button>
+                    <button id="confirm-action" class="flex-1 bg-rose-500 text-white font-bold py-2 rounded-full hover:bg-rose-600 transition">Contact Support</button>
                 </div>
             </div>
         </div>
@@ -303,24 +303,20 @@
             setLoadingState('password-btn', false);
         });
         
-        // Delete account
+        // Account deletion must be processed through a verified server-side flow.
+        // Never delete receipts and pretend Supabase Auth has deleted the user.
         window.confirmDelete = () => {
             const modal = document.getElementById('confirm-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            
-            document.getElementById('confirm-action').onclick = async () => {
-                // Delete user receipts first
-                await supabaseClient.from('receipts').delete().eq('user_id', currentUser.id);
-                // Sign out and delete user (requires admin, so just sign out for now)
-                await supabaseClient.auth.signOut();
-                showToast('Account deleted successfully', 'success');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
+            document.getElementById('confirm-action').onclick = () => {
+                const subject = encodeURIComponent('JABAA Shop account deletion request');
+                const body = encodeURIComponent('Please help me permanently delete my JABAA Shop account after verifying my identity.');
+                window.location.href = `mailto:jabaashopsupport@gmail.com?subject=${subject}&body=${body}`;
+                window.closeConfirmModal();
             };
         };
-        
+
         window.closeConfirmModal = () => {
             const modal = document.getElementById('confirm-modal');
             modal.classList.add('hidden');

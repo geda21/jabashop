@@ -1,0 +1,33 @@
+JABAA SHOP — FINAL PRE-DEPLOYMENT VALIDATION
+Date: 2026-10-09
+
+PASS (STATIC)
+- JavaScript syntax: 17 inline scripts across uploaded HTML files; standalone
+  favorites.js and app.js parse cleanly.
+- Homepage exists under both Index.html and index.html with identical bytes.
+- Homepage source still references the original Supabase product/receipt logic;
+  international_products and Gumroad links remain in source.
+- CSS for mobile responsive product cards, portrait eBooks, 16:9 course cards,
+  dashboard money summaries and transaction view is included.
+- No hardcoded fake dashboard star rating; services' sample star ratings removed.
+- Final GitHub patch ZIP passed CRC/integrity validation.
+
+PASS (MOCKED BROWSER COMPONENT TESTS)
+- Homepage at 320, 390, 430, 768 and 1280px: mock products loaded, text
+  search/filter tabs worked, favorite UI toggle worked with a mock persistence
+  layer, product-card layout followed mobile/desktop rules; no horizontal overflow.
+- Dashboard at 360, 390 and 768px: owned/pending/total spent counts,
+  product library, browse, and transactions rendered and tabs switched with
+  mock Supabase data.
+
+NOT VERIFIED (REQUIRES HTTPS STAGING WITH USER'S REAL SERVICES)
+- Real Supabase login/session, email reset, RLS and authenticated access.
+- Receipt storage uploads and admin approval/rejection workflow.
+- Actual customer payment, Gumroad checkout, approved PDF/video access.
+- IndexedDB persistence across reloads/browser restarts on a real site origin.
+- Live external Tailwind/Lucide/Supabase CDN availability, actual product images.
+- Cross-page/mobile hardware/manual accessibility testing.
+
+IMPORTANT: The source is packaged for merging into GitHub, but do not treat
+mocked tests as approval for an untested live production rollout. Merge onto a
+preview branch first, validate core transactions, then deploy with a rollback.
