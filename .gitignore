@@ -1,0 +1,31 @@
+# Local secrets and environment configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Database exports, encrypted and unencrypted
+*.dump
+*.dump.enc
+*.backup
+*.sql.gz
+*.sqlite
+*.db
+backups/
+private/
+
+# Private customer and payment exports
+receipts-export*.csv
+users-export*.csv
+customer-export*.csv
+supabase-db-*.csv
+
+# Local tooling
+.DS_Store
+Thumbs.db
+node_modules/
+dist/
+.cache/

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" role="img" aria-labelledby="t">
+<title id="t">JABAA Shop repository book icon</title>
+<defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#BAFF93"/><stop offset="1" stop-color="#1DAF70"/></linearGradient></defs>
+<rect width="240" height="240" rx="60" fill="#063525"/>
+<rect x="12" y="12" width="216" height="216" rx="52" fill="none" stroke="#27845D" stroke-width="2"/>
+<path d="M35 67Q81 46 116 76V172Q76 155 35 170Z" fill="url(#g)"/>
+<path d="M205 67Q161 46 124 76V172Q164 155 205 170Z" fill="url(#g)"/>
+<path d="M35 170Q77 156 116 180M205 170Q163 156 124 180" stroke="#E6FFEB" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M120 76V188" stroke="#E6FFEB" stroke-width="6" stroke-linecap="round"/>
+</svg>
