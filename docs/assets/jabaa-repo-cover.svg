@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-labelledby="t d">
+<title id="t">JABAA Shop — Digital learning marketplace</title>
+<desc id="d">Deep emerald background, abstract open book, JABAA Shop wordmark and tagline</desc>
+<defs>
+<linearGradient id="bg" x2="1" y2="1"><stop stop-color="#061F17"/><stop offset=".52" stop-color="#0B4932"/><stop offset="1" stop-color="#0B251E"/></linearGradient>
+<linearGradient id="lime" x2="0" y2="1"><stop stop-color="#B1F587"/><stop offset="1" stop-color="#25C888"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#59F6A1" stop-opacity=".22"/><stop offset="1" stop-color="#59F6A1" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1280" height="420" rx="28" fill="url(#bg)"/>
+<circle cx="1080" cy="180" r="350" fill="url(#glow)"/>
+<g opacity=".15" fill="none" stroke="#B6F9D3"><path d="M800 0V420M920 0V420M1040 0V420M1160 0V420M0 320H1280M0 200H1280M0 80H1280"/></g>
+<g transform="translate(846 92)">
+<rect x="0" y="0" width="272" height="240" rx="40" fill="#032D20" stroke="#388960" stroke-width="2"/>
+<path d="M45 64Q96 42 133 77V185Q93 161 45 180Z" fill="url(#lime)"/>
+<path d="M227 64Q178 42 139 77V185Q179 161 227 180Z" fill="url(#lime)"/>
+<path d="M45 180Q95 165 133 190M227 180Q178 165 139 190" stroke="#DFFFEA" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M136 77V197" stroke="#EBFFF0" stroke-width="7" stroke-linecap="round"/>
+</g>
+<text x="80" y="120" fill="#A8EBC5" font-family="Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="5">DIGITAL BOOKSTORE &amp; COURSES</text>
+<text x="74" y="226" fill="#FFFFFF" font-family="Arial,sans-serif" font-size="87" font-weight="900" letter-spacing="-3">JABAA <tspan fill="#77EDAF">SHOP</tspan></text>
+<text x="80" y="285" fill="#D5F3E3" font-family="Arial,sans-serif" font-size="27">Learn skills. Unlock opportunities.</text>
+<text x="80" y="345" fill="#93D0AF" font-family="Arial,sans-serif" font-size="19">Ebooks  ·  Video courses  ·  ETB + USD  ·  Mobile-first</text>
+</svg>
